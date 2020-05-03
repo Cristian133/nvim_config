@@ -1,0 +1,167 @@
+==============================================================================
+Este archivo contiene ayuda de los atajos de teclado no standard de vim/neovim
+definidos en .vimrc
+==============================================================================
+
+leader key
+===========
+<leader> = ","
+
+leader keys
+===========
+<leader>1 Toggle editor hexadecimal.
+<leader>2 Toggle resalta desde línea 80.
+<leader>3 Toggle activa relativenumber.
+<leader>4 Toggle líneas reales/líneas visibles.
+
+<leader>e open $HOME/.vimrc
+<leader>h open $HOME/.vim/help/help
+<leader>q open $HOME/.vim/tmp/buffer
+<leader>x open $HOME/.vim/tmp/buffer.md
+
+files and buffers
+=================
+<leader><right> mueve al buffer próximo
+<leader><left>  mueve al buffer previo
+
+<C-up>    mueve a ventana arriba
+<C-down>  mueve a ventana abajo
+<C-left>  mueve a ventana izquierda
+<C-right> mueve a ventana derecha
+
+function keys
+=============
+<F4>  BufExplorer Toggle: Listado de buffers.
+<F5>  NERDTree Toggle: listado de directorios.
+<F6>  Cierra buffer actual.
+<F7>  syntax-check make.
+<F8>  tags work directory.
+<F9>  Buffer tex to pdf file.
+<F10> Borra espacio en blanco al final de línea.
+
+Move a line or select block of text using ALT+[Up-Down]
+=======================================================
+<M-Down> mueve línea o block hacia arriba.
+<M-Up>   mueve línea o block hacia abajo.
+
+Copy a line or select block of text using SHIFT+ALT+[Up-Down]
+=============================================================
+<M-S-Down> copia línea o block arriba.
+<M-S-Up>   copia línea o block abajo.
+
+Yank and put system pasteboard with <Leader>y/p
+===============================================
+<leader>Y copia hasta final de línea actual al portapapeles del sistema.
+<leader>y copia línea actual al portapapeles del sistema.
+<leader>p pega contenido del portapapeles del sistema.
+
+Yank and put system pasteboard with ALT+[c/v]
+=============================================
+<M-c> copia línea actual al portapapeles del sistema.
+<M-v> copia línea actual al portapapeles del sistema.
+
+Tags
+====
+T     para ir a tag.
+<C-t> para volver del tag.
+
+Spelling checking
+=================
+<leader>ss Toggle correción ortográfica.
+<leader>sn Mover al siguiente error ortográfico.
+<leader>sp Mover al error ortográfico anterior.
+<leader>sa Agrega la palabra bajo el cursor al diccionario.
+<leader>s? Sugerencias.
+
+Terminal
+========
+<leader>t Toggle terminal on/off (neovim).
+<A-t>     Toggle terminal on/off (neovim).
+
+<Esc> Terminal go back to normal mode.
+:q!   Salir.
+
+Y Yank to end of line.
+
+<leader>w  grabado rápido.
+<leader>l  toggle muestra caracteres invisibles.
+<leader>bd cierra el buffer actual.
+<leader>ba cierra todos los buffers.
+<leader>cd cambia al directorio del buffer actual.
+
+<leader><CR> apaga resaltado.
+
+<space>   búsqueda hacia adelante.
+<C-space> búsqueda hacia atrás
+
+Toggle paste mode on and off
+<leader>pp :setlocal paste!<cr>
+
+
+==========================================
+NERD Commenter: Default mappings
+
+https://github.com/preservim/nerdcommenter
+==========================================
+
+Most of the following mappings are for normal/visual mode only.
+The |NERDCommenterInsert| mapping is for insert mode only.
+
+Comment out the current line or text selected in visual mode.
+[count]<leader>cc |NERDCommenterComment|
+
+Same as cc but forces nesting.
+[count]<leader>cn |NERDCommenterNested|
+
+Toggles the comment state of the selected line(s).
+If the topmost selected line is commented, all selected lines are uncommented
+and vice versa.
+[count]<leader>c<space> |NERDCommenterToggle|
+
+Comments the given lines using only one set of multipart delimiters.
+[count]<leader>cm |NERDCommenterMinimal|
+
+Toggles the comment state of the selected line(s) individually.
+[count]<leader>ci |NERDCommenterInvert|
+
+Comments out the selected lines with a pretty block formatted layout.
+[count]<leader>cs |NERDCommenterSexy|
+
+Same as cc except that the commented line(s) are yanked first.
+[count]<leader>cy |NERDCommenterYank|
+
+Comments the current line from the cursor to the end of line.
+<leader>c$ |NERDCommenterToEOL|
+
+Adds comment delimiters to the end of line and goes into insert mode
+between them.
+<leader>cA |NERDCommenterAppend|
+
+Adds comment delimiters at the current cursor position and inserts between.
+Disabled by default.
+|NERDCommenterInsert|
+
+Switches to the alternative set of delimiters.
+<leader>ca |NERDCommenterAltDelims|
+
+Same as |NERDCommenterComment| except that the delimiters are aligned down
+the left side (<leader>cl) or both sides (<leader>cb).
+[count]<leader>cl |NERDCommenterAlignLeft
+[count]<leader>cb |NERDCommenterAlignBoth
+
+Uncomments the selected line(s).
+[count]<leader>cu |NERDCommenterUncomment|
+
+==========================================
+BufExplorer Plugin for Vim
+
+https://github.com/jlanzarotta/bufexplorer
+==========================================
+
+With bufexplorer, you can quickly and easily switch between buffers by using
+the one of the default public interfaces:
+
+'<Leader>be' (normal open)
+'<Leader>bt' (toggle open / close)
+'<Leader>bs' (force horizontal split open)
+'<Leader>bv' (force vertical split open)
