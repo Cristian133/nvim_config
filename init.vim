@@ -788,7 +788,10 @@ function! ColourStatusLineFileType()
     filetype detect
     if &filetype == 'ruby'
         setlocal expandtab shiftwidth=2 tabstop=2
-        hi StatusLine ctermbg=grey ctermfg=235
+        hi StatusLine ctermbg=black ctermfg=yellow
+    elseif &filetype == 'eruby'
+        setlocal expandtab shiftwidth=2 tabstop=2
+        hi StatusLine ctermbg=black ctermfg=yellow
     elseif &filetype == 'c'
         setlocal expandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=grey ctermfg=235
