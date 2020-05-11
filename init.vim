@@ -10,22 +10,18 @@
 "           Lars Moelleken
 "           http://moelleken.org - lars@moelleken.org
 "
-"           Gatis Tomsons
-"           https://github.com/gacha/nvim-config
-"
 " Version:
-"           1.0 - 03/04/2020
+"           1.1 - 10/05/2020
 "
 " Sections:
-"           -> Plugins
-"           -> Plugins Configuration
+"           -> Load Plugins and configs
+"           -> Files, backups and undo
 "           -> General
 "           -> VIM user interface
 "           -> Colors and Fonts
 "           -> Visual
 "           -> Parenthesis/bracket
 "           -> Text, tab and indent related
-"           -> Files, backups and undo
 "           -> Helpers funtions
 "           -> Editing mappings
 "           -> Open specials files
@@ -43,108 +39,27 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins
+" => Load Plugins and configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Plugins Folder
-call plug#begin('~/.config/nvim/plugged')
-
-
-" File browser
-Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-" Git
- Plug 'tpope/vim-fugitive'
-
-" Buffer browser
-Plug 'jlanzarotta/bufexplorer'
-
-" Code commenter
-Plug 'scrooloose/nerdcommenter'
-
-" Highlighted yank Region
-Plug 'machakann/vim-highlightedyank'
-
-" Async autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-
-" Completion from other opened files
-Plug 'Shougo/context_filetype.vim'
-
-" Ruby
-"Plug 'vim-ruby/vim-ruby'
-"Plug 'tpope/vim-rails'
-"Plug 'tpope/vim-rake', { 'for': 'ruby' }
-"Plug 'tpope/vim-rbenv', { 'for': 'ruby' }
-"Plug 'tpope/vim-bundler', { 'for': 'ruby' }
-"Plug 'Keithbsmiley/rspec.vim', { 'for': 'ruby' }
-"Plug 'thoughtbot/vim-rspec', { 'for': 'ruby' }
-"Plug 'nelstrom/vim-textobj-rubyblock', { 'for': ['ruby'] }
-"Plug 'kana/vim-textobj-user', { 'for': ['ruby'] }
-
-Plug 'ryanoasis/vim-devicons'
-Plug 'ryanoasis/vim-webdevicons'
-
-call plug#end()
+if filereadable($HOME . "/.config/nvim/plug_init.vim")
+    source ~/.config/nvim/plug_init.vim
+endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins Configurations
+"" => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"NERDTree""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set swapfile
+set directory=~/.config/nvim/swaps
 
-" NerdTree shows hidden files
-let NERDTreeShowHidden=1
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
-"let g:NERDTreeWinSize=30
-"let g:Tlist_WinWidth=60
-autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
+set backup
+set writebackup
+set backupdir=~/.config/nvim/backups
 
-
-"vim-highlightedyank"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"highlight duration
-let g:highlightedyank_highlight_duration = 500
-
-"redefine the HighlightedyankRegion
-highlight HighlightedyankRegion cterm=reverse gui=reverse
-
-"A negative number makes the highlight persistent
-"let g:highlightedyank_highlight_duration = -1
-
-
-"deoplte"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#enable_at_startup = 1
-
-
-"NERDCommenter"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Add spaces after comment delimiters by default
-"let g:NERDSpaceDelims = 1
-
-" Use compact syntax for prettified multi-line comments
-"let g:NERDCompactSexyComs = 1
-
-" Align line-wise comment delimiters flush left instead of following code indentation
-"let g:NERDDefaultAlign = 'left'
-
-" Set a language to use its alternate delimiters by default
-"let g:NERDAltDelims_java = 1
-
-" Add your own custom formats or override the defaults
-"let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
-
-" Allow commenting and inverting empty lines (useful when commenting a region)
-"let g:NERDCommentEmptyLines = 1
-
-" Enable trimming of trailing whitespace when uncommenting
-"let g:NERDTrimTrailingWhitespace = 1
-
-" Enable NERDCommenterToggle to check all selected lines is commented or not
-"let g:NERDToggleCheckAllLines = 1
+set undofile
+set undodir=~/.config/nvim/undo
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -188,7 +103,7 @@ set history=1000
 " Tell us about changes.
 set report=0
 
-set guifont=Droid\ Sans\ Mono\ for\ Powerline\ Plus\ Nerd\ File\ Types\ 11
+set guifont=DroidSansMono\ Nerd\ Font\ 11
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -208,7 +123,7 @@ set cmdheight=1
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
-set hidden
+"set hidden
 
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -309,8 +224,8 @@ set expandtab
 set smarttab
 
 " Linebreak on 79 characters
-"set linebreak
-"set textwidth=79
+set linebreak
+set textwidth=79
 
 set autoindent "Auto indent
 set smartindent "Smart indent
@@ -329,21 +244,6 @@ set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:»,precedes:«,space:
 
 " Highlight conflict markers.
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-set swapfile
-set directory=~/.config/nvim/swaps
-
-set backup
-set writebackup
-set backupdir=~/.config/nvim/backups
-
-set undofile
-set undodir=~/.config/nvim/undo
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -575,6 +475,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 " open .vimrc
 map <leader>e :e ~/.config/nvim/init.vim<CR>
+map <leader>ee :e ~/.config/nvim/plug_init.vim<CR>
 
 " open help
 map <leader>h :e ~/.config/nvim/help/help<CR>
@@ -733,9 +634,6 @@ if has("autocmd")
   " gnuplot
   au BufRead,BufNewFile *.plt                      set filetype=gnuplot
 
-  " C++
-  au BufRead,BufNewFile *.cpp                      set filetype=cpp
-
   " markdown
   au BufRead,BufNewFile *.md,*.markdown,*.ronn     set filetype=markdown
 
@@ -761,9 +659,6 @@ if has("autocmd")
   au BufRead,BufNewFile *.mustache   set filetype=mustache
   au BufRead,BufNewFile *.json       set filetype=json syntax=javascript
 
-  " zsh
-  au BufRead,BufNewFile *.zsh-theme  set filetype=zsh
-
   au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
   au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
@@ -772,14 +667,11 @@ if has("autocmd")
 
   " allow tabs on makefiles
   au FileType make                   setlocal noexpandtab
-  au FileType go                     setlocal noexpandtab
 
   " set makeprg(depends on filetype) if makefile is not exist
   if !filereadable('makefile') && !filereadable('Makefile')
     au FileType c                    setlocal makeprg=gcc\ %\ -o\ %<
-    au FileType cpp                  setlocal makeprg=g++\ %\ -o\ %<
     au FileType sh                   setlocal makeprg=bash\ -n\ %
-    au FileType php                  setlocal makeprg=php\ -l\ %
   endif
 endif
 
@@ -788,16 +680,13 @@ function! ColourStatusLineFileType()
     filetype detect
     if &filetype == 'ruby'
         setlocal expandtab shiftwidth=2 tabstop=2
-        hi StatusLine ctermbg=black ctermfg=yellow
-    elseif &filetype == 'eruby'
-        setlocal expandtab shiftwidth=2 tabstop=2
-        hi StatusLine ctermbg=black ctermfg=yellow
-    elseif &filetype == 'c'
-        setlocal expandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=grey ctermfg=235
-    elseif &filetype == 'sh'
-        setlocal expandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=grey ctermfg=235
+    elseif &filetype == 'python'
+        setlocal noexpandtab shiftwidth=4 tabstop=4
+        hi StatusLine ctermbg=grey ctermfg=5
+    elseif &filetype == 'make'
+        setlocal noexpandtab shiftwidth=4 tabstop=4
+        hi StatusLine ctermbg=black ctermfg=yellow
     else
         setlocal expandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=grey ctermfg=235
@@ -875,3 +764,5 @@ map T <C-]>
   "highlight! link TermCursor Cursor
   "highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
+
+

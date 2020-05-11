@@ -1,6 +1,6 @@
 ==============================================================================
-Este archivo contiene ayuda de los atajos de teclado no standard de vim/neovim
-definidos en .vimrc
+  Este archivo contiene ayuda acerca de los atajos de teclado no standard de
+  vim/neovim definidos en .vimrc
 ==============================================================================
 
 leader key
@@ -21,7 +21,7 @@ leader keys
 
 files and buffers
 =================
-<leader><right> mueve al buffer próximo
+<leader><right> mueve al próximo buffer
 <leader><left>  mueve al buffer previo
 
 <C-up>    mueve a ventana arriba
