@@ -1,2 +1,2 @@
 # nvim_config
-Neovim config for ruby developer.
+Neovim config for developer.

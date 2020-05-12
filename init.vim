@@ -15,6 +15,7 @@
 "
 " Sections:
 "           -> Load Plugins and configs
+"           -> Plugins Configurations
 "           -> Files, backups and undo
 "           -> General
 "           -> VIM user interface
@@ -42,9 +43,85 @@
 " => Load Plugins and configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if filereadable($HOME . "/.config/nvim/plug_init.vim")
-    source ~/.config/nvim/plug_init.vim
-endif
+" Plugins Folder
+call plug#begin('~/.config/nvim/plugged')
+
+" File browser
+Plug 'preservim/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
+" Search results counter
+Plug 'vim-scripts/IndexedSearch'
+
+" Pending tasks list
+Plug 'fisadev/FixedTaskList.vim'
+
+"indentLine
+Plug 'Yggdroot/indentLine'
+
+" Buffer browser
+Plug 'jlanzarotta/bufexplorer'
+
+" Code commenter
+Plug 'scrooloose/nerdcommenter'
+
+" Highlighted yank Region
+Plug 'machakann/vim-highlightedyank'
+
+" Automatically close parenthesis, etc
+Plug 'Townk/vim-autoclose'
+
+" Ack code search (requires ack installed in the system)
+Plug 'mileszs/ack.vim'
+" TODO is there a way to prevent the progress which hides the editor?
+
+" Nice icons
+Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+Plug 'ryanoasis/vim-devicons'
+"Plug 'ryanoasis/vim-webdevicons'
+
+call plug#end()
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Plugins Configurations
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"NERDTree""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" NerdTree shows hidden files
+let NERDTreeShowHidden=1
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
+
+" Open a NERDTree automatically when vim starts up if no files were specified
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+
+" I don't want NERDTree to open when i opening a saved session,
+" for example vim -S session_file.vim
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
+
+" Open NERDTree automatically when vim starts up on opening a directory
+autocmd StdinReadPre * let s:std_in=1
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
+"Close vim if the only window left open is a NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Autorefresh NERDTree
+autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
+
+let g:NERDTreeLimitedSyntax = 1
+
+"vim-highlightedyank"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"highlight duration
+let g:highlightedyank_highlight_duration = 500
+
+"redefine the HighlightedyankRegion
+highlight HighlightedyankRegion cterm=reverse gui=reverse
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -123,7 +200,7 @@ set cmdheight=1
 " This makes vim act like all other editors, buffers can
 " exist in the background without being in a window.
 " http://items.sjbach.com/319/configuring-vim-right
-"set hidden
+set hidden
 
 " Allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -412,12 +489,12 @@ map <leader>4 :call ToggleWrap()<CR>
 " Yank to end of line
 map Y y$
 
-" files and buffers
-"map <F4> :buffers<CR>:buffer<Space>
 "plugin  bufexplorer
 map <F4> <leader>bt
 "plugin  NERDTree
 map <F5> :NERDTreeToggle<CR>
+"go to  NerdTree on the file you’re editing
+nnoremap <silent> <Leader>v :NERDTreeFind<CR>
 map <F6> :Bclose<CR>
 " syntax-check
 map <F7> :make <CR>
@@ -479,12 +556,6 @@ map <leader>ee :e ~/.config/nvim/plug_init.vim<CR>
 
 " open help
 map <leader>h :e ~/.config/nvim/help/help<CR>
-
-" Quickly open a buffer for scribble
-map <leader>q :e ~/.config/nvim/tmp/buffer<cr>
-
-" Quickly open a markdown buffer for scribble
-map <leader>x :e ~/.config/nvim/tmp/buffer.md<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -764,5 +835,4 @@ map T <C-]>
   "highlight! link TermCursor Cursor
   "highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
-
 
