@@ -33,7 +33,6 @@
 "           -> Status line
 "           -> File types
 "           -> Vimdiff
-"           -> Vimgrep
 "           -> Tags
 "           -> StatusLineTerm and TermCursor
 "
@@ -49,7 +48,6 @@ call plug#begin('~/.config/nvim/plugged')
 " File browser
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
-"Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
 " Search results counter
 Plug 'vim-scripts/IndexedSearch'
@@ -76,11 +74,6 @@ Plug 'Townk/vim-autoclose'
 Plug 'mileszs/ack.vim'
 " TODO is there a way to prevent the progress which hides the editor?
 
-" Nice icons
-Plug 'vwxyutarooo/nerdtree-devicons-syntax'
-Plug 'ryanoasis/vim-devicons'
-"Plug 'ryanoasis/vim-webdevicons'
-
 call plug#end()
 
 
@@ -98,14 +91,13 @@ let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
+" Open NERDTree automatically when vim starts up on opening a directory
+autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
+
 " I don't want NERDTree to open when i opening a saved session,
 " for example vim -S session_file.vim
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
-
-" Open NERDTree automatically when vim starts up on opening a directory
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
 
 "Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
@@ -179,8 +171,6 @@ set history=1000
 
 " Tell us about changes.
 set report=0
-
-set guifont=DroidSansMono\ Nerd\ Font\ 11
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -491,16 +481,20 @@ map Y y$
 
 "plugin  bufexplorer
 map <F4> <leader>bt
+
 "plugin  NERDTree
 map <F5> :NERDTreeToggle<CR>
 "go to  NerdTree on the file you’re editing
 nnoremap <silent> <Leader>v :NERDTreeFind<CR>
+
 map <F6> :Bclose<CR>
 " syntax-check
 map <F7> :make <CR>
 " tags work directory
+
 map <F8> :!ctags -R<CR>
 " buffer tex to pdf file
+
 map <F9> :w!<CR>:call Build()<CR>
 imap <F9> <Esc>:w!<CR>:call Built()<CR>
 
@@ -552,7 +546,6 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 
 " open .vimrc
 map <leader>e :e ~/.config/nvim/init.vim<CR>
-map <leader>ee :e ~/.config/nvim/plug_init.vim<CR>
 
 " open help
 map <leader>h :e ~/.config/nvim/help/help<CR>
@@ -678,81 +671,16 @@ map <leader>s? z=
 if has("autocmd")
   " file type detection
 
-  " Ruby
-  au BufRead,BufNewFile *.rb,*.rbw,*.gem,*.gemspec set filetype=ruby
-
-  " Ruby on Rails
-  au BufRead,BufNewFile *.builder,*.rxml,*.rjs     set filetype=ruby
-
-  " Rakefile
-  au BufRead,BufNewFile [rR]akefile,*.rake         set filetype=ruby
-
-  " Rantfile
-  au BufRead,BufNewFile [rR]antfile,*.rant         set filetype=ruby
-
-  " IRB config
-  au BufRead,BufNewFile .irbrc,irbrc               set filetype=ruby
-
-  " eRuby
-  au BufRead,BufNewFile *.erb,*.rhtml              set filetype=eruby
-
-  " Thorfile
-  au BufRead,BufNewFile [tT]horfile,*.thor         set filetype=ruby
-
-  " css - preprocessor
-  au BufRead,BufNewFile *.less,*.scss,*.sass       set filetype=css syntax=css
-
-  " gnuplot
-  au BufRead,BufNewFile *.plt                      set filetype=gnuplot
-
-  " markdown
-  au BufRead,BufNewFile *.md,*.markdown,*.ronn     set filetype=markdown
-
-  " special text files
-  au BufRead,BufNewFile *.rtxt         set filetype=html spell
-  au BufRead,BufNewFile *.stxt         set filetype=markdown spell
-
-  au BufRead,BufNewFile *.sql        set filetype=pgsql
-
-  au BufRead,BufNewFile *.rl         set filetype=ragel
-
-  au BufRead,BufNewFile *.svg        set filetype=svg
-
-  au BufRead,BufNewFile *.haml       set filetype=haml
-
-  " aura cmp files
-  au BufRead,BufNewFile *.cmp        set filetype=html
-
-  " JavaScript
-  au BufNewFile,BufRead *.es5        set filetype=javascript
-  au BufNewFile,BufRead *.es6        set filetype=javascript
-  au BufRead,BufNewFile *.hbs        set syntax=handlebars
-  au BufRead,BufNewFile *.mustache   set filetype=mustache
-  au BufRead,BufNewFile *.json       set filetype=json syntax=javascript
-
   au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
   au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
-  " ruby
-  au Filetype ruby                   set tw=80
-
-  " allow tabs on makefiles
-  au FileType make                   setlocal noexpandtab
-
-  " set makeprg(depends on filetype) if makefile is not exist
-  if !filereadable('makefile') && !filereadable('Makefile')
-    au FileType c                    setlocal makeprg=gcc\ %\ -o\ %<
-    au FileType sh                   setlocal makeprg=bash\ -n\ %
-  endif
 endif
 
 " statusline color
 function! ColourStatusLineFileType()
     filetype detect
-    if &filetype == 'ruby'
-        setlocal expandtab shiftwidth=2 tabstop=2
-        hi StatusLine ctermbg=grey ctermfg=235
-    elseif &filetype == 'python'
+
+    if &filetype == 'python'
         setlocal noexpandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=grey ctermfg=5
     elseif &filetype == 'make'
@@ -763,6 +691,7 @@ function! ColourStatusLineFileType()
         hi StatusLine ctermbg=grey ctermfg=235
         hi StatusLineNC ctermbg=grey ctermfg=235
     endif
+
 endfunction
 
 au BufEnter * call ColourStatusLineFileType()
@@ -781,9 +710,9 @@ function! Build()
     elseif &filetype == 'sh'
         execute "! chmod +x %"
         execute "! ./%"
-    elseif &filetype == 'ruby'
+    elseif &filetype == 'python'
         execute "! chmod +x %"
-        execute "! ruby %"
+        execute "! python3 %"
     else
         echo "No sabemos como procesar este tipo de archivo"
     endif
@@ -798,13 +727,6 @@ endfunction
 if &diff
   set diffopt+=iwhite
 endif
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimgrep
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"TODO
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
