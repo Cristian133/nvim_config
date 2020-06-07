@@ -74,6 +74,11 @@ Plug 'Townk/vim-autoclose'
 Plug 'mileszs/ack.vim'
 " TODO is there a way to prevent the progress which hides the editor?
 
+" Async autocompletion
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+" Completion from other opened files
+Plug 'Shougo/context_filetype.vim'
+
 call plug#end()
 
 
@@ -102,9 +107,6 @@ autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == ""
 "Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
-" Autorefresh NERDTree
-autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
-
 let g:NERDTreeLimitedSyntax = 1
 
 "vim-highlightedyank"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -114,6 +116,14 @@ let g:highlightedyank_highlight_duration = 500
 
 "redefine the HighlightedyankRegion
 highlight HighlightedyankRegion cterm=reverse gui=reverse
+
+"deoplete""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use deoplete.
+let g:deoplete#enable_at_startup = 1
+let g:deoplete#enable_ignore_case = 1
+" complete with words from any opened file
+let g:context_filetype#same_filetypes = {}
+let g:context_filetype#same_filetypes._ = '_'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -434,7 +444,7 @@ endfunction
 function CurrentGitStatus()
   let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
   if len(gitoutput) > 0
-    let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+    let b:gitstatus = strpart(get(gitoutput,0,''),3) . strpart(get(gitoutput,1,''),0,2)
   else
     let b:gitstatus = ''
   endif
@@ -467,8 +477,8 @@ nnoremap <A-t> :call TermToggle(10)<CR>
 inoremap <A-t> <Esc>:call TermToggle(10)<CR>
 tnoremap <A-t> <C-\><C-n>:call TermToggle(10)<CR>
 
-nnoremap <leader>t :call Term_toggle(10)<cr>
-tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
+nnoremap <leader>t :call Term_toggle(8)<cr>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(8)<cr>
 
 " leader keys
 map <leader>1 :call ToggleHex()<CR>
@@ -496,7 +506,7 @@ map <F8> :!ctags -R<CR>
 " buffer tex to pdf file
 
 map <F9> :w!<CR>:call Build()<CR>
-imap <F9> <Esc>:w!<CR>:call Built()<CR>
+imap <F9> <Esc>:w!<CR>:call Build()<CR>
 
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
@@ -512,7 +522,10 @@ map <leader>q :q<cr>
 nmap <leader>l :set list!<CR>
 
 " Select all.
-map <Leader>a ggVG
+map <leader>v ggVG
+
+"ncnoreabbrev Ack Ack!
+map <leader>a :Ack!<Space><cword><cr>
 
 " gi moves to last insert mode (default)
 " gI moves to last modification
@@ -641,7 +654,7 @@ map <leader>s? z=
  "statusline
  set statusline=%f
  set statusline+=\ \ 
- set statusline+=%1*%(\[%{b:gitstatus}]%)%*
+ set statusline+=%*%(\[%{b:gitstatus}]%)%*
  set statusline+=%=
  set statusline+=Buf:
  set statusline+=\[%n%H%M%R%W]\ 
@@ -671,9 +684,81 @@ map <leader>s? z=
 if has("autocmd")
   " file type detection
 
+  " Ruby
+  au BufRead,BufNewFile *.rb,*.rbw,*.gem,*.gemspec set filetype=ruby
+
+  " Ruby on Rails
+  au BufRead,BufNewFile *.builder,*.rxml,*.rjs     set filetype=ruby
+
+  " Rakefile
+  au BufRead,BufNewFile [rR]akefile,*.rake         set filetype=ruby
+
+  " Rantfile
+  au BufRead,BufNewFile [rR]antfile,*.rant         set filetype=ruby
+
+  " IRB config
+  au BufRead,BufNewFile .irbrc,irbrc               set filetype=ruby
+
+  " eRuby
+  au BufRead,BufNewFile *.erb,*.rhtml              set filetype=eruby
+
+  " Thorfile
+  au BufRead,BufNewFile [tT]horfile,*.thor         set filetype=ruby
+
+  " css - preprocessor
+  au BufRead,BufNewFile *.less,*.scss,*.sass       set filetype=css syntax=css
+
+  " gnuplot
+  au BufRead,BufNewFile *.plt                      set filetype=gnuplot
+
+  " C++
+  au BufRead,BufNewFile *.cpp                      set filetype=cpp
+
+  " markdown
+  au BufRead,BufNewFile *.md,*.markdown,*.ronn     set filetype=markdown
+
+  " special text files
+  au BufRead,BufNewFile *.rtxt         set filetype=html spell
+  au BufRead,BufNewFile *.stxt         set filetype=markdown spell
+
+  au BufRead,BufNewFile *.sql        set filetype=pgsql
+
+  au BufRead,BufNewFile *.rl         set filetype=ragel
+
+  au BufRead,BufNewFile *.svg        set filetype=svg
+
+  au BufRead,BufNewFile *.haml       set filetype=haml
+
+  " aura cmp files
+  au BufRead,BufNewFile *.cmp        set filetype=html
+
+  " JavaScript
+  au BufNewFile,BufRead *.es5        set filetype=javascript
+  au BufNewFile,BufRead *.es6        set filetype=javascript
+  au BufRead,BufNewFile *.hbs        set syntax=handlebars
+  au BufRead,BufNewFile *.mustache   set filetype=mustache
+  au BufRead,BufNewFile *.json       set filetype=json syntax=javascript
+
+  " zsh
+  au BufRead,BufNewFile *.zsh-theme  set filetype=zsh
+
   au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
   au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
+  " ruby
+  au Filetype ruby                   set tw=80
+
+  " allow tabs on makefiles
+  au FileType make                   setlocal noexpandtab
+  au FileType go                     setlocal noexpandtab
+
+  " set makeprg(depends on filetype) if makefile is not exist
+  if !filereadable('makefile') && !filereadable('Makefile')
+    au FileType c                    setlocal makeprg=gcc\ %\ -o\ %<
+    au FileType cpp                  setlocal makeprg=g++\ %\ -o\ %<
+    au FileType sh                   setlocal makeprg=bash\ -n\ %
+    au FileType php                  setlocal makeprg=php\ -l\ %
+  endif
 endif
 
 " statusline color
@@ -682,7 +767,10 @@ function! ColourStatusLineFileType()
 
     if &filetype == 'python'
         setlocal noexpandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=grey ctermfg=5
+        hi StatusLine ctermbg=grey ctermfg=235
+    elseif &filetype == 'ruby'
+        setlocal noexpandtab shiftwidth=2 tabstop=2
+        hi StatusLine ctermbg=black ctermfg=5
     elseif &filetype == 'make'
         setlocal noexpandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=black ctermfg=yellow
@@ -701,8 +789,7 @@ function! Build()
     echo "filetype:" &filetype
     let name = expand("%:r")
     if &filetype == 'tex'
-        execute :w!<CR>
-        execute :!pdflatex %<CR>
+        execute "! pdflatex %"
     elseif &filetype == 'c'
         execute "! gcc % -o" name
         let res =
@@ -757,4 +844,3 @@ map T <C-]>
   "highlight! link TermCursor Cursor
   "highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
-

@@ -2,6 +2,7 @@
 
 vim:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	mkdir -p ${HOME}/.config/nvim/
 	cp -p init.vim ${HOME}/.config/nvim/init.vim
 	mkdir -p ${HOME}/.config/nvim/backups
 	mkdir -p ${HOME}/.config/nvim/colors
