@@ -47,7 +47,7 @@ call plug#begin('~/.config/nvim/plugged')
 
 " File browser
 Plug 'preservim/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
+"Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Search results counter
 Plug 'vim-scripts/IndexedSearch'
@@ -74,10 +74,15 @@ Plug 'Townk/vim-autoclose'
 Plug 'mileszs/ack.vim'
 " TODO is there a way to prevent the progress which hides the editor?
 
-" Async autocompletion
+" marks
+Plug 'kshenoy/vim-signature'
+
+"rust
+Plug 'rust-lang/rust.vim'
+
+"" Async autocompletion
 Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-" Completion from other opened files
-Plug 'Shougo/context_filetype.vim'
+Plug 'sebastianmarkow/deoplete-rust'
 
 call plug#end()
 
@@ -104,27 +109,36 @@ autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in
 autocmd StdinReadPre * let s:std_in=1
 autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
 
-"Close vim if the only window left open is a NERDTree
+" Close vim if the only window left open is a NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
+
+" Autorefresh NERDTree
+autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
 
 let g:NERDTreeLimitedSyntax = 1
 
-"vim-highlightedyank"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-highlightedyank""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"highlight duration
+" highlight duration
 let g:highlightedyank_highlight_duration = 500
 
-"redefine the HighlightedyankRegion
+" redefine the HighlightedyankRegion
 highlight HighlightedyankRegion cterm=reverse gui=reverse
 
-"deoplete""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-let g:deoplete#enable_ignore_case = 1
-" complete with words from any opened file
-let g:context_filetype#same_filetypes = {}
-let g:context_filetype#same_filetypes._ = '_'
+" deoplete"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+" Use deoplete.
+call deoplete#enable()
+call deoplete#custom#option('ignore_case')
+call deoplete#custom#option('smart_case')
+
+" complete with words from any opened file
+"let g:context_filetype#same_filetypes = {}
+"let g:context_filetype#same_filetypes._ = '_'
+
+" deoplete-rust""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:deoplete#sources#rust#racer_binary='/home/cristian/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path='/home/cristian/.cargo/rust/src/'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Files, backups and undo
@@ -243,6 +257,15 @@ set splitbelow
 " Do not reset cursor to start of line when moving around.
 set nostartofline
 
+" needed so deoplete can auto select the first suggestion
+set completeopt+=noinsert
+" comment this line to enable autocompletion preview window
+" (displays documentation related to the selected completion option)
+set completeopt-=preview
+
+" autocompletion of files and commands behaves like shell
+" (complete only the common part, list the options that match)
+set wildmode=list:longest
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
@@ -444,7 +467,7 @@ endfunction
 function CurrentGitStatus()
   let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
   if len(gitoutput) > 0
-    let b:gitstatus = strpart(get(gitoutput,0,''),3) . strpart(get(gitoutput,1,''),0,2)
+    let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
   else
     let b:gitstatus = ''
   endif
@@ -473,12 +496,12 @@ tnoremap <Esc> <C-\><C-n>
 tnoremap :q! <C-\><C-n>:q!<CR>
 
 " Toggle terminal on/off (neovim)
-nnoremap <A-t> :call TermToggle(10)<CR>
-inoremap <A-t> <Esc>:call TermToggle(10)<CR>
-tnoremap <A-t> <C-\><C-n>:call TermToggle(10)<CR>
+nnoremap <A-t> :call Term_Toggle(10)<CR>
+inoremap <A-t> <Esc>:call Term_Toggle(10)<CR>
+tnoremap <A-t> <C-\><C-n>:call Term_Toggle(10)<CR>
 
-nnoremap <leader>t :call Term_toggle(8)<cr>
-tnoremap <leader>t <C-\><C-n>:call Term_toggle(8)<cr>
+nnoremap <leader>t :call Term_toggle(10)<cr>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
 
 " leader keys
 map <leader>1 :call ToggleHex()<CR>
@@ -498,13 +521,14 @@ map <F5> :NERDTreeToggle<CR>
 nnoremap <silent> <Leader>v :NERDTreeFind<CR>
 
 map <F6> :Bclose<CR>
+
 " syntax-check
 map <F7> :make <CR>
+
 " tags work directory
-
 map <F8> :!ctags -R<CR>
-" buffer tex to pdf file
 
+" buffer tex to pdf file
 map <F9> :w!<CR>:call Build()<CR>
 imap <F9> <Esc>:w!<CR>:call Build()<CR>
 
@@ -522,10 +546,10 @@ map <leader>q :q<cr>
 nmap <leader>l :set list!<CR>
 
 " Select all.
-map <leader>v ggVG
+map <Leader>a ggVG
 
-"ncnoreabbrev Ack Ack!
-map <leader>a :Ack!<Space><cword><cr>
+" Indent all.
+map <Leader>i gg=G
 
 " gi moves to last insert mode (default)
 " gI moves to last modification
@@ -648,33 +672,62 @@ map <leader>s? z=
 " => Status line
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"define custom highlight groups
+hi User1 ctermbg=99 ctermfg=16
+hi User2 ctermbg=blue ctermfg=16
+hi User3 ctermbg=8 ctermfg=16
+
 " Always show the status line
  set laststatus=2
 
- "statusline
- set statusline=%f
- set statusline+=\ \ 
- set statusline+=%*%(\[%{b:gitstatus}]%)%*
- set statusline+=%=
- set statusline+=Buf:
- set statusline+=\[%n%H%M%R%W]\ 
- set statusline+=\ \ 
- set statusline+=Typ:
- set statusline+=\%y
- set statusline+=\ \ 
- "set statusline+=size:
- "set statusline+=\[%{FileSize()}]
- "set statusline+=\ \ 
- set statusline+=Cur:
- set statusline+=\[\%3l
- set statusline+=/ 
- set statusline+=\%2c\]
- set statusline+=\ \ 
- set statusline+=Total:
- set statusline+=\[\%3L\]
- "set statusline+=\ lin\]
- set statusline+=\ 
+set statusline=
+set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ INSERT\ ':''}
+set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ RPLACE\ ':''}
+set statusline+=%#Cursor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+set statusline+=%2*%{(mode()=='t')?'\ \ TERMINAL\ ':''}%*
+set statusline+=%3*%{(mode()=='x')?'\ \ EX\ ':''}%*
+set statusline+=%#Cursor#               " colour
+set statusline+=\ %n\                   " buffer number
+set statusline+=%#Visual#               " colour
+set statusline+=%{&paste?'\ PASTE\ ':''}
+set statusline+=%{&spell?'\ SPELL\ ':''}
+set statusline+=%#CursorIM#             " colour
+set statusline+=%R                      " readonly flag
+set statusline+=%M                      " modified [+] flag
+set statusline+=%#Cursor#               " colour
+set statusline+=%#CursorLine#           " colour
+set statusline+=\ %t\                   " short file name
+set statusline+=%1*%{StatuslineGit()}%*
+set statusline+=%=                      " right align
+set statusline+=%#CursorLine#           " colour
+set statusline+=\ %{strlen(&filetype)?&filetype:'none'}\     "filetype
+set statusline+=\ %3*%3l:%-2c\         " line + column
+set statusline+=\ %3p%%\                " percentage
 
+" old statusline
+"set statusline=\|\ 
+"set statusline+=%t
+"set statusline+=\ \|\ 
+"set statusline+=%1*%{StatuslineGit()}%*
+"set statusline+=%=
+"set statusline+=%{&fileformat}
+"set statusline+=\ \|\ 
+"set statusline+=%{strlen(&fenc)?&fenc:'none'} "file encoding
+"set statusline+=\ \|%2*\ 
+"set statusline+=%{strlen(&filetype)?&filetype:'none'}     "filetype
+"set statusline+=\ %*\|\ 
+"set statusline+=\%3l
+"set statusline+=:
+"set statusline+=\%2c
+"set statusline+=\ \|\ 
+"set statusline+=\%P 
+"set statusline+=\ 
+
+ function! StatuslineGit()
+     let l:branchname = GitBranch()
+     return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File Types
@@ -684,99 +737,21 @@ map <leader>s? z=
 if has("autocmd")
   " file type detection
 
-  " Ruby
-  au BufRead,BufNewFile *.rb,*.rbw,*.gem,*.gemspec set filetype=ruby
-
-  " Ruby on Rails
-  au BufRead,BufNewFile *.builder,*.rxml,*.rjs     set filetype=ruby
-
-  " Rakefile
-  au BufRead,BufNewFile [rR]akefile,*.rake         set filetype=ruby
-
-  " Rantfile
-  au BufRead,BufNewFile [rR]antfile,*.rant         set filetype=ruby
-
-  " IRB config
-  au BufRead,BufNewFile .irbrc,irbrc               set filetype=ruby
-
-  " eRuby
-  au BufRead,BufNewFile *.erb,*.rhtml              set filetype=eruby
-
-  " Thorfile
-  au BufRead,BufNewFile [tT]horfile,*.thor         set filetype=ruby
-
-  " css - preprocessor
-  au BufRead,BufNewFile *.less,*.scss,*.sass       set filetype=css syntax=css
-
-  " gnuplot
-  au BufRead,BufNewFile *.plt                      set filetype=gnuplot
-
-  " C++
-  au BufRead,BufNewFile *.cpp                      set filetype=cpp
-
-  " markdown
-  au BufRead,BufNewFile *.md,*.markdown,*.ronn     set filetype=markdown
-
-  " special text files
-  au BufRead,BufNewFile *.rtxt         set filetype=html spell
-  au BufRead,BufNewFile *.stxt         set filetype=markdown spell
-
-  au BufRead,BufNewFile *.sql        set filetype=pgsql
-
-  au BufRead,BufNewFile *.rl         set filetype=ragel
-
-  au BufRead,BufNewFile *.svg        set filetype=svg
-
-  au BufRead,BufNewFile *.haml       set filetype=haml
-
-  " aura cmp files
-  au BufRead,BufNewFile *.cmp        set filetype=html
-
-  " JavaScript
-  au BufNewFile,BufRead *.es5        set filetype=javascript
-  au BufNewFile,BufRead *.es6        set filetype=javascript
-  au BufRead,BufNewFile *.hbs        set syntax=handlebars
-  au BufRead,BufNewFile *.mustache   set filetype=mustache
-  au BufRead,BufNewFile *.json       set filetype=json syntax=javascript
-
-  " zsh
-  au BufRead,BufNewFile *.zsh-theme  set filetype=zsh
-
   au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
   au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
-  " ruby
-  au Filetype ruby                   set tw=80
-
-  " allow tabs on makefiles
-  au FileType make                   setlocal noexpandtab
-  au FileType go                     setlocal noexpandtab
-
-  " set makeprg(depends on filetype) if makefile is not exist
-  if !filereadable('makefile') && !filereadable('Makefile')
-    au FileType c                    setlocal makeprg=gcc\ %\ -o\ %<
-    au FileType cpp                  setlocal makeprg=g++\ %\ -o\ %<
-    au FileType sh                   setlocal makeprg=bash\ -n\ %
-    au FileType php                  setlocal makeprg=php\ -l\ %
-  endif
 endif
 
 " statusline color
 function! ColourStatusLineFileType()
     filetype detect
 
-    if &filetype == 'python'
+    if &filetype == 'make'
         setlocal noexpandtab shiftwidth=4 tabstop=4
         hi StatusLine ctermbg=grey ctermfg=235
-    elseif &filetype == 'ruby'
-        setlocal noexpandtab shiftwidth=2 tabstop=2
-        hi StatusLine ctermbg=black ctermfg=5
-    elseif &filetype == 'make'
-        setlocal noexpandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=black ctermfg=yellow
     else
         setlocal expandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=grey ctermfg=235
+        hi StatusLine ctermbg=blue ctermfg=235
         hi StatusLineNC ctermbg=grey ctermfg=235
     endif
 
@@ -789,17 +764,18 @@ function! Build()
     echo "filetype:" &filetype
     let name = expand("%:r")
     if &filetype == 'tex'
-        execute "! pdflatex %"
+        execute :w!<CR>
+        execute :!pdflatex %<CR>
     elseif &filetype == 'c'
         execute "! gcc % -o" name
         let res =
         execute "! ./".name
+    elseif &filetype == 'rust'
+        "execute "! cargo build"
+        execute "! cargo run"
     elseif &filetype == 'sh'
         execute "! chmod +x %"
         execute "! ./%"
-    elseif &filetype == 'python'
-        execute "! chmod +x %"
-        execute "! python3 %"
     else
         echo "No sabemos como procesar este tipo de archivo"
     endif
@@ -844,3 +820,4 @@ map T <C-]>
   "highlight! link TermCursor Cursor
   "highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
+
