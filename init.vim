@@ -623,6 +623,51 @@ inoremap <M-S-Up> <Esc>:t .-1<CR>==gi
 vnoremap <M-S-Down> :t '>+0<CR>gv=gv
 vnoremap <M-S-Up> :t '<-1<CR>gv=gv
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Cut, copy and paste, seva, select all, indent all
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Cut
+inoremap <C-x> <Esc>dd
+nnoremap <C-x> dd
+vnoremap <C-x> dd
+
+" Copy
+inoremap <C-c> <Esc>yy
+nnoremap <C-c> yy
+vnoremap <C-c> yy
+
+" Paste
+inoremap <C-v> <Esc>p
+nnoremap <C-v> p
+
+" Save
+inoremap <C-s> <Esc>:w
+nnoremap <C-s> :w
+
+" shift+arrow selection
+nnoremap <S-Up> v<Up>
+nnoremap <S-Down> v<Down>
+nnoremap <S-Left> v<Left>
+nnoremap <S-Right> v<Right>
+
+vnoremap <S-Up> <Up>
+vnoremap <S-Down> <Down>
+vnoremap <S-Left> <Left>
+vnoremap <S-Right> <Right>
+
+inoremap <S-Up> <Esc>v<Up>
+inoremap <S-Down> <Esc>v<Down>
+inoremap <S-Left> <Esc>v<Left>
+inoremap <S-Right> <Esc>v<Right>
+
+" Select all.
+inoremap <C-a> <Esc>ggVG
+nnoremap <C-a> ggVG
+
+" Indent all.
+inoremap <C-i> <Esc>gg=G
+nnoremap <C-i> gg=G
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => System pasteboard
