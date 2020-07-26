@@ -275,7 +275,7 @@ set wildmode=list:longest
 syntax enable
 
 try
-	colorscheme hybrid
+    colorscheme hybrid
 catch
 endtry
 
@@ -375,22 +375,22 @@ endfunction
 "Do not close window when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-	let l:currentBufNum = bufnr("%")
-	let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-	if buflisted(l:alternateBufNum)
-		buffer #
-	else
-		bnext
-	endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-	if bufnr("%") == l:currentBufNum
-		new
-	endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-	if buflisted(l:currentBufNum)
-		execute("bdelete! ".l:currentBufNum)
-	endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
 
 " current buffer size
@@ -454,35 +454,35 @@ endfunction
 
 "Get git branch and status of edited file
 function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
 function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+    let l:branchname = GitBranch()
+    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
 " returns a string <branch/XX> where XX corresponds to the git status
 " (for example "<master/ M>")
 function CurrentGitStatus()
-  let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-  if len(gitoutput) > 0
-    let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
-  else
-    let b:gitstatus = ''
-  endif
+    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
+    if len(gitoutput) > 0
+        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+    else
+        let b:gitstatus = ''
+    endif
 endfunc
 autocmd BufEnter,BufWritePost * call CurrentGitStatus()
 
 function Highlight_Statusline()
-  hi User1 ctermfg=Yellow cterm=bold
+    hi User1 ctermfg=Yellow cterm=bold
 endfunction
 
 autocmd ColorScheme * call Highlight_Statusline()
 autocmd BufEnter * call Highlight_Statusline()
 
 function! WindowNumber()
-  return tabpagewinnr(tabpagenr())
+    return tabpagewinnr(tabpagenr())
 endfunction
 
 
@@ -549,7 +549,7 @@ nmap <leader>l :set list!<CR>
 map <Leader>a ggVG
 
 " Indent all.
-map <Leader>i gg=G
+noremap <leader>i gg=G
 
 " gi moves to last insert mode (default)
 " gI moves to last modification
@@ -627,46 +627,46 @@ vnoremap <M-S-Up> :t '<-1<CR>gv=gv
 " => Cut, copy and paste, seva, select all, indent all
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Cut
-inoremap <C-x> <Esc>dd
-nnoremap <C-x> dd
-vnoremap <C-x> dd
+"inoremap <C-x> <Esc>dd
+"nnoremap <C-x> dd
+"vnoremap <C-x> dd
 
 " Copy
-inoremap <C-c> <Esc>yy
-nnoremap <C-c> yy
-vnoremap <C-c> yy
+"inoremap <C-c> <Esc>yy
+"nnoremap <C-c> yy
+"vnoremap <C-c> yy
 
 " Paste
-inoremap <C-v> <Esc>p
-nnoremap <C-v> p
+"inoremap <C-v> <Esc>p
+"nnoremap <C-v> p
 
 " Save
-inoremap <C-s> <Esc>:w
-nnoremap <C-s> :w
+"inoremap <C-s> <Esc>:w
+"nnoremap <C-s> :w
 
 " shift+arrow selection
-nnoremap <S-Up> v<Up>
-nnoremap <S-Down> v<Down>
-nnoremap <S-Left> v<Left>
-nnoremap <S-Right> v<Right>
+"nnoremap <S-Up> v<Up>
+"nnoremap <S-Down> v<Down>
+"nnoremap <S-Left> v<Left>
+"nnoremap <S-Right> v<Right>
 
-vnoremap <S-Up> <Up>
-vnoremap <S-Down> <Down>
-vnoremap <S-Left> <Left>
-vnoremap <S-Right> <Right>
+"vnoremap <S-Up> <Up>
+"vnoremap <S-Down> <Down>
+"vnoremap <S-Left> <Left>
+"vnoremap <S-Right> <Right>
 
-inoremap <S-Up> <Esc>v<Up>
-inoremap <S-Down> <Esc>v<Down>
-inoremap <S-Left> <Esc>v<Left>
-inoremap <S-Right> <Esc>v<Right>
+"inoremap <S-Up> <Esc>v<Up>
+"inoremap <S-Down> <Esc>v<Down>
+"inoremap <S-Left> <Esc>v<Left>
+"inoremap <S-Right> <Esc>v<Right>
 
 " Select all.
-inoremap <C-a> <Esc>ggVG
-nnoremap <C-a> ggVG
+"inoremap <C-a> <Esc>ggVG
+"nnoremap <C-a> ggVG
 
 " Indent all.
-inoremap <C-i> <Esc>gg=G
-nnoremap <C-i> gg=G
+"inoremap <C-i> <Esc>gg=G
+"nnoremap <C-i> gg=G
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -723,7 +723,7 @@ hi User2 ctermbg=blue ctermfg=16
 hi User3 ctermbg=8 ctermfg=16
 
 " Always show the status line
- set laststatus=2
+set laststatus=2
 
 set statusline=
 set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
@@ -769,10 +769,10 @@ set statusline+=\ %3p%%\                " percentage
 "set statusline+=\%P 
 "set statusline+=\ 
 
- function! StatuslineGit()
-     let l:branchname = GitBranch()
-     return strlen(l:branchname) > 0?' '.l:branchname.' ':''
- endfunction
+function! StatuslineGit()
+    let l:branchname = GitBranch()
+    return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File Types
@@ -780,10 +780,10 @@ set statusline+=\ %3p%%\                " percentage
 
 " automatic commands
 if has("autocmd")
-  " file type detection
+    " file type detection
 
-  au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
-  au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
+    au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
+    au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
 endif
 
@@ -833,7 +833,7 @@ endfunction
 
 " Ignore whitespace in vimdiff.
 if &diff
-  set diffopt+=iwhite
+    set diffopt+=iwhite
 endif
 
 
@@ -858,11 +858,11 @@ map T <C-]>
 "hi StatusLineTermNC ctermbg=grey ctermfg=yellow
 
 "if has('nvim')
-  " active windows
-  "highlight! StatusLineTerm ctermbg=grey ctermfg=blue
-  " inactive windows
-  "highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
-  "highlight! link TermCursor Cursor
-  "highlight! TermCursorNC ctermbg=white ctermfg=blue
+" active windows
+"highlight! StatusLineTerm ctermbg=grey ctermfg=blue
+" inactive windows
+"highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
+"highlight! link TermCursor Cursor
+"highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
 
