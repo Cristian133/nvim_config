@@ -11,11 +11,10 @@
 "           http://moelleken.org - lars@moelleken.org
 "
 " Version:
-"           1.1 - 10/05/2020
+"           1.2 - 30/07/2020
 "
 " Sections:
-"           -> Load Plugins and configs
-"           -> Plugins Configurations
+"           -> Load Plugins
 "           -> Files, backups and undo
 "           -> General
 "           -> VIM user interface
@@ -26,8 +25,6 @@
 "           -> Helpers funtions
 "           -> Editing mappings
 "           -> Open specials files
-"           -> Moving around windows and buffers
-"           -> Move and copy lines or selected blocks
 "           -> Blank space treatments
 "           -> Spell checking
 "           -> Status line
@@ -35,110 +32,17 @@
 "           -> Vimdiff
 "           -> Tags
 "           -> StatusLineTerm and TermCursor
+"           -> load extra user-config
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Load Plugins and configs
+"" => Load Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Plugins Folder
-call plug#begin('~/.config/nvim/plugged')
-
-" File browser
-Plug 'preservim/nerdtree'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
-
-" Search results counter
-Plug 'vim-scripts/IndexedSearch'
-
-" Pending tasks list
-Plug 'fisadev/FixedTaskList.vim'
-
-"indentLine
-Plug 'Yggdroot/indentLine'
-
-" Buffer browser
-Plug 'jlanzarotta/bufexplorer'
-
-" Code commenter
-Plug 'scrooloose/nerdcommenter'
-
-" Highlighted yank Region
-Plug 'machakann/vim-highlightedyank'
-
-" Automatically close parenthesis, etc
-Plug 'Townk/vim-autoclose'
-
-" Ack code search (requires ack installed in the system)
-Plug 'mileszs/ack.vim'
-" TODO is there a way to prevent the progress which hides the editor?
-
-" marks
-Plug 'kshenoy/vim-signature'
-
-"rust
-Plug 'rust-lang/rust.vim'
-
-"" Async autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'sebastianmarkow/deoplete-rust'
-
-call plug#end()
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Plugins Configurations
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"NERDTree""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" NerdTree shows hidden files
-let NERDTreeShowHidden=1
-let NERDTreeIgnore = ['\.pyc$', '\.pyo$']
-
-" Open a NERDTree automatically when vim starts up if no files were specified
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-
-" Open NERDTree automatically when vim starts up on opening a directory
-autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | ene | exe 'cd '.argv()[0] | endif
-
-" I don't want NERDTree to open when i opening a saved session,
-" for example vim -S session_file.vim
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") && v:this_session == "" | NERDTree | endif
-
-" Close vim if the only window left open is a NERDTree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
-
-" Autorefresh NERDTree
-autocmd BufWritePost * NERDTreeFocus | execute 'normal R' | wincmd p
-
-let g:NERDTreeLimitedSyntax = 1
-
-" vim-highlightedyank""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" highlight duration
-let g:highlightedyank_highlight_duration = 500
-
-" redefine the HighlightedyankRegion
-highlight HighlightedyankRegion cterm=reverse gui=reverse
-
-" deoplete"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Use deoplete.
-call deoplete#enable()
-call deoplete#custom#option('ignore_case')
-call deoplete#custom#option('smart_case')
-
-" complete with words from any opened file
-"let g:context_filetype#same_filetypes = {}
-"let g:context_filetype#same_filetypes._ = '_'
-
-" deoplete-rust""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#sources#rust#racer_binary='/home/cristian/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/home/cristian/.cargo/rust/src/'
+if filereadable($HOME . "/.config/nvim/init.plug.vim")
+    source ~/.config/nvim/init.plug.vim
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Files, backups and undo
@@ -153,7 +57,6 @@ set backupdir=~/.config/nvim/backups
 
 set undofile
 set undodir=~/.config/nvim/undo
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -195,7 +98,6 @@ set history=1000
 
 " Tell us about changes.
 set report=0
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
@@ -275,7 +177,7 @@ set wildmode=list:longest
 syntax enable
 
 try
-    colorscheme hybrid
+	colorscheme hybrid
 catch
 endtry
 
@@ -288,7 +190,6 @@ set encoding=utf8
 " Unix for new files and autodetect for the rest.
 set fileformats=unix,dos,mac
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -297,7 +198,6 @@ set fileformats=unix,dos,mac
 " Super useful! From an idea by Michael Naumann
 vnoremap <silent> * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
 vnoremap <silent> # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Parenthesis/bracket
@@ -311,7 +211,6 @@ set matchpairs+=<:>
 
 " How many tenths of a second to blink when matching brackets.
 set mat=2
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -345,7 +244,6 @@ set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:»,precedes:«,space:
 " Highlight conflict markers.
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Helpers functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -375,22 +273,22 @@ endfunction
 "Do not close window when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-    let l:currentBufNum = bufnr("%")
-    let l:alternateBufNum = bufnr("#")
+	let l:currentBufNum = bufnr("%")
+	let l:alternateBufNum = bufnr("#")
 
-    if buflisted(l:alternateBufNum)
-        buffer #
-    else
-        bnext
-    endif
+	if buflisted(l:alternateBufNum)
+		buffer #
+	else
+		bnext
+	endif
 
-    if bufnr("%") == l:currentBufNum
-        new
-    endif
+	if bufnr("%") == l:currentBufNum
+		new
+	endif
 
-    if buflisted(l:currentBufNum)
-        execute("bdelete! ".l:currentBufNum)
-    endif
+	if buflisted(l:currentBufNum)
+		execute("bdelete! ".l:currentBufNum)
+	endif
 endfunction
 
 " current buffer size
@@ -454,37 +352,36 @@ endfunction
 
 "Get git branch and status of edited file
 function! GitBranch()
-    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
 endfunction
 
 function! StatuslineGit()
-    let l:branchname = GitBranch()
-    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+  let l:branchname = GitBranch()
+  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
 " returns a string <branch/XX> where XX corresponds to the git status
 " (for example "<master/ M>")
 function CurrentGitStatus()
-    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-    if len(gitoutput) > 0
-        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
-    else
-        let b:gitstatus = ''
-    endif
+  let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
+  if len(gitoutput) > 0
+    let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+  else
+    let b:gitstatus = ''
+  endif
 endfunc
 autocmd BufEnter,BufWritePost * call CurrentGitStatus()
 
 function Highlight_Statusline()
-    hi User1 ctermfg=Yellow cterm=bold
+  hi User1 ctermfg=Yellow cterm=bold
 endfunction
 
 autocmd ColorScheme * call Highlight_Statusline()
 autocmd BufEnter * call Highlight_Statusline()
 
 function! WindowNumber()
-    return tabpagewinnr(tabpagenr())
+  return tabpagewinnr(tabpagenr())
 endfunction
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" =>  Editing mappings
@@ -495,12 +392,7 @@ endfunction
 tnoremap <Esc> <C-\><C-n>
 tnoremap :q! <C-\><C-n>:q!<CR>
 
-" Toggle terminal on/off (neovim)
-nnoremap <A-t> :call Term_Toggle(10)<CR>
-inoremap <A-t> <Esc>:call Term_Toggle(10)<CR>
-tnoremap <A-t> <C-\><C-n>:call Term_Toggle(10)<CR>
-
-nnoremap <leader>t :call Term_toggle(10)<cr>
+noremap <leader>t :call Term_toggle(10)<cr>
 tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
 
 " leader keys
@@ -549,7 +441,7 @@ nmap <leader>l :set list!<CR>
 map <Leader>a ggVG
 
 " Indent all.
-noremap <leader>i gg=G
+map <Leader>i gg=G
 
 " gi moves to last insert mode (default)
 " gI moves to last modification
@@ -576,7 +468,6 @@ map <silent> <leader><CR> :noh<CR>
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Open specials files
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -586,7 +477,6 @@ map <leader>e :e ~/.config/nvim/init.vim<CR>
 
 " open help
 map <leader>h :e ~/.config/nvim/help/help<CR>
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around windows and buffers
@@ -602,73 +492,6 @@ map <C-down>  <C-W>j
 map <C-left>  <C-W>h
 map <C-right> <C-W>l
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Move and copy lines or selected blocks
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Move a line or select block of text using ALT+[Up-Down]
-nnoremap <M-Down> :m .+1<CR>==
-nnoremap <M-Up> :m .-2<CR>==
-inoremap <M-Down> <Esc>:m .+1<CR>==gi
-inoremap <M-Up> <Esc>:m .-2<CR>==gi
-vnoremap <M-Down> :m '>+1<CR>gv=gv
-vnoremap <M-Up> :m '<-2<CR>gv=gv
-
-" Copy a line or select block of text using SHIFT+ALT+[Up-Down]
-nnoremap <M-S-Down> :t .+0<CR>==
-nnoremap <M-S-Up> :t .-1<CR>==
-inoremap <M-S-Down> <Esc>:t .+0<CR>==gi
-inoremap <M-S-Up> <Esc>:t .-1<CR>==gi
-vnoremap <M-S-Down> :t '>+0<CR>gv=gv
-vnoremap <M-S-Up> :t '<-1<CR>gv=gv
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Cut, copy and paste, seva, select all, indent all
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Cut
-"inoremap <C-x> <Esc>dd
-"nnoremap <C-x> dd
-"vnoremap <C-x> dd
-
-" Copy
-"inoremap <C-c> <Esc>yy
-"nnoremap <C-c> yy
-"vnoremap <C-c> yy
-
-" Paste
-"inoremap <C-v> <Esc>p
-"nnoremap <C-v> p
-
-" Save
-"inoremap <C-s> <Esc>:w
-"nnoremap <C-s> :w
-
-" shift+arrow selection
-"nnoremap <S-Up> v<Up>
-"nnoremap <S-Down> v<Down>
-"nnoremap <S-Left> v<Left>
-"nnoremap <S-Right> v<Right>
-
-"vnoremap <S-Up> <Up>
-"vnoremap <S-Down> <Down>
-"vnoremap <S-Left> <Left>
-"vnoremap <S-Right> <Right>
-
-"inoremap <S-Up> <Esc>v<Up>
-"inoremap <S-Down> <Esc>v<Down>
-"inoremap <S-Left> <Esc>v<Left>
-"inoremap <S-Right> <Esc>v<Right>
-
-" Select all.
-"inoremap <C-a> <Esc>ggVG
-"nnoremap <C-a> ggVG
-
-" Indent all.
-"inoremap <C-i> <Esc>gg=G
-"nnoremap <C-i> gg=G
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => System pasteboard
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -681,7 +504,6 @@ nnoremap <silent> <leader>p "+p
 " Yank and put system pasteboard with ALT+[c/v]
 nnoremap <silent> <M-c> "+yy
 nnoremap <silent> <M-v> "+p
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Blank space treatments
@@ -712,7 +534,6 @@ map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Status line
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -723,7 +544,7 @@ hi User2 ctermbg=blue ctermfg=16
 hi User3 ctermbg=8 ctermfg=16
 
 " Always show the status line
-set laststatus=2
+ set laststatus=2
 
 set statusline=
 set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
@@ -750,29 +571,10 @@ set statusline+=\ %{strlen(&filetype)?&filetype:'none'}\     "filetype
 set statusline+=\ %3*%3l:%-2c\         " line + column
 set statusline+=\ %3p%%\                " percentage
 
-" old statusline
-"set statusline=\|\ 
-"set statusline+=%t
-"set statusline+=\ \|\ 
-"set statusline+=%1*%{StatuslineGit()}%*
-"set statusline+=%=
-"set statusline+=%{&fileformat}
-"set statusline+=\ \|\ 
-"set statusline+=%{strlen(&fenc)?&fenc:'none'} "file encoding
-"set statusline+=\ \|%2*\ 
-"set statusline+=%{strlen(&filetype)?&filetype:'none'}     "filetype
-"set statusline+=\ %*\|\ 
-"set statusline+=\%3l
-"set statusline+=:
-"set statusline+=\%2c
-"set statusline+=\ \|\ 
-"set statusline+=\%P 
-"set statusline+=\ 
-
-function! StatuslineGit()
-    let l:branchname = GitBranch()
-    return strlen(l:branchname) > 0?' '.l:branchname.' ':''
-endfunction
+ function! StatuslineGit()
+     let l:branchname = GitBranch()
+     return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+ endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " File Types
@@ -780,10 +582,10 @@ endfunction
 
 " automatic commands
 if has("autocmd")
-    " file type detection
+  " file type detection
 
-    au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
-    au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
+  au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
+  au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
 
 endif
 
@@ -826,16 +628,14 @@ function! Build()
     endif
 endfunction
 
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Vimdiff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Ignore whitespace in vimdiff.
 if &diff
-    set diffopt+=iwhite
+  set diffopt+=iwhite
 endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Tags
@@ -858,11 +658,18 @@ map T <C-]>
 "hi StatusLineTermNC ctermbg=grey ctermfg=yellow
 
 "if has('nvim')
-" active windows
-"highlight! StatusLineTerm ctermbg=grey ctermfg=blue
-" inactive windows
-"highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
-"highlight! link TermCursor Cursor
-"highlight! TermCursorNC ctermbg=white ctermfg=blue
+  " active windows
+  "highlight! StatusLineTerm ctermbg=grey ctermfg=blue
+  " inactive windows
+  "highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
+  "highlight! link TermCursor Cursor
+  "highlight! TermCursorNC ctermbg=white ctermfg=blue
 "endif
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => load extra user-config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if filereadable($HOME . "/.config/nvim/init.map.vim")
+  source ~/.config/nvim/init.map.vim
+endif

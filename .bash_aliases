@@ -26,7 +26,8 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 # Caminos importantes
 alias cdb='cd $HOME/.local/bin/'
 alias cdf='cd $HOME/Fuentes/'
-alias cdr='cd $HOME/Fuentes/rust/'
+alias cda='cd $HOME/Fuentes/proy_sat_web/ng-sat'
+alias cdr='cd $HOME/Fuentes/proy_sat_web/rocket-sat'
 
 # Prompt
 export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
