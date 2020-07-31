@@ -76,8 +76,8 @@ inoremap <C-a> <Esc>ggVG
 nnoremap <C-a> ggVG
 
 " Indent all.
-inoremap <C-i> <Esc>gg=G
-nnoremap <C-i> gg=G
+"inoremap <C-i> <Esc>gg=G
+"nnoremap <C-i> gg=G
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Terminal

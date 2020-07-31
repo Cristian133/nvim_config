@@ -433,14 +433,15 @@ noremap <leader>W :w !sudo tee % > /dev/null<CR>
 
 " Fast saving
 map <leader>w :w!<cr>
+" Fast quit
 map <leader>q :q<cr>
 
 nmap <leader>l :set list!<CR>
 
-" Select all.
+" Select all
 map <Leader>a ggVG
 
-" Indent all.
+" Indent all
 map <Leader>i gg=G
 
 " gi moves to last insert mode (default)
@@ -455,13 +456,14 @@ map <C-space> ?
 nmap <Leader>h :TOhtml<CR>:w<cr>:!open %<CR>:q<CR>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bd :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
 " Disable highlight when <leader><CR> is pressed
 map <silent> <leader><CR> :noh<CR>
 
@@ -670,6 +672,14 @@ map T <C-]>
 " => load extra user-config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-if filereadable($HOME . "/.config/nvim/init.map.vim")
-  source ~/.config/nvim/init.map.vim
-endif
+"if filereadable($HOME . "/.config/nvim/init.map.vim")
+    "source ~/.config/nvim/init.map.vim
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => load useful mappings for managing tabs
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"if filereadable($HOME . "/.config/nvim/init.tab.vim")
+  "source ~/.config/nvim/init.tab.vim
+"endif
