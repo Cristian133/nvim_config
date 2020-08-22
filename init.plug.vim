@@ -49,7 +49,7 @@ Plug 'mileszs/ack.vim'
 " TODO is there a way to prevent the progress which hides the editor?
 
 " marks
-Plug 'kshenoy/vim-signature'
+"Plug 'kshenoy/vim-signature'
 
 "rust
 Plug 'rust-lang/rust.vim'

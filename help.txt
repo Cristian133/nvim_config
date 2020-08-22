@@ -14,13 +14,19 @@ leader keys
 <leader>3 Toggle activa relativenumber.
 <leader>4 Toggle líneas reales/líneas visibles.
 
+" para vim
 <leader>e open $HOME/.vimrc
-<leader>h open $HOME/.vim/help/help
-<leader>q open $HOME/.vim/tmp/buffer
-<leader>x open $HOME/.vim/tmp/buffer.md
+" para neovim"
+<leader>e open $HOME/.config/nvim/init.vim
+
+<leader>h open $HOME/.vim/help/help.txt
 
 files and buffers
 =================
+
+<leader><up> ['     mueve el cursor a la marca anterior
+<leader><down> ]'   mueve el cursor a la próxima marca
+
 <leader><right> mueve al próximo buffer
 <leader><left>  mueve al buffer previo
 
@@ -31,13 +37,16 @@ files and buffers
 
 function keys
 =============
-<F4>  BufExplorer Toggle: Listado de buffers.
-<F5>  NERDTree Toggle: listado de directorios.
-<F6>  Cierra buffer actual.
-<F7>  syntax-check make.
-<F8>  tags work directory.
-<F9>  Buffer tex to pdf file.
-<F10> Borra espacio en blanco al final de línea.
+<F1>    Ayuda default.
+<F2>    Historial de búsquedas.
+<F3>    Historial de Ex-commads.
+<F4>    Listado de registros.
+<F5>    Listado de marcas.
+<F6>    BufExplorer Toggle: Listado de buffers.
+<F7>    NERDTree Toggle: listado de directorios.
+<F8>    Cierra buffer actual.
+<F9>    Compila o ejecuta según tipo de archivo.
+<F10>   Borra espacios en blanco al final de línea.
 
 Move a line or select block of text using ALT+[Up-Down]
 =======================================================
@@ -165,3 +174,36 @@ the one of the default public interfaces:
 '<Leader>bt' (toggle open / close)
 '<Leader>bs' (force horizontal split open)
 '<Leader>bv' (force vertical split open)
+
+==========================================
+Vim-signature Plugin for Vim
+
+https://github.com/kshenoy/vim-signature
+==========================================
+
+
+  mx           Toggle mark 'x' and display it in the leftmost column
+  dmx          Remove mark 'x' where x is a-zA-Z
+
+  m,           Place the next available mark
+  m.           If no mark on line, place the next available mark. Otherwise, remove (first) existing mark.
+  m-           Delete all marks from the current line
+  m<Space>     Delete all marks from the current buffer
+  ]`           Jump to next mark
+  [`           Jump to prev mark
+  ]'           Jump to start of next line containing a mark
+  ['           Jump to start of prev line containing a mark
+  `]           Jump by alphabetical order to next mark
+  `[           Jump by alphabetical order to prev mark
+  ']           Jump by alphabetical order to start of next line having a mark
+  '[           Jump by alphabetical order to start of prev line having a mark
+  m/           Open location list and display marks from current buffer
+
+  m[0-9]       Toggle the corresponding marker !@#$%^&*()
+  m<S-[0-9]>   Remove all markers of the same type
+  ]-           Jump to next line having a marker of the same type
+  [-           Jump to prev line having a marker of the same type
+  ]=           Jump to next line having a marker of any type
+  [=           Jump to prev line having a marker of any type
+  m?           Open location list and display markers from current buffer
+  m<BS>        Remove all markers

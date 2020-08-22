@@ -22,9 +22,10 @@
 "           -> Visual
 "           -> Parenthesis/bracket
 "           -> Text, tab and indent related
-"           -> Helpers funtions
 "           -> Editing mappings
 "           -> Open specials files
+"           -> Moving around windows, buffers and marks
+"           -> System pasteboard
 "           -> Blank space treatments
 "           -> Spell checking
 "           -> Status line
@@ -32,7 +33,9 @@
 "           -> Vimdiff
 "           -> Tags
 "           -> StatusLineTerm and TermCursor
+"           -> Helper functions
 "           -> load extra user-config
+"           -> load useful mappings for managing tabs
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -104,7 +107,7 @@ set report=0
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set lines to the cursor - when moving vertically using j/k or Up/Down
-set so=7
+set so=3
 
 " Show line numbers or current line number
 " in combination with relativenumber
@@ -177,7 +180,7 @@ set wildmode=list:longest
 syntax enable
 
 try
-	colorscheme hybrid
+    colorscheme hybrid
 catch
 endtry
 
@@ -245,7 +248,315 @@ set listchars=tab:→\ ,eol:↲,nbsp:␣,trail:•,extends:»,precedes:«,space:
 match ErrorMsg '^\(<\|=\|>\)\{7\}\([^=].\+\)\?$'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helpers functions
+"" =>  Editing mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"<F1> :help (default)
+
+"plugin  bufexplorer
+map <F4> <leader>bt
+
+"plugin  NERDTree
+map <F5> :NERDTreeToggle<CR>
+
+" Close the current buffer
+map <F6> :Bclose<CR>
+
+" buffer tex to pdf file
+map <F9> :w!<CR>:call Build()<CR>
+imap <F9> <Esc>:w!<CR>:call Build()<CR>
+
+" Strip trailing whitespace
+map <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+imap <F10> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
+
+" tnoremap only terminal mode
+" Terminal go back to normal mode
+tnoremap <Esc> <C-\><C-n>
+tnoremap :q! <C-\><C-n>:q!<CR>
+
+noremap <leader>t :call Term_toggle(10)<cr>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
+
+" leader keys
+map <leader>1 :call ToggleHex()<CR>
+map <leader>2 :call ToggleCol80()<CR>
+map <leader>3 :call ToggleNumber()<CR>
+map <leader>4 :call ToggleWrap()<CR>
+
+" fast saving
+map <leader>w :w!<cr>
+
+" save a file as root (,W)
+" (useful for handling the permission-denied error)
+map <leader>W :w !sudo tee % > /dev/null<CR>
+
+" :W sudo saves the file
+" (useful for handling the permission-denied error)
+command W w !sudo tee % > /dev/null
+
+" fast quit
+map <leader>q :q<cr>
+
+"historial de búsquedas
+map <leader>b q/
+
+"historial de Ex-commands
+map <leader>x q:
+
+"listado de registros
+map <leader>r :registers<CR>
+
+"listado de marcas
+map <leader>m :marks<CR>
+
+" historial de saltos
+nmap <Leader>j :call GotoJump()<CR>
+
+" muestra caracteres invisibles
+nmap <leader>l :set list!<CR>
+
+" select all
+map <Leader>a ggVG
+
+" indent all
+map <Leader>i gg=G''
+
+" gi moves to last insert mode (default)
+" gI moves to last modification
+nnoremap gI `.
+
+" yank to end of line
+map Y y$
+
+" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search).
+map <space> /
+map <C-space> ?
+
+" Show current file as HTML. (to paste into Keynote)
+nmap <Leader>h :TOhtml<CR>:w<cr>:!open %<CR>:q<CR>
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+"go to  NerdTree on the file you’re editing
+nnoremap <silent> <Leader>f :NERDTreeFind<CR>
+
+" Disable highlight when <leader><CR> is pressed
+map <silent> <leader><CR> :noh<CR>
+
+" Return to last edit position when opening files (You want this!)
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" The first line maps escape to the caps lock key when you enter Vim, and the
+" second line returns normal functionality to caps lock when you quit.
+"au BufEnter * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Escape'
+"au BufLeave * silent! !xmodmap -e 'clear Lock' -e 'keycode 0x42 = Caps_Lock'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Open specials files
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" open .vimrc
+map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.tab.vim<CR>
+
+" open help
+map <leader>h :e ~/.config/nvim/help/help.txt<CR>
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Moving around windows, buffers and marks
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"marks
+map <leader><up> ['
+map <leader><down> ]'
+
+" buffers
+map <leader><right> :bnext<cr>
+map <leader><left>  :bprevious<cr>
+
+" windows
+map <C-up>    <C-W>k
+map <C-down>  <C-W>j
+map <C-left>  <C-W>h
+map <C-right> <C-W>l
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => System pasteboard
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Yank and put system pasteboard with <Leader>y/p
+nnoremap <silent> <leader>y "+yy
+nnoremap <silent> <leader>Y "+y$
+nnoremap <silent> <leader>p "+p
+
+" Yank and put system pasteboard with ALT+[c/v]
+nnoremap <silent> <M-c> "+yy
+nnoremap <silent> <M-v> "+p
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Blank space treatments
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"Highlight spaces at the end of the line
+if has('autocmd')
+    highlight ExtraWhitespace ctermbg=1 guibg=red
+    match ExtraWhitespace /\s\+$/
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Spell checking
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Toggle <,ss> spell checking
+"setlocal spell spelllang=es
+map <leader>ss :setlocal spell spelllang=es<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Status line
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"define custom highlight groups
+hi User1 ctermbg=99 ctermfg=16
+hi User2 ctermbg=blue ctermfg=16
+hi User3 ctermbg=8 ctermfg=16
+
+" Always show the status line
+set laststatus=2
+
+set statusline=
+set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
+set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ INSERT\ ':''}
+set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ RPLACE\ ':''}
+set statusline+=%#Cursor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
+set statusline+=%2*%{(mode()=='t')?'\ \ TERMINAL\ ':''}%*
+set statusline+=%3*%{(mode()=='x')?'\ \ EX\ ':''}%*
+set statusline+=%#Cursor#               " colour
+set statusline+=\ %n\                   " buffer number
+set statusline+=%#Visual#               " colour
+set statusline+=%{&paste?'\ PASTE\ ':''}
+set statusline+=%{&spell?'\ SPELL\ ':''}
+set statusline+=%#CursorIM#             " colour
+set statusline+=%R                      " readonly flag
+set statusline+=%M                      " modified [+] flag
+set statusline+=%#Cursor#               " colour
+set statusline+=%#CursorLine#           " colour
+set statusline+=\ %t\                   " short file name
+set statusline+=%1*%{StatuslineGit()}%*
+set statusline+=%=                      " right align
+set statusline+=%#CursorLine#           " colour
+set statusline+=\ %{strlen(&filetype)?&filetype:'none'}\     "filetype
+set statusline+=\ %3*%3l:%-2c\         " line + column
+set statusline+=\ %3p%%\                " percentage
+
+function! StatuslineGit()
+    let l:branchname = GitBranch()
+    return strlen(l:branchname) > 0?' '.l:branchname.' ':''
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" File types
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" automatic commands
+if has("autocmd")
+    " file type detection
+
+    au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
+    au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
+
+endif
+
+" statusline color
+function! ColourStatusLineFileType()
+    filetype detect
+
+    if &filetype == 'make'
+        setlocal noexpandtab shiftwidth=4 tabstop=4
+        hi StatusLine ctermbg=grey ctermfg=235
+    else
+        setlocal expandtab shiftwidth=4 tabstop=4
+        hi StatusLine ctermbg=blue ctermfg=235
+        hi StatusLineNC ctermbg=grey ctermfg=235
+    endif
+
+endfunction
+
+au BufEnter * call ColourStatusLineFileType()
+
+function! Build()
+    filetype detect
+    echo "filetype:" &filetype
+    let name = expand("%:r")
+    if &filetype == 'tex'
+        execute :w!<CR>
+        execute :!pdflatex %<CR>
+    elseif &filetype == 'c'
+        execute "! gcc % -o" name
+        let res =
+        execute "! ./".name
+    elseif &filetype == 'rust'
+        "execute "! cargo build"
+        execute "! cargo run"
+    elseif &filetype == 'sh'
+        execute "! chmod +x %"
+        execute "! ./%"
+    else
+        echo "No sabemos como procesar este tipo de archivo"
+    endif
+endfunction
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Vimdiff
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Ignore whitespace in vimdiff.
+if &diff
+    set diffopt+=iwhite
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Tags
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"T para ir a tag
+map T <C-]>
+
+"<C-t> para volver del tag
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" StatusLineTerm and TermCursor
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Manually set the status line color.
+" active windows
+"hi StatusLineTerm ctermbg=grey ctermfg=blue
+" inactive windows
+"hi StatusLineTermNC ctermbg=grey ctermfg=yellow
+
+"if has('nvim')
+" active windows
+"highlight! StatusLineTerm ctermbg=grey ctermfg=blue
+" inactive windows
+"highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
+"highlight! link TermCursor Cursor
+"highlight! TermCursorNC ctermbg=white ctermfg=blue
+"endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " terminal
@@ -273,22 +584,22 @@ endfunction
 "Do not close window when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-	let l:currentBufNum = bufnr("%")
-	let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-	if buflisted(l:alternateBufNum)
-		buffer #
-	else
-		bnext
-	endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-	if bufnr("%") == l:currentBufNum
-		new
-	endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-	if buflisted(l:currentBufNum)
-		execute("bdelete! ".l:currentBufNum)
-	endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
 
 " current buffer size
@@ -352,334 +663,84 @@ endfunction
 
 "Get git branch and status of edited file
 function! GitBranch()
-  return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
+endfunction
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ack \"" . l:pattern . "\" " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
 endfunction
 
 function! StatuslineGit()
-  let l:branchname = GitBranch()
-  return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
+    let l:branchname = GitBranch()
+    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
 endfunction
 
 " returns a string <branch/XX> where XX corresponds to the git status
 " (for example "<master/ M>")
 function CurrentGitStatus()
-  let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-  if len(gitoutput) > 0
-    let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
-  else
-    let b:gitstatus = ''
-  endif
+    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
+    if len(gitoutput) > 0
+        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
+    else
+        let b:gitstatus = ''
+    endif
 endfunc
 autocmd BufEnter,BufWritePost * call CurrentGitStatus()
 
 function Highlight_Statusline()
-  hi User1 ctermfg=Yellow cterm=bold
+    hi User1 ctermfg=Yellow cterm=bold
 endfunction
 
 autocmd ColorScheme * call Highlight_Statusline()
 autocmd BufEnter * call Highlight_Statusline()
 
 function! WindowNumber()
-  return tabpagewinnr(tabpagenr())
+    return tabpagewinnr(tabpagenr())
 endfunction
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" =>  Editing mappings
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" tnoremap only terminal mode
-" Terminal go back to normal mode
-tnoremap <Esc> <C-\><C-n>
-tnoremap :q! <C-\><C-n>:q!<CR>
-
-noremap <leader>t :call Term_toggle(10)<cr>
-tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
-
-" leader keys
-map <leader>1 :call ToggleHex()<CR>
-map <leader>2 :call ToggleCol80()<CR>
-map <leader>3 :call ToggleNumber()<CR>
-map <leader>4 :call ToggleWrap()<CR>
-
-" Yank to end of line
-map Y y$
-
-"plugin  bufexplorer
-map <F4> <leader>bt
-
-"plugin  NERDTree
-map <F5> :NERDTreeToggle<CR>
-"go to  NerdTree on the file you’re editing
-nnoremap <silent> <Leader>v :NERDTreeFind<CR>
-
-map <F6> :Bclose<CR>
-
-" syntax-check
-map <F7> :make <CR>
-
-" tags work directory
-map <F8> :!ctags -R<CR>
-
-" buffer tex to pdf file
-map <F9> :w!<CR>:call Build()<CR>
-imap <F9> <Esc>:w!<CR>:call Build()<CR>
-
-" :W sudo saves the file
-" (useful for handling the permission-denied error)
-command W w !sudo tee % > /dev/null
-
-" save a file as root (,W)
-noremap <leader>W :w !sudo tee % > /dev/null<CR>
-
-" Fast saving
-map <leader>w :w!<cr>
-" Fast quit
-map <leader>q :q<cr>
-
-nmap <leader>l :set list!<CR>
-
-" Select all
-map <Leader>a ggVG
-
-" Indent all
-map <Leader>i gg=G
-
-" gi moves to last insert mode (default)
-" gI moves to last modification
-nnoremap gI `.
-
-" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search).
-map <space> /
-map <C-space> ?
-
-" Show current file as HTML. (to paste into Keynote)
-nmap <Leader>h :TOhtml<CR>:w<cr>:!open %<CR>:q<CR>
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>
-
-" Close all the buffers
-map <leader>ba :bufdo bd<cr>
-
-" Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
-
-" Disable highlight when <leader><CR> is pressed
-map <silent> <leader><CR> :noh<CR>
-
-" Return to last edit position when opening files (You want this!)
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Open specials files
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" open .vimrc
-map <leader>e :e ~/.config/nvim/init.vim<CR>
-
-" open help
-map <leader>h :e ~/.config/nvim/help/help<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Moving around windows and buffers
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" buffers
-map <leader><right> :bnext<cr>
-map <leader><left>  :bprevious<cr>
-
-" windows
-map <C-up>    <C-W>k
-map <C-down>  <C-W>j
-map <C-left>  <C-W>h
-map <C-right> <C-W>l
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => System pasteboard
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Yank and put system pasteboard with <Leader>y/p
-nnoremap <silent> <leader>y "+yy
-nnoremap <silent> <leader>Y "+y$
-nnoremap <silent> <leader>p "+p
-
-" Yank and put system pasteboard with ALT+[c/v]
-nnoremap <silent> <M-c> "+yy
-nnoremap <silent> <M-v> "+p
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Blank space treatments
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"Highlight spaces at the end of the line
-if has('autocmd')
-    highlight ExtraWhitespace ctermbg=1 guibg=red
-    match ExtraWhitespace /\s\+$/
-endif
-
-" Strip trailing whitespace
-map <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-imap <F10> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spelling checking
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Toggle <,ss> spell checking
-"setlocal spell spelllang=es
-map <leader>ss :setlocal spell spelllang=es<cr>
-
-" Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Status line
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"define custom highlight groups
-hi User1 ctermbg=99 ctermfg=16
-hi User2 ctermbg=blue ctermfg=16
-hi User3 ctermbg=8 ctermfg=16
-
-" Always show the status line
- set laststatus=2
-
-set statusline=
-set statusline+=%#DiffAdd#%{(mode()=='n')?'\ \ NORMAL\ ':''}
-set statusline+=%#DiffChange#%{(mode()=='i')?'\ \ INSERT\ ':''}
-set statusline+=%#DiffDelete#%{(mode()=='r')?'\ \ RPLACE\ ':''}
-set statusline+=%#Cursor#%{(mode()=='v')?'\ \ VISUAL\ ':''}
-set statusline+=%2*%{(mode()=='t')?'\ \ TERMINAL\ ':''}%*
-set statusline+=%3*%{(mode()=='x')?'\ \ EX\ ':''}%*
-set statusline+=%#Cursor#               " colour
-set statusline+=\ %n\                   " buffer number
-set statusline+=%#Visual#               " colour
-set statusline+=%{&paste?'\ PASTE\ ':''}
-set statusline+=%{&spell?'\ SPELL\ ':''}
-set statusline+=%#CursorIM#             " colour
-set statusline+=%R                      " readonly flag
-set statusline+=%M                      " modified [+] flag
-set statusline+=%#Cursor#               " colour
-set statusline+=%#CursorLine#           " colour
-set statusline+=\ %t\                   " short file name
-set statusline+=%1*%{StatuslineGit()}%*
-set statusline+=%=                      " right align
-set statusline+=%#CursorLine#           " colour
-set statusline+=\ %{strlen(&filetype)?&filetype:'none'}\     "filetype
-set statusline+=\ %3*%3l:%-2c\         " line + column
-set statusline+=\ %3p%%\                " percentage
-
- function! StatuslineGit()
-     let l:branchname = GitBranch()
-     return strlen(l:branchname) > 0?' '.l:branchname.' ':''
- endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" File Types
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" automatic commands
-if has("autocmd")
-  " file type detection
-
-  au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
-  au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
-
-endif
-
-" statusline color
-function! ColourStatusLineFileType()
-    filetype detect
-
-    if &filetype == 'make'
-        setlocal noexpandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=grey ctermfg=235
-    else
-        setlocal expandtab shiftwidth=4 tabstop=4
-        hi StatusLine ctermbg=blue ctermfg=235
-        hi StatusLineNC ctermbg=grey ctermfg=235
-    endif
-
-endfunction
-
-au BufEnter * call ColourStatusLineFileType()
-
-function! Build()
-    filetype detect
-    echo "filetype:" &filetype
-    let name = expand("%:r")
-    if &filetype == 'tex'
-        execute :w!<CR>
-        execute :!pdflatex %<CR>
-    elseif &filetype == 'c'
-        execute "! gcc % -o" name
-        let res =
-        execute "! ./".name
-    elseif &filetype == 'rust'
-        "execute "! cargo build"
-        execute "! cargo run"
-    elseif &filetype == 'sh'
-        execute "! chmod +x %"
-        execute "! ./%"
-    else
-        echo "No sabemos como procesar este tipo de archivo"
+function! GotoJump()
+    jumps
+    let j = input("Please select your jump: ")
+    if j != ''
+        let pattern = '\v\c^\+'
+        if j =~ pattern
+            let j = substitute(j, pattern, '', 'g')
+            execute "normal " . j . "\<c-i>"
+        else
+            execute "normal " . j . "\<c-o>"
+        endif
     endif
 endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimdiff
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Ignore whitespace in vimdiff.
-if &diff
-  set diffopt+=iwhite
-endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Tags
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-"T para ir a tag
-map T <C-]>
-
-"<C-t> para volver del tag
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" StatusLineTerm and TermCursor
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Manually set the status line color.
-" active windows
-"hi StatusLineTerm ctermbg=grey ctermfg=blue
-" inactive windows
-"hi StatusLineTermNC ctermbg=grey ctermfg=yellow
-
-"if has('nvim')
-  " active windows
-  "highlight! StatusLineTerm ctermbg=grey ctermfg=blue
-  " inactive windows
-  "highlight! StatusLineTermNC ctermbg=grey ctermfg=yellow
-  "highlight! link TermCursor Cursor
-  "highlight! TermCursorNC ctermbg=white ctermfg=blue
-"endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => load extra user-config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"if filereadable($HOME . "/.config/nvim/init.map.vim")
-    "source ~/.config/nvim/init.map.vim
-"endif
+if filereadable($HOME . "/.config/nvim/init.map.vim")
+    source ~/.config/nvim/init.map.vim
+endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => load useful mappings for managing tabs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "if filereadable($HOME . "/.config/nvim/init.tab.vim")
-  "source ~/.config/nvim/init.tab.vim
+"source ~/.config/nvim/init.tab.vim
 "endif
