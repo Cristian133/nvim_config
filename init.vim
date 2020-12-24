@@ -1,4 +1,4 @@
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Maintains:
 "           Cristian Andrione
 "           cristian.andrione@gmail.com
@@ -163,10 +163,10 @@ set splitbelow
 set nostartofline
 
 " needed so deoplete can auto select the first suggestion
-set completeopt+=noinsert
+"set completeopt+=noinsert
 " comment this line to enable autocompletion preview window
 " (displays documentation related to the selected completion option)
-set completeopt-=preview
+"set completeopt-=preview
 
 " autocompletion of files and commands behaves like shell
 " (complete only the common part, list the options that match)
@@ -180,6 +180,9 @@ set wildmode=list:longest
 syntax enable
 
 try
+    "let g:hybrid_custom_term_colors = 1
+    " Remove this line if using the default palette.
+    let g:hybrid_reduced_contrast = 1
     colorscheme hybrid
 catch
 endtry
@@ -274,8 +277,13 @@ imap <F10> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 tnoremap <Esc> <C-\><C-n>
 tnoremap :q! <C-\><C-n>:q!<CR>
 
-noremap <leader>t :call Term_toggle(10)<cr>
-tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<cr>
+noremap <leader>t :call Term_toggle(10)<CR>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<CR>
+
+"nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
+"nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel
+"nnoremap <leader>¿ viw<esc>a?<esc>bi¿<esc>lel
+"nnoremap <leader>< viw<esc>a><esc>bi<<esc>lel
 
 " leader keys
 map <leader>1 :call ToggleHex()<CR>
@@ -284,7 +292,7 @@ map <leader>3 :call ToggleNumber()<CR>
 map <leader>4 :call ToggleWrap()<CR>
 
 " fast saving
-map <leader>w :w!<cr>
+map <leader>w :w!<CR>
 
 " save a file as root (,W)
 " (useful for handling the permission-denied error)
@@ -295,7 +303,7 @@ map <leader>W :w !sudo tee % > /dev/null<CR>
 command W w !sudo tee % > /dev/null
 
 " fast quit
-map <leader>q :q<cr>
+map <leader>q :q<CR>
 
 "historial de búsquedas
 map <leader>b q/
@@ -333,16 +341,16 @@ map <space> /
 map <C-space> ?
 
 " Show current file as HTML. (to paste into Keynote)
-nmap <Leader>h :TOhtml<CR>:w<cr>:!open %<CR>:q<CR>
+nmap <Leader>h :TOhtml<CR>:w<CR>:!open %<CR>:q<CR>
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>
+map <leader>bd :Bclose<CR>
 
 " Close all the buffers
-map <leader>ba :bufdo bd<cr>
+map <leader>ba :bufdo bd<CR>
 
 " Switch CWD to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+map <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 "go to  NerdTree on the file you’re editing
 nnoremap <silent> <Leader>f :NERDTreeFind<CR>
@@ -377,8 +385,8 @@ map <leader><up> ['
 map <leader><down> ]'
 
 " buffers
-map <leader><right> :bnext<cr>
-map <leader><left>  :bprevious<cr>
+map <leader><right> :bnext<CR>
+map <leader><left>  :bprevious<CR>
 
 " windows
 map <C-up>    <C-W>k
@@ -415,13 +423,13 @@ endif
 
 " Toggle <,ss> spell checking
 "setlocal spell spelllang=es
-map <leader>ss :setlocal spell spelllang=es<cr>
+"map <leader>ss :setlocal spell spelllang=es<CR>
 
 " Shortcuts using <leader>
-map <leader>sn ]s
-map <leader>sp [s
-map <leader>sa zg
-map <leader>s? z=
+"map <leader>sn ]s
+"map <leader>sp [s
+"map <leader>sa zg
+"map <leader>s? z=
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Status line
@@ -500,8 +508,7 @@ function! Build()
     echo "filetype:" &filetype
     let name = expand("%:r")
     if &filetype == 'tex'
-        execute :w!<CR>
-        execute :!pdflatex %<CR>
+        execute "! pdflatex %"
     elseif &filetype == 'c'
         execute "! gcc % -o" name
         let res =
