@@ -19,9 +19,12 @@
 " Plugins Folder
 call plug#begin('~/.config/nvim/plugged')
 
+" Quantify your coding inside Vim
+Plug 'wakatime/vim-wakatime'
+
 " File browser
 Plug 'preservim/nerdtree'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " Search results counter
 Plug 'vim-scripts/IndexedSearch'
@@ -36,7 +39,7 @@ Plug 'Yggdroot/indentLine'
 Plug 'jlanzarotta/bufexplorer'
 
 " Code commenter
-Plug 'scrooloose/nerdcommenter'
+Plug 'preservim/nerdcommenter'
 
 " Highlighted yank Region
 Plug 'machakann/vim-highlightedyank'
@@ -49,14 +52,35 @@ Plug 'mileszs/ack.vim'
 " TODO is there a way to prevent the progress which hides the editor?
 
 " marks
-"Plug 'kshenoy/vim-signature'
+Plug 'kshenoy/vim-signature'
 
 "rust
-Plug 'rust-lang/rust.vim'
+"Plug 'rust-lang/rust.vim'
 
 "" Async autocompletion
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'sebastianmarkow/deoplete-rust'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'sebastianmarkow/deoplete-rust'
+
+"Desarrollo web
+"Plug 'pangloss/vim-javascript'    " JavaScript support
+"Plug 'leafgarland/typescript-vim' " TypeScript syntax
+"Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
+"Plug 'jparise/vim-graphql'        " GraphQL syntax
+
+" Git integration
+Plug 'tpope/vim-fugitive'
+
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'ryanoasis/vim-devicons'
+
+" Color Picker
+Plug 'KabbAmine/vCoolor.vim'
+
+" Use release branch (recommend)
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+Plug 'neovimhaskell/haskell-vim'
 
 call plug#end()
 
@@ -101,14 +125,17 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 " deoplete"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use deoplete.
-call deoplete#enable()
-call deoplete#custom#option('ignore_case')
-call deoplete#custom#option('smart_case')
+"call deoplete#enable()
+"call deoplete#custom#option('ignore_case')
+"call deoplete#custom#option('smart_case')
 
 " complete with words from any opened file
 "let g:context_filetype#same_filetypes = {}
 "let g:context_filetype#same_filetypes._ = '_'
 
 " deoplete-rust""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:deoplete#sources#rust#racer_binary='/home/cristian/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path='/home/cristian/.cargo/rust/src/'
+"let g:deoplete#sources#rust#racer_binary='/home/cristian/.cargo/bin/racer'
+"let g:deoplete#sources#rust#rust_source_path='/home/cristian/.cargo/rust/src/'
+
+" coc""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
