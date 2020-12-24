@@ -7,11 +7,23 @@
 #
 ##############################################################################
 
+# super user
+alias _='sudo'
+
+# exit
 alias e='exit'
+alias E='exit'
+alias :q='exit'
+
 alias t='tmux'
+alias n='nano'
 
 alias l='ls -lah'
 alias ll='ls -lh'
+alias la='exa -abghHliS'
+alias le='exa -bghHliS'
+alias lt='exa --long --tree'
+alias lta='exa -abghHltS'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -25,9 +37,12 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 
 # Caminos importantes
 alias cdb='cd $HOME/.local/bin/'
-alias cdf='cd $HOME/Fuentes/'
-alias cda='cd $HOME/Fuentes/proy_sat_web/ng-sat'
-alias cdr='cd $HOME/Fuentes/proy_sat_web/rocket-sat'
+alias cdf='cd $HOME/FUENTES/'
+alias cds='cd $HOME/FUENTES/SRC/'
+alias cdv='cd $HOME/FUENTES/SRC/ANALISIS_DE_LENGUAJES_DE_PROGRAMACION/CURSOR/'
+alias cdr='cd $HOME/FUENTES/REPOS/'
+alias cdp='cd $HOME/FUENTES/REPOS/phy2web/'
+alias cdh='cd $HOME/FUENTES/REPOS/phy2hibrido/'
 
 # Prompt
 export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
@@ -36,8 +51,16 @@ unset color_prompt force_color_prompt
 # IP
 alias myip="dig +short myip.opendns.com @resolver1.opendns.com"
 
-# PATH
-#export PATH=$HOME/.local/bin:$PATH
-
 # Print each PATH entry on a separate line
 alias path='echo -e ${PATH//:/\\n}'
+
+# alias git
+alias gs='git status'
+alias gl='git log --oneline --decorate --graph --all'
+
+# Language aliases
+alias rb='ruby'
+alias py='python'
+alias ipy='ipython'
+# mosml con rlwrap
+alias mosml='rlwrap mosml -P full'
