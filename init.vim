@@ -11,7 +11,7 @@
 "           http://moelleken.org - lars@moelleken.org
 "
 " Version:
-"           1.2 - 30/07/2020
+"           30/12/2020
 "
 " Sections:
 "           -> Load Plugins
@@ -163,10 +163,10 @@ set splitbelow
 set nostartofline
 
 " needed so deoplete can auto select the first suggestion
-"set completeopt+=noinsert
+set completeopt+=noinsert
 " comment this line to enable autocompletion preview window
 " (displays documentation related to the selected completion option)
-"set completeopt-=preview
+set completeopt-=preview
 
 " autocompletion of files and commands behaves like shell
 " (complete only the common part, list the options that match)
@@ -277,8 +277,8 @@ imap <F10> <Esc>:let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 tnoremap <Esc> <C-\><C-n>
 tnoremap :q! <C-\><C-n>:q!<CR>
 
-noremap <leader>t :call Term_toggle(10)<CR>
-tnoremap <leader>t <C-\><C-n>:call Term_toggle(10)<CR>
+noremap <leader>t :call Term_toggle(8)<CR>
+tnoremap <leader>t <C-\><C-n>:call Term_toggle(8)<CR>
 
 "nnoremap <leader>" viw<esc>a"<esc>bi"<esc>lel
 "nnoremap <leader>' viw<esc>a'<esc>bi'<esc>lel

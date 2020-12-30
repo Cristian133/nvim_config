@@ -4,7 +4,7 @@
 "           cristian.andrione@gmail.com
 "
 " Version:
-"           1.2 - 30/07/2020
+"           30/12/2020
 "
 " Sections:
 "           -> Load Plugins and configs
@@ -54,18 +54,8 @@ Plug 'mileszs/ack.vim'
 " marks
 Plug 'kshenoy/vim-signature'
 
-"rust
-"Plug 'rust-lang/rust.vim'
-
 "" Async autocompletion
-"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-"Plug 'sebastianmarkow/deoplete-rust'
-
-"Desarrollo web
-"Plug 'pangloss/vim-javascript'    " JavaScript support
-"Plug 'leafgarland/typescript-vim' " TypeScript syntax
-"Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-"Plug 'jparise/vim-graphql'        " GraphQL syntax
+Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 
 " Git integration
 Plug 'tpope/vim-fugitive'
@@ -73,14 +63,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
-
-" Color Picker
-Plug 'KabbAmine/vCoolor.vim'
-
-" Use release branch (recommend)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-Plug 'neovimhaskell/haskell-vim'
 
 call plug#end()
 
@@ -125,17 +107,17 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 " deoplete"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Use deoplete.
-"call deoplete#enable()
-"call deoplete#custom#option('ignore_case')
-"call deoplete#custom#option('smart_case')
+call deoplete#enable()
+call deoplete#custom#option('ignore_case')
+call deoplete#custom#option('smart_case')
 
 " complete with words from any opened file
-"let g:context_filetype#same_filetypes = {}
-"let g:context_filetype#same_filetypes._ = '_'
+let g:context_filetype#same_filetypes = {}
+let g:context_filetype#same_filetypes._ = '_'
 
-" deoplete-rust""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let g:deoplete#sources#rust#racer_binary='/home/cristian/.cargo/bin/racer'
-"let g:deoplete#sources#rust#rust_source_path='/home/cristian/.cargo/rust/src/'
+" airline""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" coc""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Optional themes for airline/lightline
+let g:airline_theme='hybridline'
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

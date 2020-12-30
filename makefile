@@ -7,6 +7,8 @@ dot:
 
 vim:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+	mkdir -p ~/.local/share/fonts
+	cd ~/.local/share/fonts && curl -fLo "Nerd_Font.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 	mkdir -p ${HOME}/.config/nvim/
 	cp -p init.vim ${HOME}/.config/nvim/init.vim
 	cp -p init.map.vim ${HOME}/.config/nvim/init.map.vim
