@@ -1,0 +1,14 @@
+set backup
+set backupdir "~/.nano/"
+set historylog
+
+set linenumbers
+
+set titlecolor white,blue
+set numbercolor white
+set statuscolor white
+set keycolor white,blue
+set functioncolor white
+
+set tabstospaces
+set tabsize 2
