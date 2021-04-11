@@ -1,7 +1,8 @@
-.PHONY: vim rust dot
+.PHONY: vim dot
 
 dot:
 	cp -p .tmux.conf ${HOME}
+	cp -p .nanorc ${HOME}
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
 
