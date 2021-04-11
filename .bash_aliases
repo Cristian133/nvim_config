@@ -37,12 +37,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 
 # Caminos importantes
 alias cdb='cd $HOME/.local/bin/'
-alias cdf='cd $HOME/FUENTES/'
-alias cds='cd $HOME/FUENTES/SRC/'
-alias cdv='cd $HOME/FUENTES/SRC/ANALISIS_DE_LENGUAJES_DE_PROGRAMACION/CURSOR/'
-alias cdr='cd $HOME/FUENTES/REPOS/'
-alias cdp='cd $HOME/FUENTES/REPOS/phy2web/'
-alias cdh='cd $HOME/FUENTES/REPOS/phy2hibrido/'
+alias cdv='cd $HOME/dev/'
 
 # Prompt
 export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
@@ -58,9 +53,5 @@ alias path='echo -e ${PATH//:/\\n}'
 alias gs='git status'
 alias gl='git log --oneline --decorate --graph --all'
 
-# Language aliases
-alias rb='ruby'
-alias py='python'
-alias ipy='ipython'
 # mosml con rlwrap
 alias mosml='rlwrap mosml -P full'
