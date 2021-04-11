@@ -3,8 +3,11 @@
 dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}
+	cp -p .screenrc ${HOME}
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
+	cp -p ./bin/chpermfile ${HOME}/.local/bin/
+	cp -p ./bin/chpermdir ${HOME}/.local/bin/
 
 vim:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
