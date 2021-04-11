@@ -12,7 +12,7 @@ term screen-256color
 terminfo rxvt-unicode 'Co#256:AB=\E[48;5;%dm:AF=\E[38;5;%dm'
 
 # UFT8
-defutf8 on 
+defutf8 on
 utf8 on
 
 # Allow bold colors - necessary for some reason
@@ -30,11 +30,11 @@ defbce "on"
 # Cache 30000 lines for scroll back
 defscrollback 30000
 
-hardstatus alwayslastline 
+hardstatus alwayslastline
 # Very nice tabbed colored hardstatus line
 hardstatus string '%{= Kd} %{= Kd}%-w%{= Kr}[%{= KW}%n %t%{= Kr}]%{= Kd}%+w %-= %{KG} %H%{KW}|%{KY}%101`%{KW}|%D %M %d %Y%{= Kc} %C%A%{-}'
 
-# Hide hardstatus: ctrl-a f 
+# Hide hardstatus: ctrl-a f
 bind f eval "hardstatus ignore"
 # Show hardstatus: ctrl-a F
 bind F eval "hardstatus alwayslastline"
