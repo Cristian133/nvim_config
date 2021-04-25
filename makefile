@@ -1,8 +1,55 @@
-.PHONY: vim dot
+.PHONY: install vim dot desktop
+
+install:
+	sudo apt update
+	sudo apt install build-essential neovim mc tree tmux screen htop exuberant-ctags curl git rlwrap
+
+# Para compilar Felix
+gsoap:
+	sudo apt install gsoap libgsoap-dev libssl-dev
+
+# Para configurar dock
+desktop:
+	sudo apt install gnome-tweaks
+	gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 1.0
+
+texlive:
+	sudo apt install texlive texlive-lang-spanish
+
+markdown:
+	sudo apt pandoc texlive-latex-extra
+
+python:
+	sudo apt install python3-pip python3-dev python3-venv
+
+# Dependencias python3 neovim
+python_neovim:
+	sudo pip3 install pynvim flake8 pylint
+
+haskell:
+	sudo apt install haskell-platform
+
+forth:
+	sudo apt install gforth
+
+node:
+	curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
+	sudo apt install nodejs
+	npm install -g npm@latest
+
+angular:
+	sudo npm install -g @angular/cli@latest
+
+vscode:
+	sudo snap install --classic code
+
+zoom:
+	sudo snap install zoom-client
 
 dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}
+	mkdir -p ${HOME}/.nano
 	cp -p .screenrc ${HOME}
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
