@@ -29,8 +29,12 @@ Plug 'tpope/vim-fugitive'
 " Buffer browser
 Plug 'jlanzarotta/bufexplorer'
 
-"indentLine | tab
+" indentLine | tab
 Plug 'Yggdroot/indentLine'
+
+" Open a sidebar that shows you every mark that you can access from your current
+" buffer, as well as the contexts in which those marks appear.
+Plug 'Yilin-Yang/vim-markbar'
 
 " Highlighted yank Region
 Plug 'machakann/vim-highlightedyank'
@@ -45,6 +49,7 @@ Plug 'ryanoasis/vim-devicons'
 " Automatically close parenthesis, etc
 Plug 'Townk/vim-autoclose'
 
+" for web developmen""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " JS/TS
 "Plug 'pangloss/vim-javascript'    " JavaScript support
 "Plug 'leafgarland/typescript-vim' " TypeScript syntax

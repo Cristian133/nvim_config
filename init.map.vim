@@ -73,7 +73,7 @@ nmap <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 command W w !sudo tee % > /dev/null
 
 " open .vimrc
-map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim<CR>
+map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.map.vscode.vim<CR>
 
 "historial de búsquedas
 nmap <leader>b q/
@@ -84,7 +84,7 @@ nmap <leader>r :registers<CR>
 "listado de marcas
 nmap <leader>m :marks<CR>
 " historial de saltos
-nmap <Leader>j :call GotoJump()<CR>
+nmap <Leader>ju :call GotoJump()<CR>
 " muestra caracteres invisibles
 nmap <leader>ñ :set list!<CR>
 
@@ -117,24 +117,28 @@ nmap <leader><Up> ['
 nmap <leader><Down> ]'
 
 " buffers
-nmap <leader>h       :bnext<CR>
-nmap <leader>l       :bprevious<CR>
+nmap <leader>l       :bnext<CR>
+nmap <leader>h       :bprevious<CR>
 
 nmap <leader><Right> :bnext<CR>
 nmap <leader><Left>  :bprevious<CR>
 
-nmap <PageUp>   gg
-nmap <PageDown> G
+"nmap <PageUp>   gg
+"nmap <PageDown> G
 
-nmap <C-PageDown>    :bnext<CR>
-nmap <C-PageUp>      :bprevious<CR>
-
+"nmap <C-PageDown>    :bnext<CR>
+"nmap <C-PageUp>      :bprevious<CR>
 
 " windows
-nmap <C-Up> <C-W>k
-nmap <C-Down> <C-W>j
-nmap <C-Left> <C-W>h
-nmap <C-Right> <C-W>l
+"nmap <C-Left> <C-W>h
+"nmap <C-Down> <C-W>j
+"nmap <C-Up> <C-W>k
+"nmap <C-Right> <C-W>l
+
+nmap <C-h> <C-W>h
+nmap <C-j> <C-W>j
+nmap <C-k> <C-W>k
+nmap <C-l> <C-W>l
 
 " Yank and put system pasteboard with <Leader>y/p
 nnoremap <leader>y "+yy
@@ -165,38 +169,38 @@ vnoremap <M-S-Up> :t '<-1<CR>gv=gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Cut
-inoremap <C-x> <Esc>dd
-nnoremap <C-x> dd
-vnoremap <C-x> dd
+"inoremap <C-x> <Esc>dd
+"nnoremap <C-x> dd
+"vnoremap <C-x> dd
 
 " Copy
-inoremap <C-c> <Esc>yy
-nnoremap <C-c> yy
-vnoremap <C-c> yy
+"inoremap <C-c> <Esc>yy
+"nnoremap <C-c> yy
+"vnoremap <C-c> yy
 
 " Paste
-inoremap <C-v> <Esc>p
-nnoremap <C-v> p
+"inoremap <C-v> <Esc>p
+"nnoremap <C-v> p
 
 " Save
-inoremap <C-s> <Esc>:w<cr>
-nnoremap <C-s> :w<cr>
+"inoremap <C-s> <Esc>:w<cr>
+"nnoremap <C-s> :w<cr>
 
 " shift+arrow selection
-nnoremap <S-Up> v<Up>
-nnoremap <S-Down> v<Down>
-nnoremap <S-Left> v<Left>
-nnoremap <S-Right> v<Right>
+"nnoremap <S-Up> v<Up>
+"nnoremap <S-Down> v<Down>
+"nnoremap <S-Left> v<Left>
+"nnoremap <S-Right> v<Right>
 
-vnoremap <S-Up> <Up>
-vnoremap <S-Down> <Down>
-vnoremap <S-Left> <Left>
-vnoremap <S-Right> <Right>
+"vnoremap <S-Up> <Up>
+"vnoremap <S-Down> <Down>
+"vnoremap <S-Left> <Left>
+"vnoremap <S-Right> <Right>
 
-inoremap <S-Up> <Esc>v<Up>
-inoremap <S-Down> <Esc>v<Down>
-inoremap <S-Left> <Esc>v<Left>
-inoremap <S-Right> <Esc>v<Right>
+"inoremap <S-Up> <Esc>v<Up>
+"inoremap <S-Down> <Esc>v<Down>
+"inoremap <S-Left> <Esc>v<Left>
+"inoremap <S-Right> <Esc>v<Right>
 
 "replaces the word under cursor; after you can keep pressing '.'
 "nnoremap <Leader>x *``cgn

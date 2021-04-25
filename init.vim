@@ -45,7 +45,7 @@ if exists('g:vscode')
 
 else
 
-    " ordinary neovim
+    " neovim
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "" => Load Plugins
@@ -119,7 +119,7 @@ else
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
     " Set lines to the cursor - when moving vertically using j/k or Up/Down
-    set so=3
+    set so=0
 
     " Show line numbers or current line number
     " in combination with relativenumber
@@ -200,6 +200,7 @@ else
 
     set background=dark
     set conceallevel=3
+
     " Set encoding
     set encoding=utf8
 
@@ -228,24 +229,22 @@ else
 
     " Expand tabs to spaces.
     set expandtab
-
     " Be smart when using tabs.
     set smarttab
-
-    " Linebreak on 79 characters
-    set linebreak
-    set textwidth=79
-
-    set autoindent "Auto indent
-    set smartindent "Smart indent
-    set wrap "Wrap lines
 
     " Number of spaces to use for each step of indent.
     set shiftwidth=4
     set tabstop=4
 
+    set autoindent "Auto indent
+    set smartindent "Smart indent
+    set wrap "Wrap lines
+
+    " Linebreak on 79 characters
+    set linebreak
+    set textwidth=79
     " None word dividers
-    set isk+=_,$,@,%,#,-
+    "set isk+=_,$,@,%,#,-
 
     " Invisible characters
     set showbreak=↪\
