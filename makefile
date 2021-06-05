@@ -17,7 +17,7 @@ texlive:
 	sudo apt install texlive texlive-lang-spanish
 
 markdown:
-	sudo apt pandoc texlive-latex-extra
+	sudo apt install pandoc texlive-latex-extra
 
 python:
 	sudo apt install python3-pip python3-dev python3-venv
@@ -35,13 +35,16 @@ forth:
 node:
 	curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
 	sudo apt install nodejs
-	npm install -g npm@latest
+	sudo npm install -g npm@latest
 
 angular:
 	sudo npm install -g @angular/cli@latest
 
 vscode:
 	sudo snap install --classic code
+
+vlc:
+	sudo apt install vlc ubuntu-restricted-extras
 
 zoom:
 	sudo snap install zoom-client
