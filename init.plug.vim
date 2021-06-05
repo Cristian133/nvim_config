@@ -4,7 +4,7 @@
 "           cristian.andrione@gmail.com
 "
 " Version:
-"           04/04/2021
+"           05/06/2021
 "
 " Sections:
 "           -> Load Plugins and configs
@@ -21,9 +21,12 @@ call plug#begin('~/.config/nvim/plugged')
 
 " Code commenter
 Plug 'scrooloose/nerdcommenter'
+
 " Better file browser
 Plug 'scrooloose/nerdtree'
-"Plug 'Xuyuanp/nerdtree-git-plugin'
+
+" Git integration
+Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'tpope/vim-fugitive'
 
 " Buffer browser
@@ -32,6 +35,8 @@ Plug 'jlanzarotta/bufexplorer'
 " indentLine | tab
 Plug 'Yggdroot/indentLine'
 
+" colorized brackets
+
 " Open a sidebar that shows you every mark that you can access from your current
 " buffer, as well as the contexts in which those marks appear.
 Plug 'Yilin-Yang/vim-markbar'
@@ -39,6 +44,7 @@ Plug 'Yilin-Yang/vim-markbar'
 " Highlighted yank Region
 Plug 'machakann/vim-highlightedyank'
 
+" Status bar
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
@@ -49,20 +55,8 @@ Plug 'ryanoasis/vim-devicons'
 " Automatically close parenthesis, etc
 Plug 'Townk/vim-autoclose'
 
-" for web developmen""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" JS/TS
-"Plug 'pangloss/vim-javascript'    " JavaScript support
-"Plug 'leafgarland/typescript-vim' " TypeScript syntax
-"Plug 'maxmellon/vim-jsx-pretty'   " JS and JSX syntax
-"Plug 'jparise/vim-graphql'        " GraphQL syntax
-
 "let g:coc_global_extensions = [ 'coc-tsserver' ]
-"Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
-"" GoTo code navigation.
-"nmap <silent> <F12> <Plug>(coc-definition)
-"nmap <silent> gy <Plug>(coc-type-definition)
-"nmap <silent> gi <Plug>(coc-implementation)
-"nmap <silent> gr <Plug>(coc-references)
+Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
 
 call plug#end()
 
@@ -105,6 +99,8 @@ let g:airline_powerline_fonts = 0
 "let g:airline#extensions#whitespace#enabled = 0
 "let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tmuxline#enabled = 1
 

@@ -46,6 +46,16 @@ vscode:
 zoom:
 	sudo snap install zoom-client
 
+postman:
+	sudo snap install postman
+
+slack:
+	sudo snap install slack --classic
+
+compass:
+	wget https://downloads.mongodb.com/compass/mongodb-compass_1.26.1_amd64.deb
+	sudo dpkg -i mongodb-compass_1.26.1_amd64.deb
+
 dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}

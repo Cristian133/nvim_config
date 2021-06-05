@@ -13,7 +13,7 @@
 "           http://moelleken.org - lars@moelleken.org
 "
 " Version:
-"           15/01/2021
+"           05/06/2021
 "
 " Sections:
 "           -> Load Plugins
@@ -33,7 +33,7 @@
 
 if exists('g:vscode')
 
-    "VSCode
+    " VSCode
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     " => Load extra user-config
@@ -45,7 +45,7 @@ if exists('g:vscode')
 
 else
 
-    " neovim
+    " pure neovim
 
     """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
     "" => Load Plugins
@@ -71,9 +71,15 @@ else
     set swapfile
     set directory=$HOME/.config/nvim/swaps
 
-    set backup
-    set writebackup
-    set backupdir=$HOME/.config/nvim/backups
+
+    " coc.nvim
+    " Some servers have issues with backup files, see #649.
+    set nobackup
+    set nowritebackup
+
+    "set backup
+    "set writebackup
+    "set backupdir=$HOME/.config/nvim/backups
 
     set undofile
     set undodir=$HOME/.config/nvim/undo
@@ -126,7 +132,14 @@ else
     set number
 
     " Command bar height
-    set cmdheight=1
+    set cmdheight=2
+
+    " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+    " delays and poor user experience.
+    set updatetime=300
+
+    " Don't pass messages to |ins-completion-menu|.
+    set shortmess+=c
 
     " This makes vim act like all other editors, buffers can
     " exist in the background without being in a window.
@@ -202,7 +215,7 @@ else
     set conceallevel=3
 
     " Set encoding
-    set encoding=utf8
+    set encoding=utf-8
 
     set guifont=DroidSansMono\ Nerd\ Font\ 11
 
@@ -505,3 +518,12 @@ else
     endfunction
 
 endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => Load Configurations coc.nvim plugin
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+if filereadable($HOME . "/.config/nvim/init.coc.vim")
+    source ~/.config/nvim/init.coc.vim
+endif
+
