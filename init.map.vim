@@ -100,7 +100,7 @@ nnoremap gI `.
 nmap <leader>cd :cd %:p:h<CR>:pwd<CR>
 
 "go to NerdTree on the file you’re editing
-nnoremap <Leader>f :NERDTreeFind<CR>
+nnoremap <leader>f :NERDTreeFind<CR>
 
 " Disable highlight when <leader><CR> is pressed
 nmap <leader><CR> :noh<CR>

@@ -58,11 +58,18 @@ Plug 'Townk/vim-autoclose'
 "let g:coc_global_extensions = [ 'coc-tsserver' ]
 Plug 'neoclide/coc.nvim' , { 'branch' : 'release' }
 
+" color theme
+Plug 'pangloss/vim-javascript'
+
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Plugins Configurations
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-javascript
+"set conceallevel=1
+"map <leader>l :exec &conceallevel ? "set conceallevel=0" : "set conceallevel=1"<CR>
+let g:javascript_plugin_jsdoc = 1
 
 "NERDTree""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 

@@ -71,7 +71,6 @@ else
     set swapfile
     set directory=$HOME/.config/nvim/swaps
 
-
     " coc.nvim
     " Some servers have issues with backup files, see #649.
     set nobackup
@@ -206,7 +205,7 @@ else
     try
         "let g:hybrid_custom_term_colors = 1
         " Remove this line if using the default palette.
-        let g:hybrid_reduced_contrast = 1
+        "let g:hybrid_reduced_contrast = 1
         colorscheme hybrid
     catch
     endtry
