@@ -158,3 +158,6 @@ nnoremap <A-t> :call Term_toggle(7)<CR>
 inoremap <A-t> <Esc>:call Term_toggle(7)<CR>
 tnoremap <A-t> <C-\><C-n>:call Term_toggle(7)<CR>
 
+" mappings
+nmap ,r :Ack
+nmap ,wr :execute ":Ack " . expand('<cword>')<CR>

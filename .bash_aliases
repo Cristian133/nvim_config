@@ -16,14 +16,10 @@ alias E='exit'
 alias :q='exit'
 
 alias t='tmux'
-alias n='nano'
+alias rm='rm -i'
 
 alias l='ls -lah'
 alias ll='ls -lh'
-alias la='exa -abghHliS'
-alias le='exa -bghHliS'
-alias lt='exa --long --tree'
-alias lta='exa -abghHltS'
 
 alias ..='cd ..'
 alias ...='cd ../..'
