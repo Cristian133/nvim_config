@@ -17,6 +17,8 @@
 "           -> Move and copy lines or selected blocks
 "           -> Cut, copy and paste, seva, select all, indent all
 "           -> Terminal
+"           -> Coc
+"           -> Fzf
 "
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
@@ -83,7 +85,7 @@ nmap <silent> <F12> <Plug>(coc-definition)
 command W w !sudo tee % > /dev/null
 
 " open .vimrc
-map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.map.vscode.vim ~/.config/nvim/init.coc.vim<CR>
+map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim<CR>
 
 " muestra caracteres invisibles
 nmap <leader>ñ :set list!<CR>
@@ -93,8 +95,8 @@ nmap <leader>ñ :set list!<CR>
 nnoremap gI `.
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search).
-" nmap <space> /
-" nmap <C-space> ?
+nmap <space> /
+nmap <C-space> ?
 
 " Switch CWD to the directory of the open buffer
 nmap <leader>cd :cd %:p:h<CR>:pwd<CR>
@@ -115,7 +117,9 @@ nmap <leader><Down> ]'
 
 " buffers
 nmap <leader><Right> :bnext<CR>
+nmap <leader>l :bnext<CR>
 nmap <leader><Left>  :bprevious<CR>
+nmap <leader>h :bprevious<CR>
 
 " windows
 map <A-w> <C-w>
@@ -158,3 +162,41 @@ nnoremap <A-t> :call Term_toggle(7)<CR>
 inoremap <A-t> <Esc>:call Term_toggle(7)<CR>
 tnoremap <A-t> <C-\><C-n>:call Term_toggle(7)<CR>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" =>  Coc
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" GoTo code navigation.
+nmap <leader>gd <Plug>(coc-definition)
+"nmap <leader>gy <Plug>(coc-type-definition)
+"nmap <leader>gi <Plug>(coc-implementation)
+"nmap <leader>gr <Plug>(coc-references)
+"nmap <leader>rr <Plug>(coc-rename)
+"nmap <leader>g[ <Plug>(coc-diagnostic-prev)
+"nmap <leader>g] <Plug>(coc-diagnostic-next)
+"nmap <silent> <leader>gp <Plug>(coc-diagnostic-prev-error)
+"nmap <silent> <leader>gn <Plug>(coc-diagnostic-next-error)
+nnoremap <leader>cr :CocRestart
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" =>  Fzf
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" file finder mapping
+nmap <leader>z :Files<CR>
+" tags (symbols) in current file finder mapping
+"nmap <leader>g :BTag<CR>
+" the same, but with the word under the cursor pre filled
+"nmap <leader>wg :execute ":BTag " . expand('<cword>')<CR>
+" tags (symbols) in all files finder mapping
+"nmap <leader>G :Tags<CR>
+" the same, but with the word under the cursor pre filled
+"nmap <leader>wG :execute ":Tags " . expand('<cword>')<CR>
+" general code finder in current file mapping
+"nmap <leader>bf :BLines<CR>
+" the same, but with the word under the cursor pre filled
+"nmap <leader>wf :execute ":BLines " . expand('<cword>')<CR>
+" general code finder in all files mapping
+nmap <leader>Z :Lines<CR>
+" the same, but with the word under the cursor pre filled
+"nmap <leader>wF :execute ":Lines " . expand('<cword>')<CR>
+" commands finder mapping
+"nmap <leader>c :Commands<CR>
