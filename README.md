@@ -79,11 +79,15 @@ Probado en Ubuntu 20.4:
 	    cp -p .tmux.conf ${HOME}
 	    cp -p .nanorc ${HOME}
         mkdir -p ${HOME}/.nano
-        cp -p .screenrc ${HOME}
         cp -p .bash_aliases ${HOME}
         mkdir -p ${HOME}/.local/bin
         cp -p ./bin/chpermfile ${HOME}/.local/bin/
         cp -p ./bin/chpermdir ${HOME}/.local/bin/
+
+### Fish
+    fish:
+	    sudo apt install fish
+	    cp -p .config.fish ${HOME}/.config/fish/
 
 ### Neovim
 
@@ -98,8 +102,6 @@ Probado en Ubuntu 20.4:
         mkdir -p ${HOME}/.config/nvim/backups
         mkdir -p ${HOME}/.config/nvim/colors
         curl -LSso ${HOME}/.config/nvim/colors/hybrid.vim https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim
-        mkdir -p ${HOME}/.config/nvim/help
-        cp -p help.txt ${HOME}/.config/nvim/help/
         mkdir -p ${HOME}/.config/nvim/plugged
         mkdir -p ${HOME}/.config/nvim/swaps
         mkdir -p ${HOME}/.config/nvim/tmp

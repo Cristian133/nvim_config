@@ -18,6 +18,7 @@
 " Sections:
 "           -> Load Plugins
 "           -> Load extra user-config
+"           -> Load Configurations coc.nvim plugin
 "           -> Files, backups and undo
 "           -> General
 "           -> VIM user interface
@@ -25,6 +26,7 @@
 "           -> Parenthesis/bracket
 "           -> Text, tab and indent related
 "           -> Blank space treatments
+"           -> Status line
 "           -> File types
 "           -> Vimdiff
 "           -> Helper functions
@@ -40,13 +42,12 @@ if filereadable($HOME . "/.config/nvim/init.plug.vim")
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Load extra user-config
+"" => Load extra user-config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 if filereadable($HOME . "/.config/nvim/init.map.vim")
     source ~/.config/nvim/init.map.vim
 endif
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Files, backups and undo
@@ -55,15 +56,20 @@ endif
 set swapfile
 set directory=$HOME/.config/nvim/swaps
 
-set backup
-set writebackup
-set backupdir=$HOME/.config/nvim/backups
+" coc.nvim
+" Some servers have issues with backup files, see #649.
+set nobackup
+set nowritebackup
+
+"set backup
+"set writebackup
+"set backupdir=$HOME/.config/nvim/backups
 
 set undofile
 set undodir=$HOME/.config/nvim/undo
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+"" => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " This changes the values of a LOT of options, enabling features
@@ -98,8 +104,10 @@ set history=1000
 " Tell us about changes.
 set report=0
 
+set mouse=a
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+"" => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Set lines to the cursor - when moving vertically using j/k or Up/Down
@@ -110,7 +118,7 @@ set so=0
 set number
 
 " Command bar height
-set cmdheight=2
+set cmdheight=1
 
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
@@ -176,15 +184,12 @@ set completeopt-=preview
 set wildmode=list:longest
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+"" => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn on color syntax highlight
 syntax enable
 
 try
-    "let g:hybrid_custom_term_colors = 1
-    " Remove this line if using the default palette.
-    "let g:hybrid_reduced_contrast = 1
     colorscheme hybrid
 catch
 endtry
@@ -215,7 +220,7 @@ set matchpairs+=<:>
 set mat=2
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Text, tab and indent related
+"" => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Expand tabs to spaces.
@@ -251,7 +256,7 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 au BufRead *.pdf sil exe "!xdg-open " . shellescape(expand("%:p")) | bd | let &ft=&ft | redraw!
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Blank space treatments
+"" => Blank space treatments
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 "Highlight spaces at the end of the line
@@ -293,7 +298,7 @@ set statusline+=\ %3*%3l:%-2c\         " line + column
 set statusline+=\ %3p%%\                " percentage
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => File types
+"" => File types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " automatic commands
@@ -344,7 +349,7 @@ function! Build()
 endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Vimdiff
+"" => Vimdiff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Ignore whitespace in vimdiff.
@@ -354,7 +359,7 @@ endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Helper functions
+"" => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " terminal
@@ -526,12 +531,3 @@ function! GotoJump()
         endif
     endif
 endfunction
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" => Load Configurations coc.nvim plugin
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-if filereadable($HOME . "/.config/nvim/init.coc.vim")
-    source ~/.config/nvim/init.coc.vim
-endif
-
