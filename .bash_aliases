@@ -1,12 +1,3 @@
-##############################################################################
-# Mantiene:
-#           Cristian Andrione
-#           cristian.andrione@gmail.com
-#
-# Archivo: ~/.bash_aliases para .bashrc
-#
-##############################################################################
-
 # super user
 alias _='sudo'
 
@@ -20,6 +11,7 @@ alias n='nano'
 
 alias l='ls -lah'
 alias ll='ls -lh'
+
 alias la='exa -abghHliS'
 alias le='exa -bghHliS'
 alias lt='exa --long --tree'
@@ -38,6 +30,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 # Caminos importantes
 alias cdb='cd $HOME/.local/bin/'
 alias cdv='cd $HOME/dev/'
+alias cdn='cd $HOME/dev/node_learn'
 
 # Prompt
 export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
@@ -55,3 +48,6 @@ alias gl='git log --oneline --decorate --graph --all'
 
 # mosml con rlwrap
 alias mosml='rlwrap mosml -P full'
+
+# oh-my-zsh
+export ZSH_CUSTOM="/home/cristian/.oh-my-zsh/custom"

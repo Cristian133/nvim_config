@@ -1,0 +1,370 @@
+# -*- shell-script -*-
+# Joerg Arndt's  .alias
+# ... online at http://www.jjj.de/
+# your feedback is welcome  mailto: arndt (AT) jjj.de
+# version: 2020-January-14 (13:51)
+
+#set -vx
+
+#alias ud='unset DISPLAY'
+#alias d0='export DISPLAY=:0'
+#alias beep='echo -en "\033[10;1729]\a"'
+
+alias e='exit'
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'
+
+# mosml con rlwrap
+alias mosml='rlwrap mosml -P full'
+
+alias ls='ls -N -T 0 --color=tty'
+alias l='ls -sF'
+alias ll='ls -lhF --time-style=long-iso'
+alias la='ls -lahF --time-style=long-iso'
+alias lr='ls -sRF --time-style=long-iso'
+alias lt='ls -sltrhF --time-style=long-iso'
+
+function l.   { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF  --time-style=long-iso .[^\.]*; ); }
+function lse  { ( if test -d "$1";  then cd $1;  fi  &&  ls -lFA  --time-style=long-iso | grep [*]; ); }
+#function lsd  { ( if test -d "$1";  then cd $1;  fi  &&  ls -lF | grep [/]; ); }
+function lsd  { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF  --time-style=long-iso $(find . -maxdepth 1 -type d); ); }
+
+alias z='ls -shF'
+alias zz='ls -lhF --time-style=long-iso'
+alias zzz='clear; ls -lhF --time-style=long-iso'
+alias y='ls -shF --time-style=long-iso'
+alias yy='ls -lhF --time-style=long-iso'
+alias yyy='clear; ls -lhF --time-style=long-iso'
+#alias t='clear; ls -sltrF'
+alias t='ls -strhF'
+alias tt='ls -sltrhF --time-style=long-iso'
+alias ttt='clear; ls -sltrhF --time-style=long-iso'
+
+alias val='valgrind --tool=memcheck --leak-check=full --show-reachable=yes --error-exitcode=1'
+
+# history aliases h hh hhh
+function h { history -20; }
+function hh { history -70; }
+function hhh { history 0; }
+alias help=run-help
+
+
+function pdiff { /usr/bin/pdiff -q $* -- -Pdisplay & }
+
+alias chmod='chmod -c'
+alias -- +r='chmod -c +r'
+alias -- -r='chmod -c og-r'
+alias -- +x='chmod -c +x'
+alias -- -x='chmod -c -x'
+
+alias chown='chown -c'
+
+#alias tree='tree -n'
+
+#alias cal='cal -m'
+
+#function same  { diff --minimal --new-line-format='' --old-line-format='' $*; }
+
+alias md='mkdir'
+alias rd='rmdir'
+alias mv='mv -iv'
+
+#function dmv
+#{
+#    if test -d $2; then
+#        mv -iv $1 $2;
+#    else
+#        echo "Not a directory: $2" 1>&2;
+#    fi;
+#}
+
+alias m='make'
+#alias mr='make -r'
+alias mw='make -r --warn-undefined-variables'
+#alias 1='make 1'
+
+#alias o='more'
+
+#alias pstree='pstree -A'
+
+alias v='less'
+#function v
+#{
+#    if test -n "$1" -a \! -f "$1"; then
+#        ls -N -T 0 --color=tty -lF "$1";
+#    else
+#        less "$1";
+#    fi
+#}
+
+
+function ww
+{ ## find file and launch viewer
+    local F="$(jj $1)";
+    local z=$(echo ${=F} | sed 's/ /\n/g' | wc -l);
+#    echo "F=[$F]";
+    if [ "$F" = "" ]; then
+        echo "Nothing found.";
+        return;
+    fi
+    if [ "$z" = "1" ]; then
+    ## one choice: launch without selection
+        echo $F;
+        vv $F;
+    else
+        select f in ${=F}; do
+            echo $f;
+            vv $f;
+            break;
+        done
+    fi
+}
+
+#function ev  { for x in $*; do eval "echo export $x=\$$x"; done; }
+#function ev  { for x in $*; do echo "export $x=${!x}"; done; }
+
+function rand128
+{ dd if=/dev/urandom count=1 2>/dev/null | md5sum -b | cut -d' ' -f1; }
+
+# avoid mc changing directories:
+#function mc  { /usr/bin/mc "$@"; }
+# else use:
+#function mc
+#{
+#    mkdir -p $HOME/.mc/tmp 2>/dev/null;
+#    chmod 700 $HOME/.mc/tmp;
+#    MC=$HOME/.mc/tmp/mc-$$;
+#    /usr/bin/mc -P "$@" >"$MC";
+#    cd "`cat $MC`";
+#    rm -f "$MC";
+#    unset MC
+#}
+
+
+# requires nice to be suid root:
+#alias ugly='nice -n -20'
+
+
+# create same prompt followed by newline:
+# ... and make it available via this toggle:
+# (nice if prompt tends to fill a whole line)
+# (fails with zsh)
+#function  p
+#{
+#    local tt=$PS1; export PS1=$TPS1; export TPS1=$tt;
+#}
+
+
+## for xterm control-sequences see
+## http://www.kitebird.com/csh-tcsh-book/ctlseqs.ps
+## http://invisible-island.net/xterm/ctlseqs/ctlseqs.html
+## We need to allow font-operations, cf. xterm*allowColorOps (in ~/.Xresources)
+# eXtrahuge font:
+#alias fnx='echo -en "\033]50;-adobe-courier-*-r-normal--*-240-*-*-m-*-iso8859-1\07"'
+## Huge font:
+#alias fnh='echo -en "\033]50;-adobe-courier-*-r-normal-*-18-*-*-*-m-*-iso8859-1\07"'
+## Big font:
+##alias fnb='echo -en "\033]50;9x15bold\07"'
+## Bold font:
+#alias fnb='echo -en "\033]50;8x13bold\07"'
+## Normal font:
+##alias fnn='echo -en "\033]50;8x13bold\07"'
+#alias fnn='echo -en "\033]50;-b&h-lucidatypewriter-medium-r-normal-sans-12-120-75-75-m-70-iso10646-1\07"'
+## Small font:
+#alias fns='echo -en "\033]50;6x13\07"'
+## lucida font:
+#alias fnl='echo -en "\033]50;lucidasanstypewriter-12\07"'
+## Tiny font:
+#alias fnt='echo -en "\033]50;6x10\07"'
+## Unreadable font:
+#alias fnu='echo -en "\033]50;5x8\07"'
+### try:  fnu; make a_lot; fnn
+
+# set some font:
+function  fn  { echo -en "\033]50;$1\07"; }
+
+# Iconify xterm:
+function  ic  { echo -en "\033[2t"; }
+
+# Restore (de-iconify) xterm:
+function  re  { usleep 100000;  echo -en "\033[1t"; }
+## try:  ic; make a_lot; re
+
+# ForeGround Color:
+function fgc { echo -en "\033]10;$1\07"; }
+# BackGround Color:
+function bgc { echo -en "\033]11;$1\07"; }
+# Black On White:
+function bow { fgc black; bgc white; }
+# White On Black:
+function wob { fgc white; bgc black; }
+
+#alias p=  ## in .jjbashrc and .jjzshrc
+#alias pp= ## in .jjbashrc and .jjzshrc
+
+#alias mcopy='mcopy -v'
+#alias mdel='mdel -v'
+
+alias g='grep --color --line-buffered'
+alias gi='grep --color -i --line-buffered'
+
+#alias vi='vim'
+
+alias -- +='pushd .'
+alias -- -='popd'
+alias -- ..='cd ..'
+alias -- ...='cd ../..'
+alias u='cd ..'
+alias uu='cd ../..'
+alias uuu='cd ../../..'
+
+alias rd='rmdir'
+alias md='mkdir -p'
+
+alias j='jobs'
+
+alias rehash='hash -r'
+
+# a2ps --list=defaults
+# --prologue=bold
+#alias a2ps='a2ps --output=-'
+alias ps1='a2ps -M A4 --output=- --columns=1 --rows=1 --portrait  --major=rows -L70'
+alias ps2='a2ps -M A4 --output=- --columns=2 --rows=1 --landscape --major=rows -L70'
+
+
+#alias ff='locate'
+function ff  { find $1 -name '*'$2'*' | sort; }
+#alias fh='find . -name'
+function fh  { find . -name '*'$1'*' | sort; }
+
+if [ -f /var/lib/locatedb.jj ]; then
+    function jj { grep $* /var/lib/locatedb.jj; }
+    function dup
+    { LST=$(grep -E "/$1\$" /var/lib/locatedb.jj);  test -n "$LST" && ls -ldF $LST; }
+else
+    alias jj='locate'
+fi
+
+#alias mc='mc -c'
+#alias mu='(ulimit -v 700000; exec /usr/local/bin/mupad -S)'
+#alias xmu='(ulimit -v 700000; exec /usr/local/bin/xmupad -S) &'
+
+#alias sage='/usr/local/sage/sage'
+
+#alias bz='bzip2'
+
+#alias unix2dos='recode lat1..ibmpc'
+#alias dos2unix='recode ibmpc..lat1'
+#alias u2d='recode lat1..ibmpc'
+#alias d2u='recode ibmpc..lat1'
+#
+#alias unzip='unzip -La'
+#alias which='type -p'
+
+#alias mupdf='mupdf -r 110'
+
+function zrc
+{
+    pdftotext -raw $* - | grep 'zrender';
+}
+
+## emacs:
+function  ee
+{
+    if [ -z "$DISPLAY" ]; then
+        emacs -nw -no-site-file $*;
+    else
+#        (emacs -no-site-file  -fn 8x13bold $* & );
+        (emacs -no-site-file  -fn 'DejaVu Sans Mono-10:bold' $* & );
+        : 'for zero exit status'
+    fi;
+}
+
+#function  EE
+#{
+#    ee -fn 'DejaVu Sans Mono-10' $*;
+##    ee $* --eval '(set-default-font jj-large-font)';
+#}
+
+## emacs, read-only:
+function  eer
+{
+    if [ -z "$DISPLAY" ]; then
+        emacs -nw -no-site-file $*  --eval '(setq buffer-read-only t)';
+    else
+#        (emacs -no-site-file -fn 8x13bold $*  --eval '(setq buffer-read-only t)' & );
+        (emacs -no-site-file -fn 'DejaVu Sans Mono-10:bold' $*  --eval '(setq buffer-read-only t)' & );
+        : 'for zero exit status'
+    fi;
+}
+
+## big emacs window:
+function  eee
+{
+    ee -g 102x87 $*
+}
+
+alias gp='gp -q'
+#alias gp='gp -q -s 600M'
+#alias gp='gp-2.4 -q -s 2600M'
+#alias gp='gp-2.5 -q -s 2600M'
+#function  jjfactor  { echo "factor($@)" | \gp -q; }
+#function  jjisprime  { echo 'print(isprime('$@'))' | \gp -q | grep -F 1 >/dev/null }
+function  jjfactor  { echo 'print('$@'," = ",factor('$@'))' | \gp -q | sed 's/, /^/g; s/\^1\b//g; s/; /./g'; }
+#function  jjsfactor  { echo 't='$@'; print(t,"^2+1 = ",factor(t^2+1))' | \gp -q | sed 's/, /^/g; s/\^1\b//g; s/; /./g;'; }
+
+function  mgda
+{
+    local A=$1;  local B=$2;
+    if [ -d $1 ]; then A=$A/$(basename $2); fi
+    if [ -d $2 ]; then B=$B/$(basename $1); fi
+    wdiff -n \
+        -w $'\033[30;41m' -x $'\033[0m' \
+        -y $'\033[30;42m' -z $'\033[0m' \
+        $A $B | less -R
+}
+
+function  mgd
+{
+    local A=$1;  local B=$2;
+    if [ -d $1 ]; then A=$A/$(basename $2); fi
+    if [ -d $2 ]; then B=$B/$(basename $1); fi
+#    mgdiff -g 1200x1000+0+0 -args "-dbwB"  $A $B  &
+    /usr/bin/mgdiff -g 1900x1600+0+0 -fn '10x20'  -args "-dbw"  $A $B  &
+}
+# diff --help
+#  -B  --ignore-blank-lines  Ignore changes whose lines are all blank.
+## NOTE: mgdiff chokes on -B (incorrect output)
+#  -w  --ignore-all-space  Ignore all white space.
+#  -b  --ignore-space-change  Ignore changes in the amount of white space.
+#  -d  --minimal  Try hard to find a smaller set of changes.
+
+#function  mgdiff
+#{
+#    local A=$1;  local B=$2;
+#    if [ -d $1 ]; then A=$A/$(basename $2); fi
+#    if [ -d $2 ]; then B=$B/$(basename $1); fi
+#    /usr/bin/mgdiff -g 1200x1000+0+0 $A $B  &
+#}
+
+function  startx { echo "Use xinit"; }
+
+#function  startx
+#{
+#    local OF=/tmp/xouterr.txt;
+#    touch $OF;
+#    'chmod' og+rw $OF;
+##    /usr/X11R6/bin/startx $* 2>&1 | tee $OF;
+##    /usr/X11R6/bin/startx $* &> $OF;
+#    /usr/bin/X11/startx $* &> $OF;
+#}
+
+
+#function  reval
+#{
+#    eval ${*#\#*};
+#}
+### try: reval $(grep 'revaltest$' ~/.alias)
+## echo 'reval is fine'  ## revaltest
+
