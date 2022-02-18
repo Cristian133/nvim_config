@@ -59,6 +59,11 @@ compass:
 
 zsh:
 	sudo apt install zsh
+	sudo chsh -s $(which zsh)
+	sudo apt install fonts-cascadia-code
+	curl -fsSL https://raw.github.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+	git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
+	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
 dot:
 	cp -p .tmux.conf ${HOME}
