@@ -108,6 +108,9 @@ vim:
 	mkdir -p ${HOME}/.config/nvim/tmp
 	mkdir -p ${HOME}/.config/nvim/undo
 
+tmux:
+	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
 rust:
 	curl -sf -L https://static.rust-lang.org/rustup.sh | sh
 	rustc --version
