@@ -26,8 +26,8 @@ Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/nerdtree'
 
 " Fzf
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
+" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+" Plug 'junegunn/fzf.vim'
 
 " Git integration
 Plug 'Xuyuanp/nerdtree-git-plugin'
@@ -47,13 +47,13 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Use release branch (recommend)
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 " Angular Language Server coc extension
 "Plug 'iamcco/coc-angular'
 
 " If you have nodejs and yarn
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
 
 call plug#end()
 

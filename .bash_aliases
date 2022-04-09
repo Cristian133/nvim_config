@@ -12,11 +12,6 @@ alias n='nano'
 alias l='ls -lah'
 alias ll='ls -lh'
 
-alias la='exa -abghHliS'
-alias le='exa -bghHliS'
-alias lt='exa --long --tree'
-alias lta='exa -abghHltS'
-
 alias ..='cd ..'
 alias ...='cd ../..'
 
@@ -27,13 +22,26 @@ function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
 
 HISTTIMEFORMAT="%d/%m/%y %T "
 
-# Caminos importantes
+# important paths
 alias cdb='cd $HOME/.local/bin/'
 alias cdv='cd $HOME/dev/'
 alias cdn='cd $HOME/dev/node_learn'
 
+# node version in prompt
+_node_version()
+{
+  local br
+  br=$(node -v)
+  test -n "$br" && printf %s "$br" || :
+}
+
+green=$'\e[1;32m'
+magenta=$'\e[1;35m'
+normal_colours=$'\e[m'
+
 # Prompt
-export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
+PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
+export PS1="${PS1:0:$((${#PS1} - 2))} \[$magenta\]\$(_node_version)\[$normal_colours\]\$ "
 unset color_prompt force_color_prompt
 
 # IP

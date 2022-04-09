@@ -85,7 +85,7 @@ nmap <silent> <F12> <Plug>(coc-definition)
 command W w !sudo tee % > /dev/null
 
 " open .vimrc
-map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.bash_aliases ~/.tmux.conf ~/.gitconfig ~/.zshrc ~/.zsh-spaceship-theme-config ~/.alias<CR>
+map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.bash_aliases ~/.tmux.conf ~/.gitconfig ~/.zshrc ~/.zsh-spaceship-theme-config ~/.zsh_aliases<CR>
 
 " muestra caracteres invisibles
 nmap <leader>ñ :set list!<CR>
