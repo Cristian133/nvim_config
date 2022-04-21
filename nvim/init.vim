@@ -179,6 +179,13 @@ set completeopt+=noinsert
 " (displays documentation related to the selected completion option)
 set completeopt-=preview
 
+lua << EOF
+require("lspconfig").pylsp.setup{}
+EOF
+
+" use omni completion provided by lsp
+autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+
 " autocompletion of files and commands behaves like shell
 " (complete only the common part, list the options that match)
 set wildmode=list:longest
@@ -191,6 +198,7 @@ syntax enable
 
 try
     colorscheme hybrid
+    "colorscheme adwaita
 catch
 endtry
 
