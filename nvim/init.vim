@@ -36,6 +36,11 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Load Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" To use fancy symbols wherever possible, change this setting from 0 to 1
+" and use a font from https://github.com/ryanoasis/nerd-fonts in your terminal
+" (if you aren't using one of those fonts, you will see funny characters here.
+" Turst me, they look nice when using one of those fonts).
+let fancy_symbols_enabled = 0
 
 if filereadable($HOME . "/.config/nvim/init.plug.vim")
     source ~/.config/nvim/init.plug.vim
@@ -44,15 +49,20 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Load extra user-config
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 if filereadable($HOME . "/.config/nvim/init.map.vim")
     source ~/.config/nvim/init.map.vim
+endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"" => Load coc-config
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if filereadable($HOME . "/.config/nvim/init.coc.vim")
+    source ~/.config/nvim/init.coc.vim
 endif
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 set swapfile
 set directory=$HOME/.config/nvim/swaps
 
@@ -71,7 +81,6 @@ set undodir=$HOME/.config/nvim/undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " This changes the values of a LOT of options, enabling features
 " which are not Vi compatible but really nice.
 set nocompatible
@@ -109,7 +118,6 @@ set mouse=a
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Set lines to the cursor - when moving vertically using j/k or Up/Down
 set so=0
 
@@ -179,12 +187,15 @@ set completeopt+=noinsert
 " (displays documentation related to the selected completion option)
 set completeopt-=preview
 
-lua << EOF
-require("lspconfig").pylsp.setup{}
-EOF
+"lua << EOF
+"require("lspconfig").angularls.setup{
+"    on_attach = on_attach,
+"    capabilities = capabilities,
+"}
+"EOF
 
 " use omni completion provided by lsp
-autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
+"autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
 
 " autocompletion of files and commands behaves like shell
 " (complete only the common part, list the options that match)
@@ -206,7 +217,7 @@ set background=dark
 set conceallevel=3
 
 " Set encoding
-set encoding=utf-8
+set encoding=utf8
 
 set guifont=DroidSansMono\ Nerd\ Font\ 11
 
@@ -217,7 +228,6 @@ set fileformats=unix,dos,mac
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Parenthesis/bracket
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Show matching brackets when text indicator is over them.
 set showmatch
 
@@ -230,7 +240,6 @@ set mat=2
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Expand tabs to spaces.
 set expandtab
 " Be smart when using tabs.
@@ -266,7 +275,6 @@ au BufRead *.pdf sil exe "!xdg-open " . shellescape(expand("%:p")) | bd | let &f
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Blank space treatments
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 "Highlight spaces at the end of the line
 if has('autocmd')
     highlight ExtraWhitespace ctermbg=1 guibg=red
@@ -276,7 +284,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => File types
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " automatic commands
 if has("autocmd")
     " file type detection
@@ -327,7 +334,6 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Vimdiff
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Ignore whitespace in vimdiff.
 if &diff
     set diffopt+=iwhite
@@ -337,7 +343,6 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Helper functions
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " terminal
 let g:term_buf = 0
 let g:term_win = 0

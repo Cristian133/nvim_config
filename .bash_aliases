@@ -25,7 +25,10 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 # important paths
 alias cdb='cd $HOME/.local/bin/'
 alias cdv='cd $HOME/dev/'
-alias cdn='cd $HOME/dev/node_learn'
+alias cdp='cd $HOME/dev/python'
+alias cdr='cd $HOME/dev/repos'
+alias cda='cd $HOME/dev/angular'
+alias cdc='cd $HOME/dev/cpp'
 
 # node version in prompt
 _node_version()
@@ -40,8 +43,8 @@ magenta=$'\e[1;35m'
 normal_colours=$'\e[m'
 
 # Prompt
-PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 '->(%s)')\[\033[00m\]\$ "
-export PS1="${PS1:0:$((${#PS1} - 2))} \[$magenta\]\$(_node_version)\[$normal_colours\]\$ "
+export PS1="\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[1;33m\]\$(__git_ps1 ' -> (%s)')\[\033[00m\]\$ "
+# export PS1="${PS1:0:$((${#PS1} - 2))} node \[$magenta\]\$(_node_version)\[$normal_colours\] \$ "
 unset color_prompt force_color_prompt
 
 # IP
@@ -53,9 +56,3 @@ alias path='echo -e ${PATH//:/\\n}'
 # alias git
 alias gs='git status'
 alias gl='git log --oneline --decorate --graph --all'
-
-# mosml con rlwrap
-alias mosml='rlwrap mosml -P full'
-
-# oh-my-zsh
-export ZSH_CUSTOM="/home/cristian/.oh-my-zsh/custom"

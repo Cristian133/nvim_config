@@ -4,7 +4,7 @@
 "           cristian.andrione@gmail.com
 "
 " Version:
-"           05/06/2021
+"           19/06/2022
 "
 " Sections:
 "           -> Load Plugins and configs
@@ -15,23 +15,24 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Load Plugins and configs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Plugins Folder
 call plug#begin('~/.config/nvim/plugged')
 
-" Code commenter
-Plug 'scrooloose/nerdcommenter'
+"This plugin provides a start screen for Vim and Neovim.
+Plug 'mhinz/vim-startify'
 
 " Better file browser
 Plug 'scrooloose/nerdtree'
 
+" Code commenter
+Plug 'scrooloose/nerdcommenter'
+
 " Fzf
-" Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-" Plug 'junegunn/fzf.vim'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 
 " Git integration
 Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
 
 " Buffer browser
 Plug 'jlanzarotta/bufexplorer'
@@ -46,14 +47,12 @@ Plug 'machakann/vim-highlightedyank'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" Nice icons in the file explorer and file type status line.
+Plug 'ryanoasis/vim-devicons'
+Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+
 " Use release branch (recommend)
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}
-
-" Angular Language Server coc extension
-"Plug 'iamcco/coc-angular'
-
-" If you have nodejs and yarn
-" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}
 
 call plug#end()
 
@@ -93,7 +92,6 @@ highlight HighlightedyankRegion cterm=reverse gui=reverse
 " Optional theme for airline/lightline
 let g:airline_theme = 'bubblegum'
 
-let g:airline_powerline_fonts = 0
 let g:airline#extensions#whitespace#enabled = 0
 let g:airline#extensions#hunks#enabled=0
 let g:airline#extensions#tabline#enabled = 1
@@ -102,15 +100,12 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tmuxline#enabled = 1
 
-" Enable folder icons
-let g:WebDevIconsUnicodeDecorateFolderNodes = 1
-let g:DevIconsEnableFoldersOpenClose = 1
-
+let g:airline_powerline_fonts = 1
+let g:webdevicons_gui_glyph_fix = 1
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" =>  NERDCommenter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Create default mappings
 let g:NERDCreateDefaultMappings = 1
 
@@ -137,3 +132,43 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
+
+
+" you can add these colors to your .vimrc to help customizing
+let s:brown = "905532"
+let s:aqua =  "3AFFDB"
+let s:blue = "689FB6"
+let s:darkBlue = "44788E"
+let s:purple = "834F79"
+let s:lightPurple = "834F79"
+let s:red = "AE403F"
+let s:beige = "F5C06F"
+let s:yellow = "F09F17"
+let s:orange = "D4843E"
+let s:darkOrange = "F16529"
+let s:pink = "CB6F6F"
+let s:salmon = "EE6E73"
+let s:green = "8FAA54"
+let s:lightGreen = "31B53E"
+let s:white = "FFFFFF"
+let s:spec_red = 'FE405F'
+let s:git_orange = 'F54D27'
+
+let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
+let g:NERDTreeExtensionHighlightColor['js'] = s:yellow " sets the color of css files to blue
+let g:NERDTreeExtensionHighlightColor['ts'] = s:blue " sets the color of css files to blue
+let g:NERDTreeExtensionHighlightColor['conf'] = s:git_orange " sets the color of css files to blue
+let g:NERDTreeExtensionHighlightColor['md'] = s:blue " sets the color of css files to blue
+
+let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
+let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange " sets the color for .gitignore files
+let g:NERDTreeExactMatchHighlightColor['.gitconfig'] = s:git_orange " sets the color for .gitignore files
+let g:NERDTreeExactMatchHighlightColor['.bashrc'] = s:git_orange " sets the color for .gitignore files
+let g:NERDTreeExactMatchHighlightColor['.zshrc'] = s:git_orange " sets the color for .gitignore files
+let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:lightGreen " sets the color for .gitignore files
+
+let g:NERDTreePatternMatchHighlightColor = {} " this line is needed to avoid error
+let g:NERDTreePatternMatchHighlightColor['*\.spec\.ts$'] = s:spec_red " sets the color for files ending with .spec.ts
+
+let g:WebDevIconsDefaultFolderSymbolColor = s:beige " sets the color for folders that did not match any rule
+let g:WebDevIconsDefaultFileSymbolColor = s:blue " sets the color for files that did not match any rule

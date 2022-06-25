@@ -26,7 +26,6 @@
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Leader key
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Change leader from backslash to comma
 " That means all \x commands turn into ,x
 let mapleader = ","
@@ -35,7 +34,6 @@ let g:mapleader = ","
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Visual
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
 vnoremap * :<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>
@@ -44,7 +42,6 @@ vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Function keys
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " toggle highlight character from line 80
 nmap <F2> :call ToggleCol80()<CR>
 
@@ -79,13 +76,13 @@ nmap <silent> <F12> <Plug>(coc-definition)
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>  Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command W w !sudo tee % > /dev/null
 
 " open .vimrc
-map <leader>e :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim ~/.bash_aliases ~/.tmux.conf ~/.gitconfig ~/.zshrc ~/.zsh-spaceship-theme-config ~/.zsh_aliases<CR>
+map <leader>vi :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.coc.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.tab.vim <CR><CR>
+map <leader>e :n ~/.bash_aliases ~/.tmux.conf ~/.gitconfig<CR>
 
 " muestra caracteres invisibles
 nmap <leader>ñ :set list!<CR>
@@ -110,7 +107,6 @@ nmap <leader><CR> :noh<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around windows, buffers and marks
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " marks
 nmap <leader><Up> ['
 nmap <leader><Down> ]'
@@ -131,7 +127,6 @@ nnoremap <leader>p "+p
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Move and copy lines or selected blocks
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " Move a line or select block of text using ALT+[Up-Down]
 nnoremap <M-Down> :m .+1<CR>==
 nnoremap <M-Up> :m .-2<CR>==
@@ -151,7 +146,6 @@ vnoremap <M-S-Up> :t '<-1<CR>gv=gv
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Terminal
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
 " tnoremap only terminal mode
 " Terminal go back to normal mode
 tnoremap <Esc> <C-\><C-n>
@@ -185,3 +179,12 @@ nmap <leader>Z :Lines<CR>
 "nmap <leader>wF :execute ":Lines " . expand('<cword>')<CR>
 " commands finder mapping
 "nmap <leader>c :Commands<CR>
+
+" Automatically complete parentheses and quotes.
+inoremap ( ()<Esc>i
+inoremap { {}<Esc>i
+inoremap {<CR> {<CR>}<Esc>O
+inoremap [ []<Esc>i
+inoremap < <><Esc>i
+inoremap ' ''<Esc>i
+inoremap " ""<Esc>i
