@@ -69,6 +69,7 @@ dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}
 	mkdir -p ${HOME}/.nano
+	cp -p .github_token ${HOME}
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
 	cp -p ./bin/chpermfile ${HOME}/.local/bin/
@@ -76,6 +77,7 @@ dot:
 
 back:
 	cp -p ${HOME}/.tmux.conf .
+	cp -p ${HOME}/.github_token .
 	cp -p ${HOME}/.nanorc .
 	cp -p ${HOME}/.bash_aliases .
 	cp -p ${HOME}/.zshrc .
