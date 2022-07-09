@@ -53,27 +53,15 @@ if filereadable($HOME . "/.config/nvim/init.map.vim")
     source ~/.config/nvim/init.map.vim
 endif
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" => Load coc-config
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if filereadable($HOME . "/.config/nvim/init.coc.vim")
-    source ~/.config/nvim/init.coc.vim
-endif
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Files, backups and undo
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set swapfile
 set directory=$HOME/.config/nvim/swaps
 
-" coc.nvim
-" Some servers have issues with backup files, see #649.
-set nobackup
-set nowritebackup
-
-"set backup
-"set writebackup
-"set backupdir=$HOME/.config/nvim/backups
+set backup
+set writebackup
+set backupdir=$HOME/.config/nvim/backups
 
 set undofile
 set undodir=$HOME/.config/nvim/undo
@@ -187,16 +175,6 @@ set completeopt+=noinsert
 " (displays documentation related to the selected completion option)
 set completeopt-=preview
 
-"lua << EOF
-"require("lspconfig").angularls.setup{
-"    on_attach = on_attach,
-"    capabilities = capabilities,
-"}
-"EOF
-
-" use omni completion provided by lsp
-"autocmd Filetype python setlocal omnifunc=v:lua.vim.lsp.omnifunc
-
 " autocompletion of files and commands behaves like shell
 " (complete only the common part, list the options that match)
 set wildmode=list:longest
@@ -209,7 +187,6 @@ syntax enable
 
 try
     colorscheme hybrid
-    "colorscheme adwaita
 catch
 endtry
 
@@ -280,56 +257,6 @@ if has('autocmd')
     highlight ExtraWhitespace ctermbg=1 guibg=red
     match ExtraWhitespace /\s\+$/
 endif
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" => File types
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" automatic commands
-if has("autocmd")
-    " file type detection
-    au BufRead,BufNewFile *.json       set filetype=json syntax=javascript
-
-    au Filetype gitcommit                setlocal tw=68 spell fo+=t nosi
-    au BufNewFile,BufRead COMMIT_EDITMSG setlocal tw=68 spell fo+=t nosi
-
-    " allow tabs on makefiles
-    au FileType make                   setlocal noexpandtab
-    au FileType go                     setlocal noexpandtab
-
-    " set makeprg(depends on filetype) if makefile is not exist
-    if !filereadable('makefile') && !filereadable('Makefile')
-        au FileType c                    setlocal makeprg=gcc\ %\ -o\ %<
-        au FileType cpp                  setlocal makeprg=g++\ %\ -o\ %<
-        au FileType sh                   setlocal makeprg=bash\ -n\ %
-    endif
-
-    " CURSOR DSL para Análisis de lenguages
-    "au BufNewFile,BufRead *.cur          set filetype=cursor
-    "au Filetype cursor                   syntax enable	$HOME/.config/nvim/syntax/cursor.vim
-
-endif
-
-function! Build()
-    filetype detect
-    echo "filetype:" &filetype
-    let name = expand("%:r")
-    if &filetype == 'tex'
-        execute "! pdflatex %"
-    elseif &filetype == 'txt'
-        execute "! pandoc % -o" name ".pdf"
-    elseif &filetype == 'markdown'
-        execute "! pandoc % -o " . name . ".pdf"
-    elseif &filetype == 'c'
-        execute "! gcc % -o" name
-        let res =
-        execute "! ./".name
-    elseif &filetype == 'sh'
-        execute "! chmod +x %"
-        execute "! ./%"
-    else
-        echo "No sabemos como procesar este tipo de archivo"
-    endif
-endfunction
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" => Vimdiff

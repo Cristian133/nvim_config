@@ -79,19 +79,18 @@ dot:
 #Modify only the originals and then copy here
 back:
 	cp -p ${HOME}/.tmux.conf .
-	cp -p ${HOME}/.github_token .
 	cp -p ${HOME}/.nanorc .
 	cp -p ${HOME}/.bash_aliases .
 	cp -p ${HOME}/.zshrc .
-	cp -p ${HOME}/.zsh-spaceship-theme-config .
-	cp -p ${HOME}/.zsh_aliases .
+	#cp -p ${HOME}/.zsh-spaceship-theme-config .
+	#cp -p ${HOME}/.zsh_aliases .
 	cp -p ${HOME}/.gitconfig .
 	cp -pR ${HOME}/.config/nvim/init.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.tab.vim ./nvim
+	#cp -pR ${HOME}/.config/nvim/init.tab.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.map.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.map.vscode.vim ./nvim
+	#cp -pR ${HOME}/.config/nvim/init.map.vscode.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.plug.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.coc.vim ./nvim
+	#cp -pR ${HOME}/.config/nvim/init.coc.vim ./nvim
 
 vim:
 	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim

@@ -44,34 +44,23 @@ vnoremap # :<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " toggle highlight character from line 80
 nmap <F2> :call ToggleCol80()<CR>
-
 " toggle show file in hex
 nmap <F3> :call ToggleHex()<CR>
-
 "plugin  bufexplorer
 map <F4> <leader>bt
-
 " plugin  NERDTree
 nmap <F5> :NERDTreeToggle<CR>
-
 " Close the current buffer
 nmap <F6> :Bclose<CR>
-
 " change the way numbers look
 nmap <F7> :call ToggleNumber()<CR>
-
 " toggle if you want to make Vim wrap long lines to fit in the window
 nmap <F8> :call ToggleWrap()<CR>
-
 " buffer tex to pdf file
 nmap <F9> :w!<CR>:call Build()<CR>
 imap <F9> <ESC>:w!<CR>:call Build()<CR>
-
 " Strip trailing whitespace
 nmap <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
-
-" coc-definition
-nmap <silent> <F12> <Plug>(coc-definition)
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " =>  Editing mappings
@@ -82,7 +71,7 @@ command W w !sudo tee % > /dev/null
 
 " open .vimrc
 map <leader>vi :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.coc.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.tab.vim <CR><CR>
-map <leader>e :n ~/.bash_aliases ~/.tmux.conf ~/.gitconfig<CR>
+map <leader>e :n ~/.zshrc ~/.tmux.conf ~/.gitconfig<CR>
 
 " muestra caracteres invisibles
 nmap <leader>ñ :set list!<CR>
@@ -161,30 +150,5 @@ tnoremap <A-t> <C-\><C-n>:call Term_toggle(7)<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " file finder mapping
 nmap <leader>z :Files<CR>
-" tags (symbols) in current file finder mapping
-"nmap <leader>g :BTag<CR>
-" the same, but with the word under the cursor pre filled
-"nmap <leader>wg :execute ":BTag " . expand('<cword>')<CR>
-" tags (symbols) in all files finder mapping
-"nmap <leader>G :Tags<CR>
-" the same, but with the word under the cursor pre filled
-"nmap <leader>wG :execute ":Tags " . expand('<cword>')<CR>
-" general code finder in current file mapping
-"nmap <leader>bf :BLines<CR>
-" the same, but with the word under the cursor pre filled
-"nmap <leader>wf :execute ":BLines " . expand('<cword>')<CR>
 " general code finder in all files mapping
 nmap <leader>Z :Lines<CR>
-" the same, but with the word under the cursor pre filled
-"nmap <leader>wF :execute ":Lines " . expand('<cword>')<CR>
-" commands finder mapping
-"nmap <leader>c :Commands<CR>
-
-" Automatically complete parentheses and quotes.
-inoremap ( ()<Esc>i
-inoremap { {}<Esc>i
-inoremap {<CR> {<CR>}<Esc>O
-inoremap [ []<Esc>i
-inoremap < <><Esc>i
-inoremap ' ''<Esc>i
-inoremap " ""<Esc>i

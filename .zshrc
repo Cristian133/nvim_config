@@ -1,5 +1,5 @@
 # If you come from bash you might have to change your $PATH.
-export PATH=$HOME/.local/bin:$HOME/bin:$PATH
+# export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -99,18 +99,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+alias vi="/usr/local/bin/nvim"
 alias e="exit"
 alias t="tmux"
 alias h="history"
-alias cdv="cd $HOME/dev/"
-alias cdb="cd $HOME/.local/bin/"
-alias cdc="cd $HOME/dev/cpp"
-alias cdn="cd $HOME/dev/repos/node"
-
+alias cdv="~/.dev/"
+alias cdc="~/.dev/cpp/"
+alias cdr="~/.dev/rust/"
 function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
-
-# Print each PATH entry on a separate line
-alias path='echo -e ${PATH//:/\\n}'
-
-alias zl='logo-ls -l'
-alias za='logo-ls -Al'

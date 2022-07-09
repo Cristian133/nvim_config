@@ -18,7 +18,7 @@
 " Plugins Folder
 call plug#begin('~/.config/nvim/plugged')
 
-"This plugin provides a start screen for Vim and Neovim.
+" This plugin provides a start screen for Vim and Neovim.
 Plug 'mhinz/vim-startify'
 
 " Better file browser
@@ -51,8 +51,42 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'ryanoasis/vim-devicons'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
 
+" RUST
+" Collection of common configurations for the Nvim LSP client
+Plug 'neovim/nvim-lspconfig'
+
+" Completion framework
+Plug 'hrsh7th/nvim-cmp'
+
+" LSP completion source for nvim-cmp
+Plug 'hrsh7th/cmp-nvim-lsp'
+
+" Snippet completion source for nvim-cmp
+Plug 'hrsh7th/cmp-vsnip'
+
+" Other usefull completion sources
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-buffer'
+
+" See hrsh7th's other plugins for more completion sources!
+
+" To enable more of the features of rust-analyzer, such as inlay hints and more!
+Plug 'simrat39/rust-tools.nvim'
+
+" Snippet engine
+Plug 'hrsh7th/vim-vsnip'
+
+" Fuzzy finder
+" Optional
+Plug 'nvim-lua/popup.nvim'
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 " Use release branch (recommend)
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
+
+" Color scheme used in the GIFs!
+" Plug 'arcticicestudio/nord-vim'
 
 call plug#end()
 
@@ -100,10 +134,6 @@ let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tmuxline#enabled = 1
 
-let g:airline_powerline_fonts = 1
-let g:webdevicons_gui_glyph_fix = 1
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "" =>  NERDCommenter
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Create default mappings
@@ -133,42 +163,88 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
+" Set completeopt to have a better completion experience
+" :help completeopt
+" menuone: popup even when there's only one match
+" noinsert: Do not insert text until a selection is made
+" noselect: Do not select, force user to select one from the menu
+set completeopt=menuone,noinsert,noselect
 
-" you can add these colors to your .vimrc to help customizing
-let s:brown = "905532"
-let s:aqua =  "3AFFDB"
-let s:blue = "689FB6"
-let s:darkBlue = "44788E"
-let s:purple = "834F79"
-let s:lightPurple = "834F79"
-let s:red = "AE403F"
-let s:beige = "F5C06F"
-let s:yellow = "F09F17"
-let s:orange = "D4843E"
-let s:darkOrange = "F16529"
-let s:pink = "CB6F6F"
-let s:salmon = "EE6E73"
-let s:green = "8FAA54"
-let s:lightGreen = "31B53E"
-let s:white = "FFFFFF"
-let s:spec_red = 'FE405F'
-let s:git_orange = 'F54D27'
+" Avoid showing extra messages when using completion
+set shortmess+=c
 
-let g:NERDTreeExtensionHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExtensionHighlightColor['js'] = s:yellow " sets the color of css files to blue
-let g:NERDTreeExtensionHighlightColor['ts'] = s:blue " sets the color of css files to blue
-let g:NERDTreeExtensionHighlightColor['conf'] = s:git_orange " sets the color of css files to blue
-let g:NERDTreeExtensionHighlightColor['md'] = s:blue " sets the color of css files to blue
+" Configure LSP through rust-tools.nvim plugin.
+" rust-tools will configure and enable certain LSP features for us.
+" See https://github.com/simrat39/rust-tools.nvim#configuration
+lua <<EOF
+local nvim_lsp = require'lspconfig'
 
-let g:NERDTreeExactMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreeExactMatchHighlightColor['.gitignore'] = s:git_orange " sets the color for .gitignore files
-let g:NERDTreeExactMatchHighlightColor['.gitconfig'] = s:git_orange " sets the color for .gitignore files
-let g:NERDTreeExactMatchHighlightColor['.bashrc'] = s:git_orange " sets the color for .gitignore files
-let g:NERDTreeExactMatchHighlightColor['.zshrc'] = s:git_orange " sets the color for .gitignore files
-let g:NERDTreeExactMatchHighlightColor['Makefile'] = s:lightGreen " sets the color for .gitignore files
+local opts = {
+    tools = { -- rust-tools options
+        autoSetHints = true,
+        hover_with_actions = true,
+        inlay_hints = {
+            show_parameter_hints = false,
+            parameter_hints_prefix = "",
+            other_hints_prefix = "",
+        },
+    },
 
-let g:NERDTreePatternMatchHighlightColor = {} " this line is needed to avoid error
-let g:NERDTreePatternMatchHighlightColor['*\.spec\.ts$'] = s:spec_red " sets the color for files ending with .spec.ts
+    -- all the opts to send to nvim-lspconfig
+    -- these override the defaults set by rust-tools.nvim
+    -- see https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#rust_analyzer
+    server = {
+        -- on_attach is a callback called when the language server attachs to the buffer
+        -- on_attach = on_attach,
+        settings = {
+            -- to enable rust-analyzer settings visit:
+            -- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+            ["rust-analyzer"] = {
+                -- enable clippy on save
+                checkOnSave = {
+                    command = "clippy"
+                },
+            }
+        }
+    },
+}
 
-let g:WebDevIconsDefaultFolderSymbolColor = s:beige " sets the color for folders that did not match any rule
-let g:WebDevIconsDefaultFileSymbolColor = s:blue " sets the color for files that did not match any rule
+require('rust-tools').setup(opts)
+EOF
+
+" Setup Completion
+" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+lua <<EOF
+local cmp = require'cmp'
+cmp.setup({
+  -- Enable LSP snippets
+  snippet = {
+    expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  mapping = {
+    ['<C-p>'] = cmp.mapping.select_prev_item(),
+    ['<C-n>'] = cmp.mapping.select_next_item(),
+    -- Add tab support
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+    ['<Tab>'] = cmp.mapping.select_next_item(),
+    ['<C-d>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.close(),
+    ['<CR>'] = cmp.mapping.confirm({
+      behavior = cmp.ConfirmBehavior.Insert,
+      select = true,
+    })
+  },
+
+  -- Installed sources
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+    { name = 'path' },
+    { name = 'buffer' },
+  },
+})
+EOF
