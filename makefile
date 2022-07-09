@@ -4,10 +4,11 @@ install:
 	sudo apt update
 	sudo apt install build-essential neovim mc tree tmux screen htop exuberant-ctags curl git rlwrap
 
-# Para compilar Felix
+# for Felix compile
 gsoap:
 	sudo apt install gsoap libgsoap-dev libssl-dev
 
+# Ubuntu old version
 desktop:
 	gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 1.0
 
@@ -75,6 +76,7 @@ dot:
 	cp -p ./bin/chpermfile ${HOME}/.local/bin/
 	cp -p ./bin/chpermdir ${HOME}/.local/bin/
 
+#Modify only the originals and then copy here
 back:
 	cp -p ${HOME}/.tmux.conf .
 	cp -p ${HOME}/.github_token .
@@ -114,7 +116,7 @@ tmux:
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 
 rust:
-	curl -sf -L https://static.rust-lang.org/rustup.sh | sh
+	curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
 	rustc --version
 	cargo --version
 	rustup toolchain add nightly
