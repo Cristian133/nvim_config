@@ -42,15 +42,15 @@ gem install neovim
 npm install -g neovim
 
 #Get or update neovim github repo
-# mkdir -p ~/.dev
-# cd ~/.dev || exit
-# if [ ! -e ~/.dev/neovim ]; then
-#   git clone https://github.com/neovim/neovim
-# else
-#   cd neovim || exit
-#   git pull origin
-# fi
-#
+mkdir -p ~/.dev
+cd ~/.dev || exit
+if [ ! -e ~/.dev/neovim ]; then
+  git clone https://github.com/neovim/neovim
+else
+  cd neovim || exit
+  git pull origin
+fi
+
 cd ~/.dev/neovim || exit
 git checkout master
 

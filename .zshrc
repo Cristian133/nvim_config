@@ -107,3 +107,12 @@ alias cdv="~/.dev/"
 alias cdc="~/.dev/cpp/"
 alias cdr="~/.dev/rust/"
 function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
+
+# Overide ~/.oh-my-zsh/lib/misc.zsh pager set
+env_default 'PAGER' 'less'
+env_default 'LESS' '-FRSX'
+
+# nvm allows you to quickly install and use different versions of node via the command line.
+# https://github.com/nvm-sh/nvm
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm

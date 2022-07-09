@@ -8,10 +8,6 @@ install:
 gsoap:
 	sudo apt install gsoap libgsoap-dev libssl-dev
 
-# Ubuntu old version
-desktop:
-	gsettings set org.gnome.shell.extensions.dash-to-dock background-opacity 1.0
-
 texlive:
 	sudo apt install texlive texlive-lang-spanish
 
@@ -31,33 +27,6 @@ haskell:
 forth:
 	sudo apt install gforth
 
-node:
-	curl -sL https://deb.nodesource.com/setup_15.x | sudo -E bash -
-	sudo apt install nodejs
-	sudo npm install -g npm@latest
-
-angular:
-	sudo npm install -g @angular/cli@latest
-
-vscode:
-	sudo snap install --classic code
-
-vlc:
-	sudo apt install vlc ubuntu-restricted-extras
-
-zoom:
-	sudo snap install zoom-client
-
-postman:
-	sudo snap install postman
-
-slack:
-	sudo snap install slack --classic
-
-compass:
-	wget https://downloads.mongodb.com/compass/mongodb-compass_1.26.1_amd64.deb
-	sudo dpkg -i mongodb-compass_1.26.1_amd64.deb
-
 zsh:
 	sudo apt install zsh
 	sudo chsh -s $(which zsh)
@@ -66,36 +35,43 @@ zsh:
 	git clone https://github.com/spaceship-prompt/spaceship-prompt.git "$ZSH_CUSTOM/themes/spaceship-prompt" --depth=1
 	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
+nvm:
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+
 dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}
 	mkdir -p ${HOME}/.nano
-	cp -p .github_token ${HOME}
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
 	cp -p ./bin/chpermfile ${HOME}/.local/bin/
 	cp -p ./bin/chpermdir ${HOME}/.local/bin/
 
-#Modify only the originals and then copy here
+#Modify only the originals and then copy here.
 back:
 	cp -p ${HOME}/.tmux.conf .
 	cp -p ${HOME}/.nanorc .
 	cp -p ${HOME}/.bash_aliases .
 	cp -p ${HOME}/.zshrc .
-	#cp -p ${HOME}/.zsh-spaceship-theme-config .
-	#cp -p ${HOME}/.zsh_aliases .
 	cp -p ${HOME}/.gitconfig .
 	cp -pR ${HOME}/.config/nvim/init.vim ./nvim
-	#cp -pR ${HOME}/.config/nvim/init.tab.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.map.vim ./nvim
-	#cp -pR ${HOME}/.config/nvim/init.map.vscode.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.plug.vim ./nvim
-	#cp -pR ${HOME}/.config/nvim/init.coc.vim ./nvim
+	cp -pR ${HOME}/.config/nvim/init.coc.vim ./nvim
 
-vim:
-	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+font:
 	mkdir -p ~/.local/share/fonts
-	cd ~/.local/share/fonts && curl -fLo "Nerd_Font.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+	cd ~/.local/share/fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+
+# Deprecated alternative paths: ~/.fonts
+# For nvim plugin https://github.com/ryanoasis/vim-devicons on Debian 11
+# https://github.com/ryanoasis/nerd-fonts/wiki/Glyph-Sets-and-Code-Points
+font_debian:
+	mkdir -p ~/.fonts
+	cd ~/.fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
+
+nvim:
+	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
 	mkdir -p ${HOME}/.config/nvim/
 	cp -p ./nvim/init.vim ${HOME}/.config/nvim/init.vim
 	cp -p ./nvim/init.tab.vim ${HOME}/.config/nvim/init.tab.vim
@@ -110,6 +86,9 @@ vim:
 	mkdir -p ${HOME}/.config/nvim/swaps
 	mkdir -p ${HOME}/.config/nvim/tmp
 	mkdir -p ${HOME}/.config/nvim/undo
+
+lua:
+	sudo apt install lua5.4
 
 tmux:
 	git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm

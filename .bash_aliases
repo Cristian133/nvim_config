@@ -24,11 +24,7 @@ HISTTIMEFORMAT="%d/%m/%y %T "
 
 # important paths
 alias cdb='cd $HOME/.local/bin/'
-alias cdv='cd $HOME/dev/'
-alias cdp='cd $HOME/dev/python'
-alias cdr='cd $HOME/dev/repos'
-alias cda='cd $HOME/dev/angular'
-alias cdc='cd $HOME/dev/cpp'
+alias cdv='cd $HOME/.dev/'
 
 # node version in prompt
 _node_version()
@@ -56,3 +52,6 @@ alias path='echo -e ${PATH//:/\\n}'
 # alias git
 alias gs='git status'
 alias gl='git log --oneline --decorate --graph --all'
+
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
