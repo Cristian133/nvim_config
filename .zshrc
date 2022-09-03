@@ -99,20 +99,23 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-alias vi="/usr/local/bin/nvim"
 alias e="exit"
 alias t="tmux"
-alias h="history"
-alias cdv="~/.dev/"
-alias cdc="~/.dev/cpp/"
-alias cdr="~/.dev/rust/"
-function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
+alias cdv="cd ~/dev/"
+alias cdt="cd ~/dev/typescript"
+alias cdj="cd ~/dev/js"
+alias cd+="cd ~/dev/c++"
+alias cdr="cd ~/repos"
+alias cdg="cd ~/repos/git"
+alias cdnvg="cd ~/repos/neovim"
+alias vi="nvim"
+alias lvi="lvim"
 
-# Overide ~/.oh-my-zsh/lib/misc.zsh pager set
-env_default 'PAGER' 'less'
-env_default 'LESS' '-FRSX'
-
-# nvm allows you to quickly install and use different versions of node via the command line.
-# https://github.com/nvm-sh/nvm
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+
+export PATH=$HOME/bin:$PATH
+
+
+# Load Angular CLI autocompletion.
+source <(ng completion script)

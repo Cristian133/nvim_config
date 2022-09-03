@@ -6,13 +6,13 @@
     s = status --short
     st = status
     co = checkout
+    sw = switch
+    br = branch
+    sh = branch -v
+    rf = reflog -v
     ci = commit
-    amend = commit --amend
-    up = rebase
-    last = log -1 HEAD
     l = log --pretty=format:'%C(bold blue)%h%C(reset) %C(green)[%an]%C(reset) %C(cyan)(%ad)%C(reset) %s'
     lg = log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all
-    br = branch --no-pager --format='%(HEAD) %(color:yellow)%(refname:short)%(color:reset) - %(contents:subject) %(color:green)(%(committerdate:relative)) [%(authorname)]' --sort=-committerdate
 [pull]
 	rebase = true
 [credential]
@@ -21,3 +21,6 @@
 	defaultBranch = main
 [core]
 	editor = vi
+	pager = 
+[color]
+	ui = true

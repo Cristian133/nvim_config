@@ -51,13 +51,11 @@ dot:
 back:
 	cp -p ${HOME}/.tmux.conf .
 	cp -p ${HOME}/.nanorc .
-	cp -p ${HOME}/.bash_aliases .
 	cp -p ${HOME}/.zshrc .
 	cp -p ${HOME}/.gitconfig .
 	cp -pR ${HOME}/.config/nvim/init.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.map.vim ./nvim
 	cp -pR ${HOME}/.config/nvim/init.plug.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.coc.vim ./nvim
 
 font:
 	mkdir -p ~/.local/share/fonts

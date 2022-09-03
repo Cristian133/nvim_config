@@ -40,7 +40,7 @@
 " and use a font from https://github.com/ryanoasis/nerd-fonts in your terminal
 " (if you aren't using one of those fonts, you will see funny characters here.
 " Turst me, they look nice when using one of those fonts).
-let fancy_symbols_enabled = 0
+let fancy_symbols_enabled = 1
 
 if filereadable($HOME . "/.config/nvim/init.plug.vim")
     source ~/.config/nvim/init.plug.vim
@@ -196,8 +196,6 @@ set conceallevel=3
 " Set encoding
 set encoding=utf8
 
-set guifont=DroidSansMono\ Nerd\ Font\ 11
-
 " Try to detect file formats.
 " Unix for new files and autodetect for the rest.
 set fileformats=unix,dos,mac
@@ -313,19 +311,6 @@ function! <SID>BufcloseCloseIt()
     endif
 endfunction
 
-" current buffer size
-function! FileSize()
-    let bytes = getfsize(expand("%:p"))
-    if bytes <= 0
-        return ""
-    endif
-    if bytes < 1024
-        return bytes
-    else
-        return (bytes / 1024) . "K"
-    endif
-endfunction
-
 " highlight text from column 80
 let s:activatedh = 0
 function! ToggleCol80()
@@ -372,11 +357,6 @@ function! ToggleWrap()
     endif
 endfunction
 
-"Get git branch and status of edited file
-function! GitBranch()
-    return system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'")
-endfunction
-
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
     execute "normal! vgvy"
@@ -396,46 +376,4 @@ function! VisualSelection(direction, extra_filter) range
 
     let @/ = l:pattern
     let @" = l:saved_reg
-endfunction
-
-function! StatuslineGit()
-    let l:branchname = GitBranch()
-    return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
-endfunction
-
-" returns a string <branch/XX> where XX corresponds to the git status
-" (for example "<master/ M>")
-function CurrentGitStatus()
-    let gitoutput = split(system('git status --porcelain -b '.shellescape(expand('%')).' 2>/dev/null'),'\n')
-    if len(gitoutput) > 0
-        let b:gitstatus = strpart(get(gitoutput,0,''),3) . '/' . strpart(get(gitoutput,1,'  '),0,2)
-    else
-        let b:gitstatus = ''
-    endif
-endfunc
-autocmd BufEnter,BufWritePost * call CurrentGitStatus()
-
-function Highlight_Statusline()
-    hi User1 ctermfg=Yellow cterm=bold
-endfunction
-
-autocmd ColorScheme * call Highlight_Statusline()
-autocmd BufEnter * call Highlight_Statusline()
-
-function! WindowNumber()
-    return tabpagewinnr(tabpagenr())
-endfunction
-
-function! GotoJump()
-    jumps
-    let j = input("Please select your jump: ")
-    if j != ''
-        let pattern = '\v\c^\+'
-        if j =~ pattern
-            let j = substitute(j, pattern, '', 'g')
-            execute "normal " . j . "\<c-i>"
-        else
-            execute "normal " . j . "\<c-o>"
-        endif
-    endif
 endfunction

@@ -70,7 +70,7 @@ nmap <F10> :let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar><CR>
 command W w !sudo tee % > /dev/null
 
 " open .vimrc
-map <leader>vi :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.coc.vim ~/.config/nvim/init.plug.vim ~/.config/nvim/init.tab.vim <CR><CR>
+map <leader>vi :n ~/.config/nvim/init.vim ~/.config/nvim/init.map.vim ~/.config/nvim/init.plug.vim<CR><CR>
 map <leader>e :n ~/.zshrc ~/.tmux.conf ~/.gitconfig<CR>
 
 " muestra caracteres invisibles
@@ -131,24 +131,3 @@ inoremap <M-S-Down> <Esc>:t .+0<CR>==gi
 inoremap <M-S-Up> <Esc>:t .-1<CR>==gi
 vnoremap <M-S-Down> :t '>+0<CR>gv=gv
 vnoremap <M-S-Up> :t '<-1<CR>gv=gv
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Terminal
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" tnoremap only terminal mode
-" Terminal go back to normal mode
-tnoremap <Esc> <C-\><C-n>
-tnoremap :q! <C-\><C-n>:q!<CR>
-
-" Toggle terminal on/off (neovim)
-nnoremap <A-t> :call Term_toggle(7)<CR>
-inoremap <A-t> <Esc>:call Term_toggle(7)<CR>
-tnoremap <A-t> <C-\><C-n>:call Term_toggle(7)<CR>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"" =>  Fzf
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" file finder mapping
-nmap <leader>z :Files<CR>
-" general code finder in all files mapping
-nmap <leader>Z :Lines<CR>
