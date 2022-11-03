@@ -1,8 +1,8 @@
-.PHONY: install vim dot desktop
+.PHONY: install gsoap lua font vim dot
 
 install:
 	sudo apt update
-	sudo apt install build-essential neovim mc tree tmux screen htop exuberant-ctags curl git rlwrap
+	sudo apt install build-essential mc tree tmux htop exuberant-ctags curl git rlwrap
 
 # for Felix compile
 gsoap:
@@ -36,26 +36,28 @@ zsh:
 	ln -s "$ZSH_CUSTOM/themes/spaceship-prompt/spaceship.zsh-theme" "$ZSH_CUSTOM/themes/spaceship.zsh-theme"
 
 nvm:
-	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
+	curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.2/install.sh | bash
 
 dot:
 	cp -p .tmux.conf ${HOME}
 	cp -p .nanorc ${HOME}
+	cp -p .gitconfig ${HOME}
 	mkdir -p ${HOME}/.nano
 	cp -p .bash_aliases ${HOME}
 	mkdir -p ${HOME}/.local/bin
 	cp -p ./bin/chpermfile ${HOME}/.local/bin/
 	cp -p ./bin/chpermdir ${HOME}/.local/bin/
+	cp -pr  nvim ${HOME}/.config/
 
-#Modify only the originals and then copy here.
+# Modify originals and copy here.
 back:
 	cp -p ${HOME}/.tmux.conf .
 	cp -p ${HOME}/.nanorc .
 	cp -p ${HOME}/.zshrc .
 	cp -p ${HOME}/.gitconfig .
-	cp -pR ${HOME}/.config/nvim/init.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.map.vim ./nvim
-	cp -pR ${HOME}/.config/nvim/init.plug.vim ./nvim
+	cp -pR ${HOME}/.config/nvim .
+	cp -pR ${HOME}/.config/nvim .
+	cp -pR ${HOME}/.config/nvim .
 
 font:
 	mkdir -p ~/.local/share/fonts
@@ -69,21 +71,7 @@ font_debian:
 	cd ~/.fonts && curl -fLo "Droid Sans Mono for Powerline Nerd Font Complete.otf" https://github.com/ryanoasis/nerd-fonts/raw/master/patched-fonts/DroidSansMono/complete/Droid%20Sans%20Mono%20Nerd%20Font%20Complete.otf
 
 nvim:
-	curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-	mkdir -p ${HOME}/.config/nvim/
-	cp -p ./nvim/init.vim ${HOME}/.config/nvim/init.vim
-	cp -p ./nvim/init.tab.vim ${HOME}/.config/nvim/init.tab.vim
-	cp -p ./nvim/init.map.vim ${HOME}/.config/nvim/init.map.vim
-	cp -p ./nvim/init.map.vscode.vim ${HOME}/.config/nvim/init.map.vscode.vim
-	cp -p ./nvim/init.plug.vim ${HOME}/.config/nvim/init.plug.vim
-	cp -p ./nvim/init.coc.vim ${HOME}/.config/nvim/init.coc.vim
-	mkdir -p ${HOME}/.config/nvim/backups
-	mkdir -p ${HOME}/.config/nvim/colors
-	curl -LSso ${HOME}/.config/nvim/colors/hybrid.vim https://raw.githubusercontent.com/w0ng/vim-hybrid/master/colors/hybrid.vim
-	mkdir -p ${HOME}/.config/nvim/plugged
-	mkdir -p ${HOME}/.config/nvim/swaps
-	mkdir -p ${HOME}/.config/nvim/tmp
-	mkdir -p ${HOME}/.config/nvim/undo
+	./install_nvim_debian.sh
 
 lua:
 	sudo apt install lua5.4
