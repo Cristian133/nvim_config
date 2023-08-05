@@ -3,6 +3,8 @@
     name = Cristian Andrione
     email = cristian.andrione@gmail.com
 [alias]
+    a = add .
+    A = ADD -A
     s = status --short
     st = status
     co = checkout
@@ -20,7 +22,7 @@
 [init]
 	defaultBranch = main
 [core]
-	editor = vi
+	editor = nvim
 	pager = 
 [color]
 	ui = true
