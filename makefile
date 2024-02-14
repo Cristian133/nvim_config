@@ -2,7 +2,7 @@
 
 install:
 	sudo apt update
-	sudo apt install build-essential neovim mc tree tmux screen htop exuberant-ctags curl git rlwrap
+	sudo apt install build-essential mc tree tmux htop curl git
 
 # for Felix compile
 gsoap:
@@ -25,7 +25,7 @@ haskell:
 	sudo apt install haskell-platform
 
 forth:
-	sudo apt install gforth
+	sudo apt install gforth rlwrap
 
 zsh:
 	sudo apt install zsh
