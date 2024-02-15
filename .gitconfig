@@ -1,4 +1,3 @@
-# Este es el archivo de configuración de Git por usuario.
 [user]
     name = Cristian Andrione
     email = cristian.andrione@gmail.com
@@ -6,6 +5,7 @@
     s = status --short
     st = status
     co = checkout
+    br = branch
     ci = commit
     amend = commit --amend
     up = rebase
@@ -20,4 +20,8 @@
 [init]
 	defaultBranch = main
 [core]
-	editor = vi
+	editor = nvim
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
