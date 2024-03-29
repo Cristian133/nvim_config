@@ -16,6 +16,17 @@ sudo apt-get install build-essential zsh mc exuberant-ctags tmux git curl\
     pkg-config python3-pip python3-dev python3-venv software-properties-common\
     unzip\
 
+# Enable use of python plugins
+# Note: python neovim module was renamed to pynvim
+# https://github.com/neovim/neovim/wiki/Following-HEAD#steps-to-update-pynvim-formerly-neovim-python-package
+pip3 install setuptools
+pip3 install --upgrade pynvim
+
+# Enable use of ruby plugins
+sudo apt install ruby ruby-dev rubygems
+sudo gem install neovim
+
+# Neovim node.js client
 npm install -g neovim
 
 # Get or update neovim github repo

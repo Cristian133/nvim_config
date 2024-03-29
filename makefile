@@ -2,12 +2,11 @@
 
 install:
 	sudo apt update
-	sudo apt install build-essential mc tree tmux htop curl git
+	sudo apt install build-essential mc tree tmux htop curl git libssl-dev
 
 # for Felix compile
 gsoap:
-	sudo apt install gsoap libgsoap-dev libssl-dev
-
+	sudo apt install gsoap libgsoap-dev
 texlive:
 	sudo apt install texlive texlive-lang-spanish
 
