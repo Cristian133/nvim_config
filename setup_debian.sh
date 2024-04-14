@@ -52,29 +52,27 @@ make distclean
 make CMAKE_BUILD_TYPE=RelWithDebInfo CMAKE_EXTRA_FLAGS="-DCMAKE_INSTALL_PREFIX=/usr/local/"
 sudo make install
 
-
 echo "nvim command: $(command -v nvim)"
 echo "nvim command: $(ls -al "$(command -v nvim)")"
 
 #Build and install git for Debian
+echo "let started with git"
 mkdir -p ~/.dev/git-build;
 wget https://github.com/git/git/archive/refs/heads/maint.zip -O ~/.dev/git-build/git.zip;
 cd ~/.dev/git-build;
 unzip -q git.zip;
 cd git-*;
 
-current_git_version=$(git --version | sed -e 's/git version //');
-downloaded_git_version=$(cat GIT-VERSION-GEN | grep "$current_git_version");
+currentGitVersion=$(git --version | sed -e 's/git version //');
+downloadGitVersion=$(cat GIT-VERSION-GEN | grep "$currentGitVersion");
 
-if [ -z "$downloaded_git_version" ]; then
+if [ -z "$downloadGitVersion" ]; then
     make prefix=/usr/local all;
     sudo make prefix=/usr/local install;
 fi
 
 
-dist_code_name=$(lsb_release -cs);
-
-sudo rm -rf ~/.dev/git-build;
+distCodeName=$(lsb_release -cs);
 
 # Config files
 cd ~/.dev/nvim_config/
