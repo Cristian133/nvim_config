@@ -34,7 +34,7 @@ echo $REVERSE$DIR 'Sigue? s/n:' $NORMAL
 read opcion
 
 case $opcion in
-
+    
     s) find . -type d -exec chmod -R 755 {} \; ;;
     *) ;;
 

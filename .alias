@@ -1,0 +1,18 @@
+# command
+alias e="exit"
+alias t="tmux"
+alias mc="mc --nosubshell"
+function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
+
+# paths
+alias cdv="cd ~/.bin"
+alias cdv="cd ~/.dev"
+alias cdf="cd ~/.dev/fortran"
+
+# neovim
+alias viz="cd; nvim .zshrc .alias"
+alias vit="cd; nvim .tmux.conf"
+alias viv="cd ~/.config/nvim/; nvim init.lua"
+
+# Print each PATH entry on a separate line
+alias path='echo -e ${PATH//:/\\n}'

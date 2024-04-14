@@ -34,7 +34,7 @@ echo $REVERSE$RED 'Sigue? s/n:' $NORMAL
 read opcion
 
 case $opcion in
-
+    
     s) find . -type f -exec chmod -R 644 {} \; ;;
     *) ;;
 
