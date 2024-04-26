@@ -23,7 +23,6 @@ return {
 		config = function()
 			local capabilities = require("cmp_nvim_lsp").default_capabilities()
 			local lspconfig = require("lspconfig")
-      local util = require("lspconfig.util")
 
 			lspconfig.clangd.setup({
 				capabilities = capabilities,
@@ -31,38 +30,9 @@ return {
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
-	    lspconfig.pyright.setup ({
-				capabilities = capabilities,
-      })
-      lspconfig.rust_analyzer.setup({
+			lspconfig.rust_analyzer.setup({
 				capabilities = capabilities,
 			})
-			lspconfig.fortls.setup({
-        settings = {},
-        filetypes = {"fortran"},
-				cmd = {
-					"fortls",
-					"--hover_signature",
-					"--hover_language=fortran",
-					"--use_signature_help",
-				},
-        capabilities = capabilities,
-        root_dir = util.root_pattern(".fortls")
-			})
-			lspconfig.eslint.setup({
-				-- Copied from nvim-lspconfig/lua/lspconfig/server_conigurations/eslint.js
-				root_dir = util.root_pattern(
-					".eslintrc",
-					".eslintrc.js",
-					".eslintrc.cjs",
-					".eslintrc.yaml",
-					".eslintrc.yml",
-					".eslintrc.json"
-					-- Disabled to prevent "No ESLint configuration found" exceptions
-					-- 'package.json',
-				),
-			})
-
 			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
 			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
 			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})

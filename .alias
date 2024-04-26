@@ -1,18 +1,6 @@
-# command
-alias e="exit"
-alias t="tmux"
+alias viv="cd $HOME/.config/nvim; nvim"
+alias viz="cd $HOME/; nvim .zshrc .alias"
+alias e='exit'
 alias mc="mc --nosubshell"
-function l. { ( if test -d "$1";  then cd $1;  fi  &&  ls -ldF .[^\.]*; ); }
-
-# paths
-alias cdv="cd ~/.bin"
-alias cdv="cd ~/.dev"
-alias cdf="cd ~/.dev/fortran"
-
-# neovim
-alias viz="cd; nvim .zshrc .alias"
-alias vit="cd; nvim .tmux.conf"
-alias viv="cd ~/.config/nvim/; nvim init.lua"
-
-# Print each PATH entry on a separate line
-alias path='echo -e ${PATH//:/\\n}'
+alias cdv="cd $HOME/dev"
+alias cdr="cd $HOME/dev/rust"
