@@ -1,3 +1,5 @@
+local map = vim.keymap.set
+
 return {
 	"chentoast/marks.nvim",
 	config = function()
@@ -36,9 +38,10 @@ return {
 				annotate = false,
 			},
 			mappings = {},
-      vim.keymap.set("n", "<leader>m", ":MarksListBuf<CR>", { noremap = true }),
-      vim.keymap.set("n", "<leader>j", "]'", { noremap = true }),
-      vim.keymap.set("n", "<leader>k", "['", { noremap = true }),
+			map("n", "<leader>mm", ":MarksListBuf<CR>", { noremap = true, desc = "Marks list buffer" }),
+			map("n", "<leader>mj", "]'", { noremap = true, desc = "Marks previous"  }),
+			map("n", "<leader>mk", "['", { noremap = true, desc = "Marks next"  }),
+            map("n", "<leader>md", "delmarks!", { noremap = true, desc = "Marks delete all (only current buffer)."  }),
 		})
 	end,
 }

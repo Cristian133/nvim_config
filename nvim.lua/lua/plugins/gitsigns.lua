@@ -1,9 +1,11 @@
+local map = vim.keymap.set
+
 return {
-  "lewis6991/gitsigns.nvim",
-  config = function()
-    require("gitsigns").setup({
-      vim.keymap.set("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", {}),
-      vim.keymap.set("n", "<leader>gt", ":Gitsigns toggle_current_blame_line<CR>", {}),
-    })
-  end,
+	"lewis6991/gitsigns.nvim",
+	config = function()
+		require("gitsigns").setup({
+			map("n", "<leader>gp", ":Gitsigns preview_hunk<CR>", { desc = "Git previous hunk."}),
+			map("n", "<leader>gb", ":Gitsigns toggle_current_blame_line<CR>", { desc = "Git current line blame."}),
+		})
+	end,
 }

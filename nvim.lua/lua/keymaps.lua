@@ -1,60 +1,61 @@
-local set = vim.keymap.set
+local map = vim.keymap.set
 local global = vim.g
 
 -- leader key
 global.mapleader = ","
 
-set("i", "ññ", "<ESC>", { noremap = true })
+-- easy ESC
+map("i", "ññ", "<ESC>", { noremap = true })
 
 -- show invisible characters
-set("n", "<leader>ñ", ":set list!<CR>", { noremap = true })
+map("n", "<leader>ñ", ":set list!<CR>", { noremap = true, desc = "Show invisible characters." })
 
 -- windows movements
-set("n", "<A-w>", "<C-w>", { noremap = true })
+map("n", "<A-w>", "<C-w>", { noremap = true })
 
 -- gi moves to last insert mode (default)
 -- gI moves to last modification
-set("n", "gI", "`.")
+map("n", "gI", "`.", { desc = "Moves to last modification."})
 
 -- Disable highlight when <leader><CR> is pressed
-set("n", "<leader><CR>", ":noh<CR>")
+map("n", "<leader><CR>", ":noh<CR>", { desc="Stop the highlighting." })
 
 -- Visual mode pressing * or # searches for the current selection
-set("v", "*", ":<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>")
-set("v", "#", ":<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>")
+map("v", "*", ":<C-u>call VisualSelection('', '')<CR>/<C-R>=@/<CR><CR>", { desc = "Searches for the current selection" })
+map("v", "#", ":<C-u>call VisualSelection('', '')<CR>?<C-R>=@/<CR><CR>",  { desc = "Searches for the current selection" })
 
 ------------------------------------------------------------------------------
 -- Moving around windows, buffers and marks
 ------------------------------------------------------------------------------
 -- buffers
-set("n", "<leader><Right>", ":bnext<CR>", { noremap = true })
-set("n", "<leader><Left>", ":bprev<CR>", { noremap = true })
+map("n", "<leader><Right>", ":bnext<CR>", { noremap = true, desc = "Goto next buffer."})
+map("n", "<leader><Left>", ":bprev<CR>", { noremap = true, desc = "Goto previos buffer."})
 
---list  of registers and macros
-set("", "<leader>gr", ":registers<CR>")
-
+-- toggle if you want to make Vim wrap long lines to fit in the window
+map("n", "<leader>L", ":call ToggleWrap()<CR>", { desc = "Vim wrap long lines."})
 -- jump history
-set("", "<Leader>gj", ":call GotoJump()<CR>")
+map("", "<leader>J", ":call GotoJump()<CR>", { desc = "Goto jump history." })
+-- change the way numbers look
+map("n", "<leader>N", ":call ToggleNumber()<CR>", { desc = "Change the way numbers look." })
+-- toggle highlight character from line 80
+map("n", "<leader>C", ":call ToggleCol80()<CR>", { desc = "Highlight character from line 80." })
+-- Close the current buffer
+map("n", "<leader>Q", ":Bclose<CR>", { desc = "Delete buffer (not windows)." })
 
 ------------------------------------------------------------------------------
 -- Function keys
 ------------------------------------------------------------------------------
--- toggle highlight character from line 80
-set("n", "<leader>2", ":call ToggleCol80()<CR>")
--- Close the current buffer
-set("n", "<leader>q", ":Bclose<CR>")
--- change the way numbers look
-set("n", "<leader>7", ":call ToggleNumber()<CR>")
--- toggle if you want to make Vim wrap long lines to fit in the window
-set("n", "<leader>8", ":call ToggleWrap()<CR>")
--- buffer tex to pdf file
-set("n", "<leader>9", ":w!<CR>:call Build()<CR>")
-set("n", "<F9>", ":w!<CR>:call Build()<CR>")
-set("i", "<F9>", "<ESC>:w!<CR>:call Build()<CR>")
+-- build
+map("n", "<F9>", ":w!<CR>:call Build()<CR>", {})
+map("i", "<F9>", "<ESC>:w!<CR>:call Build()<CR>", {})
+
+-- Strip trailing whitespace
+map("n", "<F10>", ":let _s=@/<Bar>:%s/\\s\\+$//e<Bar>:let @/=_s<Bar><CR>", { desc = "Strip trailing whitespaces"})
+map("i", "<F10>", "<Esc>:let _s=@/<Bar>:%s/\\s\\+$//e<Bar>:let @/=_s<Bar><CR>", { desc = "Strip trailing whitespaces"})
 
 ------------------------------------------------------------------------------
 -- plugins
 ------------------------------------------------------------------------------
 -- fugitive
-set("n", "<leader>dh", ":Ghdiffsplit<CR>", {})
-set("n", "<leader>dv", ":Gvdiffsplit<CR>", {})
+map("n", "<leader>gh", ":Ghdiffsplit<CR>", { desc = "Git diff horizontal split." })
+map("n", "<leader>gv", ":Gvdiffsplit<CR>", { desc = "Git diff vertical split. " })

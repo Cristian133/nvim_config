@@ -1,3 +1,7 @@
+local map = vim.keymap.set
+local buf = vim.lsp.buf
+local dia = vim.diagnostic
+
 return {
 	{
 		"williamboman/mason.nvim",
@@ -30,19 +34,19 @@ return {
 			lspconfig.lua_ls.setup({
 				capabilities = capabilities,
 			})
-			lspconfig.rust_analyzer.setup({
-				capabilities = capabilities,
-			})
-			vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
-			vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, {})
-			vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, {})
-			vim.keymap.set("n", "<leader>ca", vim.lsp.buf.code_action, {})
+            lspconfig.rust_analyzer.setup({
+                capabilities = capabilities,
+            })
+			map("n", "<leader>K", buf.hover, { desc="Show info." })
+			map("n", "<leader>bd", buf.definition, { desc="Goto definition." })
+			map("n", "<leader>br", buf.references, { desc="Goto reference." })
+			map("n", "<leader>ca", buf.code_action, { desc="Code actions." })
 			-- Show diagnostics in a floating window
-			vim.keymap.set("n", "<leader>gl", vim.diagnostic.open_float, {})
+			map("n", "<leader>D", dia.open_float, { desc="Open float diagnostic." })
 			-- Move to the previous diagnostic
-			vim.keymap.set("n", "<leader>gk", vim.diagnostic.goto_prev, {})
-			-- Move to the next diagnostic
-			vim.keymap.set("n", "<leader>gj", vim.diagnostic.goto_next, {})
+			map("n", "<leader><Up>", dia.goto_prev, { desc="Goto previous diagnostic." })
+            -- Move to the next diagnostic
+			map("n", "<leader><Down>", dia.goto_next, { desc="Goto next diagnostic." })
 		end,
 	},
 }

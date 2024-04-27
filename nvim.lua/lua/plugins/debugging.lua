@@ -1,3 +1,5 @@
+local map = vim.keymap.set
+
 return {
 	"mfussenegger/nvim-dap",
 	dependencies = {
@@ -24,9 +26,9 @@ return {
 			dapui.close()
 		end
 
-		vim.keymap.set("n", "<Leader>dt", ":DapToggleBreakpoint<CR>")
-		vim.keymap.set("n", "<Leader>dc", ":DapContinue<CR>")
-		vim.keymap.set("n", "<Leader>dx", ":DapTerminate<CR>")
-		vim.keymap.set("n", "<Leader>do", ":DapStepOver<CR>")
+		map("n", "<Leader>dt", ":DapToggleBreakpoint<CR>", { desc = "Debug toggle breakpoint "})
+		map("n", "<Leader>dc", ":DapContinue<CR>", { desc = "Debug continue"})
+		map("n", "<Leader>dx", ":DapTerminate<CR>", { desc = "Debug terminate "})
+		map("n", "<Leader>do", ":DapStepOver<CR>", { desc = "Debug step over"})
 	end,
 }
