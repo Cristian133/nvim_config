@@ -15,7 +15,7 @@ map("n", "<A-w>", "<C-w>", { noremap = true })
 
 -- gi moves to last insert mode (default)
 -- gI moves to last modification
-map("n", "gI", "`.", { desc = "Moves to last modification."})
+map("n", "gI", "`.", {})
 
 -- Disable highlight when <leader><CR> is pressed
 map("n", "<leader><CR>", ":noh<CR>", { desc="Stop the highlighting." })
