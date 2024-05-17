@@ -1,6 +1,19 @@
 alias viv="cd $HOME/.config/nvim; nvim"
 alias viz="cd $HOME/; nvim .zshrc .alias"
 alias e='exit'
+alias t='tmux'
 alias mc="mc --nosubshell"
 alias cdv="cd $HOME/dev"
 alias cdr="cd $HOME/dev/rust"
+alias cda="cd $HOME/dev/angular"
+alias cdc="cd $HOME/dev/c"
+alias cdk="cd $HOME/dev/c/kr"
+
+# show neofetch only for non tmux session
+if [[ -n $TMUX ]]; then
+    echo "You are in a tmux session"
+else
+    neofetch
+fi
+
+
